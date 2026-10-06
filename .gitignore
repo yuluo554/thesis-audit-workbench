@@ -8,6 +8,8 @@ venv/
 build/
 dist/
 *.spec
+# PyInstaller spec 例外：code/tools/ 下的 spec 需入仓（*.spec 通配会吞掉它）
+!code/tools/*.spec
 
 # 数据库与运行产物
 *.db

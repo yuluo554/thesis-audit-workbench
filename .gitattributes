@@ -1,0 +1,14 @@
+# 换行纪律（plan/03 §五第 2 条）：Windows 开发机 core.autocrlf=true 会把
+# 全新 clone 的 LF 重写成 CRLF，打挂字节冻结 fixtures 与位级一致基准——
+# 全仓强制 LF，二进制类型显式声明。
+* text=auto eol=lf
+*.png binary
+*.gif binary
+*.jpg binary
+*.jpeg binary
+*.ico binary
+*.pdf binary
+*.docx binary
+*.db binary
+*.exe binary
+*.dll binary
