@@ -1,0 +1,1610 @@
+{
+  "counts": {
+    "by_layer": {
+      "clean": 24,
+      "heavy": 24,
+      "light": 24
+    },
+    "by_type": {
+      "C": 15,
+      "D": 12,
+      "J": 18,
+      "M": 15,
+      "R": 12
+    },
+    "clean": 21,
+    "compound": 6,
+    "injected": 51,
+    "total": 72
+  },
+  "dataset": "refs-synthetic-v1",
+  "doi_fake_prefix": "10.9999/",
+  "entries": [
+    {
+      "also_expect": [],
+      "entry_id": "ref-0001",
+      "entry_type": "J",
+      "expect": null,
+      "injects": [],
+      "lang": "zh",
+      "layer": "clean"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0002",
+      "entry_type": "J",
+      "expect": {
+        "check_type": "punct",
+        "detail": "txt: dot_missing",
+        "field": "punctuation",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "txt: dot_missing",
+          "field": "punctuation",
+          "formats": [
+            "txt"
+          ],
+          "type": "punct"
+        }
+      ],
+      "lang": "zh",
+      "layer": "clean"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0003",
+      "entry_type": "J",
+      "expect": {
+        "check_type": "field_required",
+        "detail": "删除字段 pages",
+        "field": "pages",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "删除字段 pages",
+          "field": "pages",
+          "formats": [
+            "txt",
+            "csv",
+            "bib",
+            "ris"
+          ],
+          "type": "missing"
+        }
+      ],
+      "lang": "zh",
+      "layer": "clean"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0004",
+      "entry_type": "J",
+      "expect": null,
+      "injects": [],
+      "lang": "zh",
+      "layer": "clean"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0005",
+      "entry_type": "J",
+      "expect": {
+        "check_type": "type_marker",
+        "detail": "标识 J 误标为 C",
+        "field": "type_marker",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "标识 J 误标为 C",
+          "field": "type_marker",
+          "formats": [
+            "txt",
+            "csv",
+            "bib",
+            "ris"
+          ],
+          "type": "marker"
+        }
+      ],
+      "lang": "en",
+      "layer": "clean"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0006",
+      "entry_type": "J",
+      "expect": {
+        "check_type": "author_threshold",
+        "detail": "仅 2 位著者却使用'等'",
+        "field": "authors",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "仅 2 位著者却使用'等'",
+          "field": "authors",
+          "formats": [
+            "txt",
+            "csv",
+            "bib",
+            "ris"
+          ],
+          "type": "author"
+        }
+      ],
+      "lang": "en",
+      "layer": "clean"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0007",
+      "entry_type": "C",
+      "expect": null,
+      "injects": [],
+      "lang": "en",
+      "layer": "clean"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0008",
+      "entry_type": "C",
+      "expect": {
+        "check_type": "page_range_or_consistency",
+        "detail": "页码倒置 127-123",
+        "field": "pages",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "页码倒置 127-123",
+          "field": "pages",
+          "formats": [
+            "txt",
+            "csv",
+            "bib",
+            "ris"
+          ],
+          "type": "structure"
+        }
+      ],
+      "lang": "zh",
+      "layer": "clean"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0009",
+      "entry_type": "C",
+      "expect": {
+        "check_type": "citation_style",
+        "detail": "著者-出版年制条目混入顺序编码制文献表",
+        "field": "citation_style",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "著者-出版年制条目混入顺序编码制文献表",
+          "field": "citation_style",
+          "formats": [
+            "txt",
+            "csv"
+          ],
+          "type": "encoding"
+        }
+      ],
+      "lang": "en",
+      "layer": "clean"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0010",
+      "entry_type": "C",
+      "expect": {
+        "check_type": "punct",
+        "detail": "csv: comma_extra",
+        "field": "punctuation",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "csv: comma_extra",
+          "field": "punctuation",
+          "formats": [
+            "csv"
+          ],
+          "type": "punct"
+        }
+      ],
+      "lang": "en",
+      "layer": "clean"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0011",
+      "entry_type": "C",
+      "expect": null,
+      "injects": [],
+      "lang": "zh",
+      "layer": "clean"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0012",
+      "entry_type": "D",
+      "expect": {
+        "check_type": "field_required",
+        "detail": "删除字段 year",
+        "field": "year",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "删除字段 year",
+          "field": "year",
+          "formats": [
+            "txt",
+            "csv",
+            "bib",
+            "ris"
+          ],
+          "type": "missing"
+        }
+      ],
+      "lang": "zh",
+      "layer": "clean"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0013",
+      "entry_type": "D",
+      "expect": {
+        "check_type": "author_threshold",
+        "detail": "仅 2 位著者却使用'等'",
+        "field": "authors",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "仅 2 位著者却使用'等'",
+          "field": "authors",
+          "formats": [
+            "txt",
+            "csv",
+            "bib",
+            "ris"
+          ],
+          "type": "author"
+        }
+      ],
+      "lang": "zh",
+      "layer": "clean"
+    },
+    {
+      "also_expect": [
+        {
+          "check_type": "field_required",
+          "detail": "删除字段 city",
+          "field": "city"
+        }
+      ],
+      "entry_id": "ref-0014",
+      "entry_type": "D",
+      "expect": {
+        "check_type": "punct",
+        "detail": "bib: field_comma_missing",
+        "field": "punctuation",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "bib: field_comma_missing",
+          "field": "punctuation",
+          "formats": [
+            "bib"
+          ],
+          "type": "punct"
+        },
+        {
+          "detail": "删除字段 city",
+          "field": "city",
+          "formats": [
+            "txt",
+            "csv",
+            "bib",
+            "ris"
+          ],
+          "type": "missing"
+        }
+      ],
+      "lang": "zh",
+      "layer": "clean"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0015",
+      "entry_type": "D",
+      "expect": null,
+      "injects": [],
+      "lang": "zh",
+      "layer": "clean"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0016",
+      "entry_type": "M",
+      "expect": {
+        "check_type": "type_marker",
+        "detail": "标识 M 误标为 R",
+        "field": "type_marker",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "标识 M 误标为 R",
+          "field": "type_marker",
+          "formats": [
+            "txt",
+            "csv",
+            "bib",
+            "ris"
+          ],
+          "type": "marker"
+        }
+      ],
+      "lang": "en",
+      "layer": "clean"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0017",
+      "entry_type": "M",
+      "expect": {
+        "check_type": "page_range_or_consistency",
+        "detail": "页码倒置 250-206",
+        "field": "pages",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "页码倒置 250-206",
+          "field": "pages",
+          "formats": [
+            "txt",
+            "csv",
+            "bib",
+            "ris"
+          ],
+          "type": "structure"
+        }
+      ],
+      "lang": "zh",
+      "layer": "clean"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0018",
+      "entry_type": "M",
+      "expect": null,
+      "injects": [],
+      "lang": "en",
+      "layer": "clean"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0019",
+      "entry_type": "M",
+      "expect": {
+        "check_type": "citation_style",
+        "detail": "著者-出版年制条目混入顺序编码制文献表",
+        "field": "citation_style",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "著者-出版年制条目混入顺序编码制文献表",
+          "field": "citation_style",
+          "formats": [
+            "txt",
+            "csv"
+          ],
+          "type": "encoding"
+        }
+      ],
+      "lang": "en",
+      "layer": "clean"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0020",
+      "entry_type": "M",
+      "expect": {
+        "check_type": "punct",
+        "detail": "bib: field_comma_missing",
+        "field": "punctuation",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "bib: field_comma_missing",
+          "field": "punctuation",
+          "formats": [
+            "bib"
+          ],
+          "type": "punct"
+        }
+      ],
+      "lang": "zh",
+      "layer": "clean"
+    },
+    {
+      "also_expect": [
+        {
+          "check_type": "type_marker",
+          "detail": "标识 R 误标为 M",
+          "field": "type_marker"
+        }
+      ],
+      "entry_id": "ref-0021",
+      "entry_type": "R",
+      "expect": {
+        "check_type": "field_required",
+        "detail": "删除字段 city",
+        "field": "city",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "删除字段 city",
+          "field": "city",
+          "formats": [
+            "txt",
+            "csv",
+            "bib",
+            "ris"
+          ],
+          "type": "missing"
+        },
+        {
+          "detail": "标识 R 误标为 M",
+          "field": "type_marker",
+          "formats": [
+            "txt",
+            "csv",
+            "bib",
+            "ris"
+          ],
+          "type": "marker"
+        }
+      ],
+      "lang": "zh",
+      "layer": "clean"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0022",
+      "entry_type": "R",
+      "expect": null,
+      "injects": [],
+      "lang": "zh",
+      "layer": "clean"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0023",
+      "entry_type": "R",
+      "expect": {
+        "check_type": "author_threshold",
+        "detail": "仅 1 位著者却使用'等'",
+        "field": "authors",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "仅 1 位著者却使用'等'",
+          "field": "authors",
+          "formats": [
+            "txt",
+            "csv",
+            "bib",
+            "ris"
+          ],
+          "type": "author"
+        }
+      ],
+      "lang": "en",
+      "layer": "clean"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0024",
+      "entry_type": "R",
+      "expect": {
+        "check_type": "page_range_or_consistency",
+        "detail": "DOI 年份段与出版年 2018 矛盾",
+        "field": "doi",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "DOI 年份段与出版年 2018 矛盾",
+          "field": "doi",
+          "formats": [
+            "txt",
+            "csv",
+            "bib",
+            "ris"
+          ],
+          "type": "structure"
+        }
+      ],
+      "lang": "zh",
+      "layer": "clean"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0025",
+      "entry_type": "J",
+      "expect": null,
+      "injects": [],
+      "lang": "zh",
+      "layer": "light"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0026",
+      "entry_type": "J",
+      "expect": {
+        "check_type": "punct",
+        "detail": "bib: field_comma_missing",
+        "field": "punctuation",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "bib: field_comma_missing",
+          "field": "punctuation",
+          "formats": [
+            "bib"
+          ],
+          "type": "punct"
+        }
+      ],
+      "lang": "zh",
+      "layer": "light"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0027",
+      "entry_type": "J",
+      "expect": {
+        "check_type": "field_required",
+        "detail": "删除字段 pages",
+        "field": "pages",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "删除字段 pages",
+          "field": "pages",
+          "formats": [
+            "txt",
+            "csv",
+            "bib",
+            "ris"
+          ],
+          "type": "missing"
+        }
+      ],
+      "lang": "zh",
+      "layer": "light"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0028",
+      "entry_type": "J",
+      "expect": null,
+      "injects": [],
+      "lang": "zh",
+      "layer": "light"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0029",
+      "entry_type": "J",
+      "expect": {
+        "check_type": "type_marker",
+        "detail": "标识 J 误标为 C",
+        "field": "type_marker",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "标识 J 误标为 C",
+          "field": "type_marker",
+          "formats": [
+            "txt",
+            "csv",
+            "bib",
+            "ris"
+          ],
+          "type": "marker"
+        }
+      ],
+      "lang": "zh",
+      "layer": "light"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0030",
+      "entry_type": "J",
+      "expect": {
+        "check_type": "author_threshold",
+        "detail": "4 位著者未按'前三+等'截断",
+        "field": "authors",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "4 位著者未按'前三+等'截断",
+          "field": "authors",
+          "formats": [
+            "txt",
+            "csv",
+            "bib",
+            "ris"
+          ],
+          "type": "author"
+        }
+      ],
+      "lang": "zh",
+      "layer": "light"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0031",
+      "entry_type": "C",
+      "expect": null,
+      "injects": [],
+      "lang": "zh",
+      "layer": "light"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0032",
+      "entry_type": "C",
+      "expect": {
+        "check_type": "page_range_or_consistency",
+        "detail": "页码倒置 292-286",
+        "field": "pages",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "页码倒置 292-286",
+          "field": "pages",
+          "formats": [
+            "txt",
+            "csv",
+            "bib",
+            "ris"
+          ],
+          "type": "structure"
+        }
+      ],
+      "lang": "en",
+      "layer": "light"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0033",
+      "entry_type": "C",
+      "expect": {
+        "check_type": "citation_style",
+        "detail": "著者-出版年制条目混入顺序编码制文献表",
+        "field": "citation_style",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "著者-出版年制条目混入顺序编码制文献表",
+          "field": "citation_style",
+          "formats": [
+            "txt",
+            "csv"
+          ],
+          "type": "encoding"
+        }
+      ],
+      "lang": "zh",
+      "layer": "light"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0034",
+      "entry_type": "C",
+      "expect": {
+        "check_type": "punct",
+        "detail": "bib: field_comma_missing",
+        "field": "punctuation",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "bib: field_comma_missing",
+          "field": "punctuation",
+          "formats": [
+            "bib"
+          ],
+          "type": "punct"
+        }
+      ],
+      "lang": "zh",
+      "layer": "light"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0035",
+      "entry_type": "C",
+      "expect": null,
+      "injects": [],
+      "lang": "en",
+      "layer": "light"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0036",
+      "entry_type": "D",
+      "expect": {
+        "check_type": "field_required",
+        "detail": "删除字段 year",
+        "field": "year",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "删除字段 year",
+          "field": "year",
+          "formats": [
+            "txt",
+            "csv",
+            "bib",
+            "ris"
+          ],
+          "type": "missing"
+        }
+      ],
+      "lang": "zh",
+      "layer": "light"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0037",
+      "entry_type": "D",
+      "expect": {
+        "check_type": "author_threshold",
+        "detail": "5 位著者未按'前三+等'截断",
+        "field": "authors",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "5 位著者未按'前三+等'截断",
+          "field": "authors",
+          "formats": [
+            "txt",
+            "csv",
+            "bib",
+            "ris"
+          ],
+          "type": "author"
+        }
+      ],
+      "lang": "zh",
+      "layer": "light"
+    },
+    {
+      "also_expect": [
+        {
+          "check_type": "field_required",
+          "detail": "删除字段 city",
+          "field": "city"
+        }
+      ],
+      "entry_id": "ref-0038",
+      "entry_type": "D",
+      "expect": {
+        "check_type": "punct",
+        "detail": "txt: comma_extra",
+        "field": "punctuation",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "txt: comma_extra",
+          "field": "punctuation",
+          "formats": [
+            "txt"
+          ],
+          "type": "punct"
+        },
+        {
+          "detail": "删除字段 city",
+          "field": "city",
+          "formats": [
+            "txt",
+            "csv",
+            "bib",
+            "ris"
+          ],
+          "type": "missing"
+        }
+      ],
+      "lang": "en",
+      "layer": "light"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0039",
+      "entry_type": "D",
+      "expect": null,
+      "injects": [],
+      "lang": "en",
+      "layer": "light"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0040",
+      "entry_type": "M",
+      "expect": {
+        "check_type": "type_marker",
+        "detail": "标识 M 误标为 R",
+        "field": "type_marker",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "标识 M 误标为 R",
+          "field": "type_marker",
+          "formats": [
+            "txt",
+            "csv",
+            "bib",
+            "ris"
+          ],
+          "type": "marker"
+        }
+      ],
+      "lang": "zh",
+      "layer": "light"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0041",
+      "entry_type": "M",
+      "expect": {
+        "check_type": "page_range_or_consistency",
+        "detail": "页码倒置 123-101",
+        "field": "pages",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "页码倒置 123-101",
+          "field": "pages",
+          "formats": [
+            "txt",
+            "csv",
+            "bib",
+            "ris"
+          ],
+          "type": "structure"
+        }
+      ],
+      "lang": "zh",
+      "layer": "light"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0042",
+      "entry_type": "M",
+      "expect": null,
+      "injects": [],
+      "lang": "zh",
+      "layer": "light"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0043",
+      "entry_type": "M",
+      "expect": {
+        "check_type": "citation_style",
+        "detail": "著者-出版年制条目混入顺序编码制文献表",
+        "field": "citation_style",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "著者-出版年制条目混入顺序编码制文献表",
+          "field": "citation_style",
+          "formats": [
+            "txt",
+            "csv"
+          ],
+          "type": "encoding"
+        }
+      ],
+      "lang": "en",
+      "layer": "light"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0044",
+      "entry_type": "M",
+      "expect": {
+        "check_type": "punct",
+        "detail": "bib: field_comma_missing",
+        "field": "punctuation",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "bib: field_comma_missing",
+          "field": "punctuation",
+          "formats": [
+            "bib"
+          ],
+          "type": "punct"
+        }
+      ],
+      "lang": "zh",
+      "layer": "light"
+    },
+    {
+      "also_expect": [
+        {
+          "check_type": "type_marker",
+          "detail": "标识 R 误标为 M",
+          "field": "type_marker"
+        }
+      ],
+      "entry_id": "ref-0045",
+      "entry_type": "R",
+      "expect": {
+        "check_type": "field_required",
+        "detail": "删除字段 year",
+        "field": "year",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "删除字段 year",
+          "field": "year",
+          "formats": [
+            "txt",
+            "csv",
+            "bib",
+            "ris"
+          ],
+          "type": "missing"
+        },
+        {
+          "detail": "标识 R 误标为 M",
+          "field": "type_marker",
+          "formats": [
+            "txt",
+            "csv",
+            "bib",
+            "ris"
+          ],
+          "type": "marker"
+        }
+      ],
+      "lang": "zh",
+      "layer": "light"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0046",
+      "entry_type": "R",
+      "expect": null,
+      "injects": [],
+      "lang": "en",
+      "layer": "light"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0047",
+      "entry_type": "R",
+      "expect": {
+        "check_type": "author_threshold",
+        "detail": "仅 2 位著者却使用'等'",
+        "field": "authors",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "仅 2 位著者却使用'等'",
+          "field": "authors",
+          "formats": [
+            "txt",
+            "csv",
+            "bib",
+            "ris"
+          ],
+          "type": "author"
+        }
+      ],
+      "lang": "zh",
+      "layer": "light"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0048",
+      "entry_type": "R",
+      "expect": {
+        "check_type": "page_range_or_consistency",
+        "detail": "DOI 年份段与出版年 2019 矛盾",
+        "field": "doi",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "DOI 年份段与出版年 2019 矛盾",
+          "field": "doi",
+          "formats": [
+            "txt",
+            "csv",
+            "bib",
+            "ris"
+          ],
+          "type": "structure"
+        }
+      ],
+      "lang": "en",
+      "layer": "light"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0049",
+      "entry_type": "J",
+      "expect": null,
+      "injects": [],
+      "lang": "en",
+      "layer": "heavy"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0050",
+      "entry_type": "J",
+      "expect": {
+        "check_type": "punct",
+        "detail": "bib: field_comma_missing",
+        "field": "punctuation",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "bib: field_comma_missing",
+          "field": "punctuation",
+          "formats": [
+            "bib"
+          ],
+          "type": "punct"
+        }
+      ],
+      "lang": "zh",
+      "layer": "heavy"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0051",
+      "entry_type": "J",
+      "expect": {
+        "check_type": "field_required",
+        "detail": "删除字段 volume",
+        "field": "volume",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "删除字段 volume",
+          "field": "volume",
+          "formats": [
+            "txt",
+            "csv",
+            "bib",
+            "ris"
+          ],
+          "type": "missing"
+        }
+      ],
+      "lang": "zh",
+      "layer": "heavy"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0052",
+      "entry_type": "J",
+      "expect": null,
+      "injects": [],
+      "lang": "zh",
+      "layer": "heavy"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0053",
+      "entry_type": "J",
+      "expect": {
+        "check_type": "type_marker",
+        "detail": "标识 J 误标为 C",
+        "field": "type_marker",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "标识 J 误标为 C",
+          "field": "type_marker",
+          "formats": [
+            "txt",
+            "csv",
+            "bib",
+            "ris"
+          ],
+          "type": "marker"
+        }
+      ],
+      "lang": "zh",
+      "layer": "heavy"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0054",
+      "entry_type": "J",
+      "expect": {
+        "check_type": "author_threshold",
+        "detail": "仅 2 位著者却使用'等'",
+        "field": "authors",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "仅 2 位著者却使用'等'",
+          "field": "authors",
+          "formats": [
+            "txt",
+            "csv",
+            "bib",
+            "ris"
+          ],
+          "type": "author"
+        }
+      ],
+      "lang": "zh",
+      "layer": "heavy"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0055",
+      "entry_type": "C",
+      "expect": null,
+      "injects": [],
+      "lang": "zh",
+      "layer": "heavy"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0056",
+      "entry_type": "C",
+      "expect": {
+        "check_type": "page_range_or_consistency",
+        "detail": "页码倒置 150-145",
+        "field": "pages",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "页码倒置 150-145",
+          "field": "pages",
+          "formats": [
+            "txt",
+            "csv",
+            "bib",
+            "ris"
+          ],
+          "type": "structure"
+        }
+      ],
+      "lang": "zh",
+      "layer": "heavy"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0057",
+      "entry_type": "C",
+      "expect": {
+        "check_type": "citation_style",
+        "detail": "著者-出版年制条目混入顺序编码制文献表",
+        "field": "citation_style",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "著者-出版年制条目混入顺序编码制文献表",
+          "field": "citation_style",
+          "formats": [
+            "txt",
+            "csv"
+          ],
+          "type": "encoding"
+        }
+      ],
+      "lang": "en",
+      "layer": "heavy"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0058",
+      "entry_type": "C",
+      "expect": {
+        "check_type": "punct",
+        "detail": "csv: colon_cn",
+        "field": "punctuation",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "csv: colon_cn",
+          "field": "punctuation",
+          "formats": [
+            "csv"
+          ],
+          "type": "punct"
+        }
+      ],
+      "lang": "zh",
+      "layer": "heavy"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0059",
+      "entry_type": "C",
+      "expect": null,
+      "injects": [],
+      "lang": "zh",
+      "layer": "heavy"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0060",
+      "entry_type": "D",
+      "expect": {
+        "check_type": "field_required",
+        "detail": "删除字段 city",
+        "field": "city",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "删除字段 city",
+          "field": "city",
+          "formats": [
+            "txt",
+            "csv",
+            "bib",
+            "ris"
+          ],
+          "type": "missing"
+        }
+      ],
+      "lang": "zh",
+      "layer": "heavy"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0061",
+      "entry_type": "D",
+      "expect": {
+        "check_type": "author_threshold",
+        "detail": "仅 3 位著者却使用'等'",
+        "field": "authors",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "仅 3 位著者却使用'等'",
+          "field": "authors",
+          "formats": [
+            "txt",
+            "csv",
+            "bib",
+            "ris"
+          ],
+          "type": "author"
+        }
+      ],
+      "lang": "zh",
+      "layer": "heavy"
+    },
+    {
+      "also_expect": [
+        {
+          "check_type": "field_required",
+          "detail": "删除字段 city",
+          "field": "city"
+        }
+      ],
+      "entry_id": "ref-0062",
+      "entry_type": "D",
+      "expect": {
+        "check_type": "punct",
+        "detail": "bib: field_comma_missing",
+        "field": "punctuation",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "bib: field_comma_missing",
+          "field": "punctuation",
+          "formats": [
+            "bib"
+          ],
+          "type": "punct"
+        },
+        {
+          "detail": "删除字段 city",
+          "field": "city",
+          "formats": [
+            "txt",
+            "csv",
+            "bib",
+            "ris"
+          ],
+          "type": "missing"
+        }
+      ],
+      "lang": "en",
+      "layer": "heavy"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0063",
+      "entry_type": "D",
+      "expect": null,
+      "injects": [],
+      "lang": "zh",
+      "layer": "heavy"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0064",
+      "entry_type": "M",
+      "expect": {
+        "check_type": "type_marker",
+        "detail": "标识 M 误标为 R",
+        "field": "type_marker",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "标识 M 误标为 R",
+          "field": "type_marker",
+          "formats": [
+            "txt",
+            "csv",
+            "bib",
+            "ris"
+          ],
+          "type": "marker"
+        }
+      ],
+      "lang": "zh",
+      "layer": "heavy"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0065",
+      "entry_type": "M",
+      "expect": {
+        "check_type": "page_range_or_consistency",
+        "detail": "页码倒置 142-85",
+        "field": "pages",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "页码倒置 142-85",
+          "field": "pages",
+          "formats": [
+            "txt",
+            "csv",
+            "bib",
+            "ris"
+          ],
+          "type": "structure"
+        }
+      ],
+      "lang": "en",
+      "layer": "heavy"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0066",
+      "entry_type": "M",
+      "expect": null,
+      "injects": [],
+      "lang": "zh",
+      "layer": "heavy"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0067",
+      "entry_type": "M",
+      "expect": {
+        "check_type": "citation_style",
+        "detail": "著者-出版年制条目混入顺序编码制文献表",
+        "field": "citation_style",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "著者-出版年制条目混入顺序编码制文献表",
+          "field": "citation_style",
+          "formats": [
+            "txt",
+            "csv"
+          ],
+          "type": "encoding"
+        }
+      ],
+      "lang": "zh",
+      "layer": "heavy"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0068",
+      "entry_type": "M",
+      "expect": {
+        "check_type": "punct",
+        "detail": "txt: comma_cn",
+        "field": "punctuation",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "txt: comma_cn",
+          "field": "punctuation",
+          "formats": [
+            "txt"
+          ],
+          "type": "punct"
+        }
+      ],
+      "lang": "zh",
+      "layer": "heavy"
+    },
+    {
+      "also_expect": [
+        {
+          "check_type": "type_marker",
+          "detail": "标识 R 误标为 M",
+          "field": "type_marker"
+        }
+      ],
+      "entry_id": "ref-0069",
+      "entry_type": "R",
+      "expect": {
+        "check_type": "field_required",
+        "detail": "删除字段 year",
+        "field": "year",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "删除字段 year",
+          "field": "year",
+          "formats": [
+            "txt",
+            "csv",
+            "bib",
+            "ris"
+          ],
+          "type": "missing"
+        },
+        {
+          "detail": "标识 R 误标为 M",
+          "field": "type_marker",
+          "formats": [
+            "txt",
+            "csv",
+            "bib",
+            "ris"
+          ],
+          "type": "marker"
+        }
+      ],
+      "lang": "en",
+      "layer": "heavy"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0070",
+      "entry_type": "R",
+      "expect": null,
+      "injects": [],
+      "lang": "zh",
+      "layer": "heavy"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0071",
+      "entry_type": "R",
+      "expect": {
+        "check_type": "author_threshold",
+        "detail": "5 位著者未按'前三+等'截断",
+        "field": "authors",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "5 位著者未按'前三+等'截断",
+          "field": "authors",
+          "formats": [
+            "txt",
+            "csv",
+            "bib",
+            "ris"
+          ],
+          "type": "author"
+        }
+      ],
+      "lang": "zh",
+      "layer": "heavy"
+    },
+    {
+      "also_expect": [],
+      "entry_id": "ref-0072",
+      "entry_type": "R",
+      "expect": {
+        "check_type": "page_range_or_consistency",
+        "detail": "DOI 年份段与出版年 2019 矛盾",
+        "field": "doi",
+        "severity": "error"
+      },
+      "injects": [
+        {
+          "detail": "DOI 年份段与出版年 2019 矛盾",
+          "field": "doi",
+          "formats": [
+            "txt",
+            "csv",
+            "bib",
+            "ris"
+          ],
+          "type": "structure"
+        }
+      ],
+      "lang": "zh",
+      "layer": "heavy"
+    }
+  ],
+  "error_taxonomy": {
+    "author": "著者数与'等'使用错误",
+    "encoding": "编码制混用",
+    "marker": "文献类型标识错误",
+    "missing": "缺项",
+    "punct": "著录标点错误",
+    "structure": "结构矛盾"
+  },
+  "generator": "code/tools/gen_references.py",
+  "rng": "taw.rng.SplitMix64",
+  "schema_version": 1,
+  "seed": 20261007,
+  "truth_semantics": {
+    "also_expect": "同一注入隐含的其余非 pass 结论；复合注入为次错误期望；对账按全部非 pass 集合",
+    "clean_entries": "expect=null 且 also_expect=[]，任何非 pass 判定计误报",
+    "main_expect": "注入缺陷的主 finding 期望（check_type/field/severity），引擎对该条目必须产出"
+  }
+}

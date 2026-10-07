@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "standard_id": "Crossref-REST-API",
+  "title_zh": "Crossref REST API（DOI 元数据检索，免费无密钥）",
+  "identity": {
+    "kind": "社区规范 / 官方服务",
+    "replace": "",
+    "publish_date": "",
+    "implement_date": "",
+    "state": "",
+    "identity_status": "pending",
+    "identity_sources": [],
+    "note": "官方 API 行为已实测核验（api.crossref.org 直连 200，真实记录字段形状在案）；完整对接文档（raw.githubusercontent.com 000 不可达、www.crossref.org 文档页 404）待补 ⬜；本项目仅作联网扩展项，核心功能零 API（plan/00 边界）"
+  },
+  "clauses": [
+    {
+      "clause_id": "crossref-api-shape-01",
+      "clause": "works 检索响应字段形状（实测）",
+      "quote": "status=ok；message.items[] 含 DOI/title/author/published/ISBN 等字段（实测记录，非文档转述）",
+      "status": "verified",
+      "source": {"channel": "api.crossref.org 官方响应本体", "url": "https://api.crossref.org/works?query.title=synthetic+data&rows=1", "saved": "data/_private/sources/crossref_works_probe.json", "date": "2026-10-07"}
+    }
+  ],
+  "clause_discipline": "DOI 本地校验规则（前缀/显示格式）以 Crossref 官方文档原文为准；实测记录仅覆盖 API 可达性与响应形状",
+  "access_log": [
+    {"step": "api.crossref.org 直连", "result": "✅ 200，记录字段形状在案", "date": "2026-10-07", "saved": "data/_private/sources/crossref_works_probe.json"},
+    {"step": "raw.githubusercontent.com（api_format.md）", "result": "000 直连不可达；代理不可用", "date": "2026-10-07"},
+    {"step": "www.crossref.org/documentation/retrieval/rest-api/", "result": "404", "date": "2026-10-07", "saved": "data/_private/sources/crossref_doc_page.html"}
+  ]
+}

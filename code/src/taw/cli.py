@@ -70,9 +70,26 @@ def cmd_selfcheck(_args):
     return exit_code
 
 
+def _data_face_lines():
+    """数据面展示：目录命中情况 + 冻结 fixtures 计数（M1 数据面可演示物）。"""
+    try:
+        data_dir, _source = find_data_dir_details()
+    except FileNotFoundError as exc:
+        return ["数据目录: 配置错误 -> {}（演示不受影响）".format(exc)]
+    if data_dir is None:
+        return ["数据目录: 未找到（演示不受影响）"]
+    lines = ["数据目录: {}".format(data_dir)]
+    refs = data_dir / "frozen" / "refs"
+    thesis = data_dir / "frozen" / "thesis"
+    n_refs = len([p for p in refs.iterdir() if p.is_file()]) if refs.is_dir() else 0
+    n_thesis = len([p for p in thesis.iterdir() if p.is_file()]) if thesis.is_dir() else 0
+    lines.append("冻结数据面: refs {} 文件 / thesis {} 文件（data/frozen/，位级一致守门）".format(n_refs, n_thesis))
+    return lines
+
+
 def cmd_demo(_args):
-    data_dir, _source = find_data_dir_details()
-    print("数据目录: {}".format(data_dir if data_dir is not None else "未找到（演示不受影响）"))
+    for line in _data_face_lines():
+        print(line)
     print("模块注册表（{} 项，{}）:".format(registry.total(), registry.counts()))
     for mod in registry.MODULES:
         print(

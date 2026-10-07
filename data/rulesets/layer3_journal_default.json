@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "layer": 3,
+  "name": "期刊 profile 层（default 占位示例）",
+  "overlay_semantics": "期刊 profile 在国标/年份层之上做增量覆盖；本文件为 default 占位与结构示例，真实期刊 profile 由用户按此结构导入",
+  "gates": {"standard_year": ["2015", "2025"], "profile": ["default"]},
+  "rules": [
+    {
+      "rule_id": "JOURNAL-default-style-01",
+      "scope": "reference.style",
+      "standard": "期刊投稿要求（用户提供）",
+      "clause": "示例：投稿期刊要求顺序编码制（占位示例，默认不生效）",
+      "quote": "",
+      "status": "pending",
+      "severity": "info",
+      "check_type": "citation_style",
+      "detect": {"param": "citation_style", "op": "equals", "value": "numeric"},
+      "fix": {"type": "suggest", "template": "提示编码制与期刊要求不符"},
+      "only_if_text": [],
+      "gates": {"standard_year": ["2015", "2025"], "profile": ["default"]}
+    }
+  ]
+}

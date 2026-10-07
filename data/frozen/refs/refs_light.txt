@@ -1,0 +1,24 @@
+[1] 许博文, 冯七, 杨思远, 等. 基于深度学习的医学影像分析[J]. 数据臆测学报, 2025, 36（5）: 39-55.
+[2] 张六, 李明轩, 冯博文, 等.  基于强化学习的缺陷检测改进[J]. 数据臆测学报, 2018, 53(11): 154-159.
+[ 3 ] 郑静怡. 基于对比学习的查询扩展应用[J]. 幻想计算机研究, 2025, 57(7).
+[ 4 ] 蒋三, 沈三, 冯思远. 基于图神经网络的文本分类方法研究[J]. 虚构学报, 2025, 31(7): 40-54.
+[5] 周七, 王七. 基于强化学习的时序预测融合[C]. 合成科学进展, 2024, 55（1）: 139-149.
+[6] 蒋六, 冯天宇, 许静怡, 冯嘉树. 基于多模态学习的文本分类方法研究[J]. 编造工程学报, 2025, 44（12）: 110-120.
+[7] 郑天宇, 吴七.  基于对比学习的时序预测融合[C]//国际合成数据大会论文集, 上海: 虚构出版社, 2018: 116-122.
+[ 8 ] JONES G. Federated Learning for Low-Resource Adaptation[C]//Proceedings of the International Workshop on Fabricated Systems, New York: Fake Academic Press, 2025: 292-286.
+王明轩, 韩静怡, 韩文博, 等, 2021. 基于多模态学习的推荐系统优化[ C ]. 全国虚构计算会议论文集, 南京: 合成学术出版社: 113-123.
+[ 9 ] 杨三. 基于大语言模型的边缘计算部署[C]//幻想系统研讨会论文集, 北京: 合成学术出版社, 2020: 183-193.
+[10] BROWN J.  Federated Learning for Recommender Systems[C]//Proceedings of the Conference on Synthetic Data, Berlin: Imaginary Book House, 2023: 247-254.
+[ 11 ] 冯三, 沈五, 陈志强, 等. 基于深度学习的推荐系统优化[D]. 武汉: 虚构理工大学.
+[ 12 ] 韩六, 张六, 吴天宇, 沈五, 韩静怡. 基于知识图谱的推荐系统优化[D]. 南京: 编造科技大学, 2018.
+[13] MILLER K E.  Contrastive Learning for Recommender Systems[D]. Synthetic Institute of Technology, 2019,.
+[14] WILSON C, BROWN B F, JONES K J.  Knowledge Graphs for Recommender Systems[D]. New York: University of Fabrication, 2019.
+[ 15 ] 陈嘉树. 基于大语言模型的缺陷检测改进[R]. 3版, 北京: 幻想书局, 2022: 176-220.
+[ 16 ] 周静怡. 基于因果推断的文本分类方法研究[M]. 3版, 北京: 虚构出版社, 2022: 123-101.
+[ 17 ] 周雅琴, 周博文, 李静怡, 等. 基于因果推断的低资源场景适配[M]. 3版, 武汉: 虚构出版社, 2020: 137-163.
+SMITH K, DAVIS J, DAVIS J, 2021.  Knowledge Graphs for Time-Series Forecasting[M]. 2 ed, New York: Imaginary Book House: 70-89.
+[ 18 ] 郑三, 张天宇, 蒋嘉树. 基于深度学习的低资源场景适配[M]. 上海: 虚构出版社, 2021: 15-45.
+[ 19 ] 赵嘉树. 基于强化学习的医学影像分析[M]. 南京: 虚构研究院. RR-2025-536.
+[ 20 ] DAVIS F, ANDERSON D G, GARCIA H, et al. Contrastive Learning for Low-Resource Adaptation[R]. Berlin: Institute of Synthetic Studies, 2022. RR-2022-768.
+[ 21 ] 郑嘉树, 蒋六, 等. 基于大语言模型的文本分类方法研究[R]. 上海: 国家合成数据中心, 2021. RR-2021-173.
+[ 22 ] DAVIS J, GARCIA D, ANDERSON H G, et al. Knowledge Graphs for Recommender Systems[R]. London: Institute of Synthetic Studies, 2019. RR-2019-060.

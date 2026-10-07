@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "list_id": "doi-fake-prefix-whitelist",
+  "purpose": "合成数据专用 DOI 假前缀白名单：REF-06 幻觉画像与基准对账时，命中本清单的 DOI 视为已知虚构，不按真实幻觉上报（plan/05 §二）",
+  "prefixes": [
+    {
+      "prefix": "10.9999",
+      "owner": "taw 合成数据（gen_references.py）",
+      "datasets": ["refs-synthetic-v1", "halluref-bench-v1"]
+    }
+  ],
+  "discipline": "新增合成数据集使用新假前缀时先登记本清单；真实注册前缀（如 10.1000 段官方示例）不得入内"
+}

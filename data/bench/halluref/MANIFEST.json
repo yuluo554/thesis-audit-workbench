@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "bench_id": "halluref-bench",
+  "version": "v0.1-format-freeze",
+  "format": {
+    "spec": "FORMAT.md",
+    "serialization": "jsonl（UTF-8 无 BOM，每行一个 JSON 对象）",
+    "entry_id_pattern": "hr-[0-9]{4}",
+    "doi_genuine_prefix": "10.9999",
+    "doi_genuine_prefix_note": "10.9999 登记于 data/knowledge/doi_fake_prefixes.json",
+    "doi_hallucinated_prefixes_policy": "使用未登记前缀（如 10.7777）作为可检信号，不入白名单"
+  },
+  "scale_decision_D4": {
+    "decided": "2026-10-07（plan/00 决策表）",
+    "target_v1": 200,
+    "split": {"genuine": 100, "hallucinated": 100},
+    "hallucinated_composition": "6 单类 × 16 + 复合 4",
+    "generation": "随 M3（REF-06）以 taw.rng 固定 seed 一次性生成入库"
+  },
+  "classes_v1": ["doi_prefix_unknown", "isbn_checksum_invalid", "year_out_of_range", "page_range_inverted", "impossible_field_combo", "self_referential_title"],
+  "files": {
+    "spec": "FORMAT.md",
+    "examples": "halluref_v1_examples.jsonl（12 条：genuine 6 + hallucinated 6）"
+  },
+  "counts": {"examples_total": 12, "examples_genuine": 6, "examples_hallucinated": 6},
+  "determinism": "示例为静态冻结文件；全量库生成时遵守无时间戳/两次运行位级一致/CR 守门纪律",
+  "note": "公开范围：随仓发布（plan/05 §一）；伦理口径：本基准只测幻觉文献的检测能力，不提供任何生成幻觉文献的通路"
+}

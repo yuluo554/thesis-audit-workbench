@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "layer": 4,
+  "name": "学校模板 profile 层（导入模板，profile = school-*）",
+  "overlay_semantics": "学校模板是四层最高层：在国标/年份/期刊之上做增量覆盖，覆盖动作留审计痕迹。用户按本模板结构填写本校格式细则导入；条目须挂'用户提供+日期'来源（plan/00 依据查证记录）",
+  "gates": {"standard_year": ["2015", "2025"], "profile": ["school-*"]},
+  "import_instructions": [
+    "1. 将本文件复制为 layer4_school_<校名>.json，profile 字段改为 school-<校名>；",
+    "2. 逐条填写 rules：rule_id 建议 SCHOOL-<校名>-<序号>；standard 填 '学校格式细则（用户提供+日期）'；",
+    "3. quote 填学校细则原文逐字摘录；无法提供原文的条目一律 status=pending（可展示、不生效）；",
+    "4. check_type 从引擎已实现集合选用：field_required/punct/page_range/author_threshold/consistency/type_marker/citation_style/style/structure_order/term_consistency/dangling_reference/ghost_object/aigc_signal；",
+    "5. 只写与国标层不同的增量规则；与国标一致的部分不重复声明。"
+  ],
+  "rules": []
+}

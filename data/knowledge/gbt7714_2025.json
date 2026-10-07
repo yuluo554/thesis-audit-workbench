@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "standard_id": "GB/T 7714-2025",
+  "title_zh": "信息与文献 参考文献著录规则（2025 版）",
+  "title_en": "Information and documentation—Rules for bibliographic references and citations to information resources",
+  "identity": {
+    "kind": "推荐性国家标准（采标）",
+    "replace": "GB/T 7714-2015",
+    "publish_date": "2025-12-02",
+    "implement_date": "2026-07-01",
+    "state": "现行",
+    "ccs": "A14",
+    "ics": "01.140.20",
+    "identity_status": "verified",
+    "identity_sources": [
+      {"channel": "std.samr.gov.cn（全国标准信息公共服务平台）", "url": "https://std.samr.gov.cn/gb/search/gbQueryPage?searchText=GB%2FT%207714&sortOrder=asc&pageNumber=1&pageSize=10", "evidence": "STATE=现行; ISSUE_DATE=2025-12-02; ACT_DATE=2026-07-01", "saved": "data/_private/sources/stdsamr_gb7714.json", "date": "2026-10-07"},
+      {"channel": "openstd.samr.gov.cn（国家标准全文公开系统）", "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=C6CE52E55AC09B9C79A20AEA77CEDD14", "evidence": "标准状态：现行；'该标准采用了ISO、IEC等国际国外组织的标准，由于涉及版权保护问题，本系统暂不提供在线阅读服务'", "saved": "data/_private/sources/openstd_7714_2025_detail.html", "date": "2026-10-07"}
+    ],
+    "note": "官方采标声明同时解释了全文不可得的版权原因——该事实本身已落盘在案"
+  },
+  "clauses": [],
+  "clause_discipline": "全文获取两渠道官方不可得：openstd 因采标版权不提供在线阅读（官方原文声明在案）；条款条目须拿到官方原文摘录后才入库并置 verified，当前一律 pending",
+  "access_log": [
+    {"step": "openstd 详情页", "result": "官方拒绝提供全文（采标版权）", "date": "2026-10-07"}
+  ]
+}

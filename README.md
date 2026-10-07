@@ -1,6 +1,6 @@
 # 毕业论文全流程审计工作台（thesis-audit-workbench）
 
-> 🚧 **开发中（M0 骨架已就绪）** — 计划、里程碑与进度见 [plan/00-README总览.md](plan/00-README总览.md)
+> 🚧 **开发中（M1 数据先行已就绪：双生成器 + 字节冻结 fixtures + 四层 ruleset 骨架）** — 计划、里程碑与进度见 [plan/00-README总览.md](plan/00-README总览.md)
 
 覆盖毕业论文**开题（综述辅助）→ 写作（反向引用、术语一致性、图表编号）→ 完稿（幻觉画像、AIGC 自检、对账）→ 送审（学校格式、结构检查单、体检分、指纹存证）**全流程的确定性审计台。LLM 聊天给不了持久状态、可审计证据与全量批处理——本工具是 AI 时代的论文质量防线。
 
@@ -58,7 +58,7 @@ cd thesis-audit-workbench
 python -m venv .venv
 # Windows: .venv\Scripts\activate    POSIX: source .venv/bin/activate
 python -m pip install -U pip
-python -m pip install -e "./code[dev]"
+python -m pip install -e "./code[dev,docx]"
 
 taw --version
 taw selfcheck        # 环境自检：版本 / 数据目录 / 可选依赖

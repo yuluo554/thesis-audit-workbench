@@ -1,0 +1,687 @@
+{
+  "counts": {
+    "fields": 2,
+    "implants": 14,
+    "implants_by_kind": {
+      "aigc_pattern": 3,
+      "dangling_marker": 2,
+      "ghost_object": 2,
+      "style_error": 3,
+      "term_variant": 4
+    },
+    "objects": 9,
+    "objects_by_kind": {
+      "equation": 2,
+      "figure": 4,
+      "table": 3
+    },
+    "paragraphs": 62
+  },
+  "dataset": "thesis-synthetic-v1",
+  "doc_props_fixed": {
+    "author": "张合成（taw 合成数据，非真实人物）",
+    "created": "2026-05-01T00:00:00",
+    "modified": "2026-05-01T00:00:00",
+    "revision": 1
+  },
+  "fields": [
+    {
+      "bookmark_exists": false,
+      "display": "图9-9",
+      "instr": " REF _Ref99900099 \\h ",
+      "para_index": 22,
+      "target_bookmark": "_Ref99900099"
+    },
+    {
+      "bookmark_exists": true,
+      "display": "图3-1",
+      "instr": " REF _Ref30001 \\h ",
+      "para_index": 23,
+      "target_bookmark": "_Ref30001"
+    }
+  ],
+  "generator": "code/tools/gen_thesis_docx.py",
+  "implant_semantics": {
+    "aigc": "AIGC 类 severity=warn：风险提示≠AIGC 判定（plan/04 §六伦理边界）",
+    "also_expect": "同一植入隐含的其余非 pass 结论；对账按全部非 pass 集合（plan/04 §七）",
+    "clean_paras": "未列入 implants 的段落应保持无非 pass 判定（判定出即误报）",
+    "expect": "逐处植入的主期望（check_type/field/severity），引擎对该处必须产出",
+    "style_tree_text": "与 python-docx .text 口径一致：fldSimple 内 run 不计入"
+  },
+  "implants": [
+    {
+      "also_expect": [],
+      "expect": {
+        "check_type": "term_consistency",
+        "detail": "与摘要处'机器学习'写法不一致（词内插空格）",
+        "field": "机器学习（伪空格变体）",
+        "severity": "warn"
+      },
+      "id": "T2",
+      "kind": "term_variant",
+      "paras": [
+        13
+      ],
+      "subtype": "stray_space_in_term",
+      "text_anchor": "机器 学习"
+    },
+    {
+      "also_expect": [],
+      "expect": {
+        "check_type": "aigc_signal",
+        "detail": "模板连接词：首先/其次/最后 三段式套话",
+        "field": "aigc-02",
+        "severity": "warn"
+      },
+      "id": "A2",
+      "kind": "aigc_pattern",
+      "paras": [
+        17
+      ],
+      "subtype": "template_connectors",
+      "text_anchor": "首先，本文构建了"
+    },
+    {
+      "also_expect": [],
+      "expect": {
+        "check_type": "dangling_reference",
+        "detail": "REF 域指向的书签 _Ref99900099 在文档中不存在",
+        "field": "REF _Ref99900099（图9-9）",
+        "severity": "error"
+      },
+      "id": "D3",
+      "kind": "dangling_marker",
+      "paras": [
+        22
+      ],
+      "subtype": "ref_field_missing_bookmark",
+      "text_anchor": "REF _Ref99900099"
+    },
+    {
+      "also_expect": [],
+      "expect": {
+        "check_type": "term_consistency",
+        "detail": "标准号写法 GB/T7714 与 1.1 节 GB/T 7714 不一致",
+        "field": "GB/T 7714（空格不一致）",
+        "severity": "warn"
+      },
+      "id": "T4",
+      "kind": "term_variant",
+      "paras": [
+        22
+      ],
+      "subtype": "standard_number_spacing",
+      "text_anchor": "GB/T7714"
+    },
+    {
+      "also_expect": [],
+      "expect": {
+        "check_type": "term_consistency",
+        "detail": "同一概念两种叫法（4.2 节作'深层神经网络'）",
+        "field": "深度神经网络/深层神经网络",
+        "severity": "warn"
+      },
+      "id": "T1",
+      "kind": "term_variant",
+      "paras": [
+        31,
+        45
+      ],
+      "subtype": "term_inconsistency",
+      "text_anchor": "深度神经网络"
+    },
+    {
+      "also_expect": [
+        {
+          "check_type": "structure_order",
+          "detail": "章级标题层级序列断档（第3章 H1 后接 H2）",
+          "field": "heading_sequence"
+        }
+      ],
+      "expect": {
+        "check_type": "style",
+        "detail": "章标题使用 Heading 2，应为 Heading 1",
+        "field": "heading_level",
+        "severity": "error"
+      },
+      "id": "S1",
+      "kind": "style_error",
+      "paras": [
+        34
+      ],
+      "subtype": "heading_level_downgraded",
+      "text_anchor": "第4章 实验与结果分析"
+    },
+    {
+      "also_expect": [],
+      "expect": {
+        "check_type": "dangling_reference",
+        "detail": "正文提及'表 9-1'，全文不存在该对象",
+        "field": "表9-1",
+        "severity": "error"
+      },
+      "id": "D1",
+      "kind": "dangling_marker",
+      "paras": [
+        36
+      ],
+      "subtype": "handwritten_missing_object",
+      "text_anchor": "表 9-1"
+    },
+    {
+      "also_expect": [],
+      "expect": {
+        "check_type": "term_consistency",
+        "detail": "数字写法 3,500 与 4.2 节 3500 不一致（GB/T 15835 数字用法口径）",
+        "field": "3500（千分位不一致）",
+        "severity": "warn"
+      },
+      "id": "T3",
+      "kind": "term_variant",
+      "paras": [
+        37,
+        45
+      ],
+      "subtype": "number_thousands_inconsistent",
+      "text_anchor": "3,500 个样本"
+    },
+    {
+      "also_expect": [],
+      "expect": {
+        "check_type": "style",
+        "detail": "题注段落使用 Normal 样式，应为 Caption",
+        "field": "caption_style",
+        "severity": "error"
+      },
+      "id": "S2",
+      "kind": "style_error",
+      "paras": [
+        38
+      ],
+      "subtype": "caption_style_wrong",
+      "text_anchor": "图4-1 各方法准确率对比"
+    },
+    {
+      "also_expect": [],
+      "expect": {
+        "check_type": "aigc_signal",
+        "detail": "同一套话连用四次且句长高度均匀（aigc-01）",
+        "field": "aigc-02",
+        "severity": "warn"
+      },
+      "id": "A1",
+      "kind": "aigc_pattern",
+      "paras": [
+        44
+      ],
+      "subtype": "repeated_phrase_uniform_length",
+      "text_anchor": "值得注意的是"
+    },
+    {
+      "also_expect": [],
+      "expect": {
+        "check_type": "ghost_object",
+        "detail": "对象存在但全文无任何提及",
+        "field": "图4-2",
+        "severity": "warn"
+      },
+      "id": "G1",
+      "kind": "ghost_object",
+      "paras": [
+        46
+      ],
+      "subtype": "never_mentioned",
+      "text_anchor": "图4-2 消融实验结果"
+    },
+    {
+      "also_expect": [],
+      "expect": {
+        "check_type": "ghost_object",
+        "detail": "对象存在但全文无任何提及",
+        "field": "表4-2",
+        "severity": "warn"
+      },
+      "id": "G2",
+      "kind": "ghost_object",
+      "paras": [
+        47
+      ],
+      "subtype": "never_mentioned",
+      "text_anchor": "表4-2 超参数设置"
+    },
+    {
+      "also_expect": [],
+      "expect": {
+        "check_type": "aigc_signal",
+        "detail": "总结套话连用（综上所述/总而言之）",
+        "field": "aigc-03",
+        "severity": "warn"
+      },
+      "id": "A3",
+      "kind": "aigc_pattern",
+      "paras": [
+        52
+      ],
+      "subtype": "summary_cliches",
+      "text_anchor": "综上所述"
+    },
+    {
+      "also_expect": [],
+      "expect": {
+        "check_type": "style",
+        "detail": "正文段落误用 Heading 2 样式",
+        "field": "body_style",
+        "severity": "error"
+      },
+      "id": "S3",
+      "kind": "style_error",
+      "paras": [
+        53
+      ],
+      "subtype": "body_styled_as_heading",
+      "text_anchor": "未来工作将扩展框架到多模态场景"
+    }
+  ],
+  "objects": [
+    {
+      "bookmark": "_Ref30001",
+      "caption_para": 27,
+      "kind": "figure",
+      "label": "图3-1",
+      "mentioned_paras": [
+        23,
+        26
+      ],
+      "referenced": true
+    },
+    {
+      "bookmark": null,
+      "caption_para": 29,
+      "kind": "equation",
+      "label": "式(3-1)",
+      "mentioned_paras": [
+        29
+      ],
+      "referenced": true
+    },
+    {
+      "bookmark": null,
+      "caption_para": 32,
+      "kind": "figure",
+      "label": "图3-2",
+      "mentioned_paras": [
+        31
+      ],
+      "referenced": true
+    },
+    {
+      "bookmark": null,
+      "caption_para": 33,
+      "kind": "table",
+      "label": "表3-1",
+      "mentioned_paras": [],
+      "referenced": false
+    },
+    {
+      "bookmark": null,
+      "caption_para": 38,
+      "kind": "figure",
+      "label": "图4-1",
+      "mentioned_paras": [
+        39
+      ],
+      "referenced": true
+    },
+    {
+      "bookmark": null,
+      "caption_para": 40,
+      "kind": "table",
+      "label": "表4-1",
+      "mentioned_paras": [
+        41
+      ],
+      "referenced": true
+    },
+    {
+      "bookmark": null,
+      "caption_para": 42,
+      "kind": "equation",
+      "label": "式(4-1)",
+      "mentioned_paras": [
+        42
+      ],
+      "referenced": true
+    },
+    {
+      "bookmark": null,
+      "caption_para": 46,
+      "kind": "figure",
+      "label": "图4-2",
+      "mentioned_paras": [],
+      "referenced": false
+    },
+    {
+      "bookmark": null,
+      "caption_para": 47,
+      "kind": "table",
+      "label": "表4-2",
+      "mentioned_paras": [],
+      "referenced": false
+    }
+  ],
+  "rng": "declarative（声明式内容模型，无随机抽取）",
+  "schema_version": 1,
+  "seed": null,
+  "style_tree": [
+    {
+      "i": 0,
+      "style": "Title",
+      "text": "虚构场景下的合成数据生成方法研究"
+    },
+    {
+      "i": 1,
+      "style": "Normal",
+      "text": "作者：张合成    学号：2026999001"
+    },
+    {
+      "i": 2,
+      "style": "Normal",
+      "text": "学校：虚构理工大学    指导教师：李虚构"
+    },
+    {
+      "i": 3,
+      "style": "Normal",
+      "text": "2026年5月"
+    },
+    {
+      "i": 4,
+      "style": "Heading 1",
+      "text": "摘要"
+    },
+    {
+      "i": 5,
+      "style": "Normal",
+      "text": "针对真实数据获取成本高、隐私约束强的问题，本文研究基于生成模型的合成数据构建方法。机器学习任务的性能依赖大规模高质量样本，而真实场景中标注数据往往难以获得。本文围绕数据分布建模与质量评估两个环节展开，提出一套可控的合成数据生成框架。"
+    },
+    {
+      "i": 6,
+      "style": "Normal",
+      "text": "本文的主要工作包括三部分：一是梳理合成数据的构建流程与质量控制要点；二是设计带噪声注入的可控生成策略；三是在虚构数据集上验证框架的有效性。GB/T 7714 规范了参考文献的著录格式，本文引用规范遵循其要求。"
+    },
+    {
+      "i": 7,
+      "style": "Normal",
+      "text": "关键词：合成数据；数据增强；深度学习"
+    },
+    {
+      "i": 8,
+      "style": "Heading 1",
+      "text": "Abstract"
+    },
+    {
+      "i": 9,
+      "style": "Normal",
+      "text": "Acquiring real data is expensive and privacy constrained. This thesis studies controllable synthetic data generation for machine learning tasks. We design a generation framework with noise injection and quality control, and validate it on fictional datasets."
+    },
+    {
+      "i": 10,
+      "style": "Normal",
+      "text": "Keywords: synthetic data; data augmentation; deep learning"
+    },
+    {
+      "i": 11,
+      "style": "Heading 1",
+      "text": "第1章 绪论"
+    },
+    {
+      "i": 12,
+      "style": "Heading 2",
+      "text": "1.1 研究背景"
+    },
+    {
+      "i": 13,
+      "style": "Normal",
+      "text": "近年来，机器 学习技术在多个领域取得了显著进展，模型规模与数据规模同步增长。合成数据成为缓解数据瓶颈的重要途径，其构建过程需要可复核的质量标准。"
+    },
+    {
+      "i": 14,
+      "style": "Normal",
+      "text": "文献引用格式遵循国家标准 GB/T 7714 的著录规则。"
+    },
+    {
+      "i": 15,
+      "style": "Heading 2",
+      "text": "1.2 研究意义"
+    },
+    {
+      "i": 16,
+      "style": "Normal",
+      "text": "可控的合成数据生成能够为算法验证提供低成本样本，同时避免真实数据的隐私风险。"
+    },
+    {
+      "i": 17,
+      "style": "Normal",
+      "text": "首先，本文构建了合成数据生成的总体框架。其次，本文设计了带噪声注入的可控生成策略。最后，本文在虚构数据集上验证了方法的有效性。"
+    },
+    {
+      "i": 18,
+      "style": "Heading 1",
+      "text": "第2章 相关工作"
+    },
+    {
+      "i": 19,
+      "style": "Heading 2",
+      "text": "2.1 合成数据生成"
+    },
+    {
+      "i": 20,
+      "style": "Normal",
+      "text": "生成对抗网络与扩散模型是合成图像数据的两条主要路线；表格数据的合成则以统计模型与自回归方法为主。"
+    },
+    {
+      "i": 21,
+      "style": "Heading 2",
+      "text": "2.2 文献综述方法"
+    },
+    {
+      "i": 22,
+      "style": "Normal",
+      "text": "本章文献的引用与著录依据 GB/T7714 的顺序编码制执行，如图3-1的域引用示例："
+    },
+    {
+      "i": 23,
+      "style": "Normal",
+      "text": "典型的合成数据生成框架参见："
+    },
+    {
+      "i": 24,
+      "style": "Heading 1",
+      "text": "第3章 方法"
+    },
+    {
+      "i": 25,
+      "style": "Heading 2",
+      "text": "3.1 总体框架"
+    },
+    {
+      "i": 26,
+      "style": "Normal",
+      "text": "本方法的总体框架如图3-1所示，整体流程分为数据建模、可控生成与质量评估三个阶段。"
+    },
+    {
+      "i": 27,
+      "style": "Caption",
+      "text": "图3-1 方法总体框架"
+    },
+    {
+      "i": 28,
+      "style": "Normal",
+      "text": "框架中各模块的职责与数据流向保持单向，保证生成过程可复核、可复现。"
+    },
+    {
+      "i": 29,
+      "style": "Normal",
+      "text": "F1 = 2PR/(P+R)    （3-1）"
+    },
+    {
+      "i": 30,
+      "style": "Heading 2",
+      "text": "3.2 数据流程"
+    },
+    {
+      "i": 31,
+      "style": "Normal",
+      "text": "数据经过清洗、标注与增强三个环节进入深度神经网络进行训练，全过程如图3-2所示。"
+    },
+    {
+      "i": 32,
+      "style": "Caption",
+      "text": "图3-2 数据处理流程"
+    },
+    {
+      "i": 33,
+      "style": "Caption",
+      "text": "表3-1 虚构数据集统计信息"
+    },
+    {
+      "i": 34,
+      "style": "Heading 2",
+      "text": "第4章 实验与结果分析"
+    },
+    {
+      "i": 35,
+      "style": "Heading 2",
+      "text": "4.1 实验设置"
+    },
+    {
+      "i": 36,
+      "style": "Normal",
+      "text": "训练细节如表 9-1 所示，本节还给出数据规模的统计。"
+    },
+    {
+      "i": 37,
+      "style": "Normal",
+      "text": "实验共使用 3,500 个样本，其中训练集占 80%。"
+    },
+    {
+      "i": 38,
+      "style": "Normal",
+      "text": "图4-1 各方法准确率对比"
+    },
+    {
+      "i": 39,
+      "style": "Normal",
+      "text": "各方法准确率如图4-1所示，本文方法在虚构集A上取得最优结果。"
+    },
+    {
+      "i": 40,
+      "style": "Caption",
+      "text": "表4-1 各方法在虚构集A上的指标对比"
+    },
+    {
+      "i": 41,
+      "style": "Normal",
+      "text": "表4-1给出各方法的指标对比，式(4-1)定义了评价指标的计算方式。"
+    },
+    {
+      "i": 42,
+      "style": "Normal",
+      "text": "F1 = 2*P*R/(P+R)    （4-1）"
+    },
+    {
+      "i": 43,
+      "style": "Heading 2",
+      "text": "4.2 结果分析"
+    },
+    {
+      "i": 44,
+      "style": "Normal",
+      "text": "值得注意的是，实验结果证明了方法的有效性。值得注意的是，对比数据验证了模型的稳定性。值得注意的是，消融分析确认了策略的可靠性。值得注意的是，参数分析支持了方案的可行性。"
+    },
+    {
+      "i": 45,
+      "style": "Normal",
+      "text": "深层神经网络的容量随层数增加而扩大，共使用 3500 个样本进行评估。"
+    },
+    {
+      "i": 46,
+      "style": "Caption",
+      "text": "图4-2 消融实验结果"
+    },
+    {
+      "i": 47,
+      "style": "Caption",
+      "text": "表4-2 超参数设置"
+    },
+    {
+      "i": 48,
+      "style": "Heading 2",
+      "text": "4.3 消融实验"
+    },
+    {
+      "i": 49,
+      "style": "Normal",
+      "text": "消融实验结果见图4-2，逐一移除各模块后指标均有下降。"
+    },
+    {
+      "i": 50,
+      "style": "Heading 1",
+      "text": "第5章 总结与展望"
+    },
+    {
+      "i": 51,
+      "style": "Normal",
+      "text": "本文提出了面向机器学习任务的可控合成数据生成框架，并完成了系统性验证。"
+    },
+    {
+      "i": 52,
+      "style": "Normal",
+      "text": "综上所述，本文方法取得了良好的效果。总而言之，实验充分证明了本文方法的先进性。"
+    },
+    {
+      "i": 53,
+      "style": "Heading 2",
+      "text": "未来工作将扩展框架到多模态场景，并进一步降低生成开销。"
+    },
+    {
+      "i": 54,
+      "style": "Heading 1",
+      "text": "参考文献"
+    },
+    {
+      "i": 55,
+      "style": "Normal",
+      "text": "[1] 张合成, 李虚构. 虚构场景下的合成数据生成框架[J]. 虚构学报, 2025, 48(3): 1-12."
+    },
+    {
+      "i": 56,
+      "style": "Normal",
+      "text": "[2] 王杜撰. 合成数据质量评估综述[J]. 合成科学进展, 2024, 15(2): 33-45."
+    },
+    {
+      "i": 57,
+      "style": "Normal",
+      "text": "[3] SMITH J. Synthetic Data Methods[M]. New York: Fake Academic Press, 2023."
+    },
+    {
+      "i": 58,
+      "style": "Normal",
+      "text": "[4] 赵虚构. 面向表格数据的扩散模型研究[D]. 北京: 虚构理工大学, 2024."
+    },
+    {
+      "i": 59,
+      "style": "Normal",
+      "text": "[5] 国家虚构标准化委员会. 合成数据通用要求: GB/T 99999—2025[S]. 北京: 虚构出版社, 2025."
+    },
+    {
+      "i": 60,
+      "style": "Heading 1",
+      "text": "致谢"
+    },
+    {
+      "i": 61,
+      "style": "Normal",
+      "text": "感谢虚构理工大学提供的虚构研究环境。本论文全部内容为程序化合成的测试数据。"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "library_id": "aigc-features",
+  "name": "AIGC 痕迹启发式特征库（FULL-04，风险提示版）",
+  "ethics_boundary": "报告生成器硬编码声明段：'风险提示≠AIGC 判定，仅供作者自查改写'；仓库不提供任何改写/降重通路（plan/04 §六，守卫测试断言）",
+  "features": [
+    {
+      "feature_id": "aigc-01",
+      "name": "句长均匀性",
+      "detector": "sentence_length_cv",
+      "basis": "AI 高频句式观察记录：生成文本句长方差显著偏小（项目组观察记录，随 gen_thesis_docx.py 植入物清单归档）",
+      "weight": 0.2,
+      "threshold": {"warn": 0.3, "high": 0.15},
+      "status": "pending",
+      "note": "pending=观察记录属内部依据，接入更强结论前须公开写作风格研究复核"
+    },
+    {
+      "feature_id": "aigc-02",
+      "name": "模板连接词与套话重复",
+      "detector": "template_connectors",
+      "basis": "AI 高频句式观察记录：首先/其次/最后、值得注意的是 等模板词高频复用（项目组观察记录）",
+      "weight": 0.25,
+      "threshold": {"warn": 3, "high": 5},
+      "status": "pending",
+      "note": "阈值含义：每千字模板词命中次数"
+    },
+    {
+      "feature_id": "aigc-03",
+      "name": "总结套话",
+      "detector": "summary_cliches",
+      "basis": "AI 高频句式观察记录：综上所述/总而言之 段首套话（项目组观察记录）",
+      "weight": 0.15,
+      "threshold": {"warn": 2, "high": 3},
+      "status": "pending",
+      "note": null
+    },
+    {
+      "feature_id": "aigc-04",
+      "name": "排比结构",
+      "detector": "parallel_structure",
+      "basis": "AI 高频句式观察记录：不仅…而且… 三连排比、同构句式连用（项目组观察记录）",
+      "weight": 0.2,
+      "threshold": {"warn": 3, "high": 5},
+      "status": "pending",
+      "note": null
+    }
+  ],
+  "feature_discipline": "detector 为纯本地统计函数名；每特征挂 basis；无 basis 特征不得入库（plan/04 §六）"
+}

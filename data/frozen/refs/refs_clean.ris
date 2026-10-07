@@ -1,0 +1,311 @@
+TY  - JOUR
+AU  - 吴文博
+AU  - 许晓峰
+AU  - 冯雨桐
+AU  - 张博文
+TI  - 基于强化学习的时序预测融合
+JO  - 虚拟信息科学
+VL  - 39
+IS  - 5
+PY  - 2019
+SP  - 160
+EP  - 166
+DO  - 10.9999/fake.2019.001
+ER  - 
+
+TY  - JOUR
+AU  - 朱五
+AU  - 张志强
+TI  - 基于因果推断的文本分类方法研究
+JO  - 幻想计算机研究
+VL  - 63
+IS  - 11
+PY  - 2020
+SP  - 50
+EP  - 67
+DO  - 10.9999/fake.2020.002
+ER  - 
+
+TY  - JOUR
+AU  - 陈明轩
+AU  - 郑六
+TI  - 基于大语言模型的缺陷检测改进
+JO  - 幻想计算机研究
+VL  - 41
+IS  - 2
+PY  - 2024
+DO  - 10.9999/fake.2024.003
+ER  - 
+
+TY  - JOUR
+AU  - 陈雅琴
+AU  - 赵七
+AU  - 许七
+AU  - 杨博文
+AU  - 张嘉树
+TI  - 基于对比学习的文本分类方法研究
+JO  - 虚拟信息科学
+VL  - 32
+IS  - 4
+PY  - 2024
+SP  - 21
+EP  - 26
+DO  - 10.9999/fake.2024.004
+ER  - 
+
+TY  - CONF
+AU  - ANDERSON J B
+AU  - WILSON F B
+AU  - WILLIAMS E B
+AU  - JONES C
+AU  - MILLER E
+TI  - Deep Learning for Recommender Systems
+JO  - Annals of Imaginary Computing
+VL  - 46
+IS  - 2
+PY  - 2023
+SP  - 130
+EP  - 135
+DO  - 10.9999/fake.2023.005
+ER  - 
+
+TY  - JOUR
+AU  - SMITH A H
+AU  - WILSON G
+TI  - Transformer-Based Federated Learning for Time-Series Forecasting
+JO  - Annals of Imaginary Computing
+VL  - 56
+IS  - 11
+PY  - 2024
+SP  - 122
+EP  - 136
+DO  - 10.9999/fake.2024.006
+ER  - 
+
+TY  - CONF
+AU  - WILSON G D
+TI  - Cross-Lingual Contrastive Learning for Time-Series Forecasting
+T2  - Proceedings of the Conference on Synthetic Data
+CY  - New York
+PB  - Imaginary Book House
+PY  - 2019
+SP  - 282
+EP  - 291
+DO  - 10.9999/fake.2019.007
+ER  - 
+
+TY  - CONF
+AU  - 吴晓峰
+AU  - 吴七
+AU  - 王五
+TI  - 基于联邦学习的查询扩展应用
+T2  - 幻想系统研讨会论文集
+CY  - 北京
+PB  - 虚构出版社
+PY  - 2023
+SP  - 127
+EP  - 123
+DO  - 10.9999/fake.2023.008
+ER  - 
+
+TY  - CONF
+AU  - JOHNSON F A
+AU  - JOHNSON G H
+TI  - Federated Learning for Low-Resource Adaptation
+T2  - Proceedings of the Conference on Synthetic Data
+CY  - London
+PB  - Fake Academic Press
+PY  - 2023
+SP  - 288
+EP  - 297
+DO  - 10.9999/fake.2023.009
+ER  - 
+
+TY  - CONF
+AU  - WILLIAMS G
+AU  - BROWN F B
+AU  - BROWN D D
+AU  - WILLIAMS C B
+AU  - GARCIA F
+TI  - Federated Learning for Defect Detection
+T2  - Proceedings of the International Workshop on Fabricated Systems
+CY  - Berlin
+PB  - Imaginary Book House
+PY  - 2020
+SP  - 244
+EP  - 249
+DO  - 10.9999/fake.2020.010
+ER  - 
+
+TY  - CONF
+AU  - 李三
+AU  - 吴三
+AU  - 赵四
+AU  - 吴思远
+AU  - 何文博
+TI  - 基于因果推断的低资源场景适配
+T2  - 国际合成数据大会论文集
+CY  - 武汉
+PB  - 幻想书局
+PY  - 2021
+SP  - 143
+EP  - 154
+DO  - 10.9999/fake.2021.011
+ER  - 
+
+TY  - THES
+AU  - 周明轩
+AU  - 吴静怡
+AU  - 李七
+AU  - 杨志强
+AU  - 蒋思远
+TI  - 基于因果推断的边缘计算部署
+CY  - 南京
+PB  - 编造科技大学
+DO  - 10.9999/fake.2024.012
+ER  - 
+
+TY  - THES
+AU  - 陈六
+AU  - 陈三
+TI  - 基于对比学习的边缘计算部署
+CY  - 上海
+PB  - 合成师范大学
+PY  - 2023
+DO  - 10.9999/fake.2023.013
+ER  - 
+
+TY  - THES
+AU  - 许静怡
+AU  - 蒋三
+AU  - 赵嘉树
+AU  - 陈晓峰
+TI  - 基于多模态学习的时序预测融合
+CY  - None
+PB  - 合成师范大学
+PY  - 2020
+DO  - 10.9999/fake.2020.014
+ER  - 
+
+TY  - THES
+AU  - 杨五
+AU  - 冯六
+AU  - 冯五
+AU  - 郑六
+TI  - 基于图神经网络的时序预测融合
+CY  - 北京
+PB  - 合成师范大学
+PY  - 2025
+DO  - 10.9999/fake.2025.015
+ER  - 
+
+TY  - RPRT
+AU  - SMITH H
+TI  - End-To-End Deep Learning for Low-Resource Adaptation
+CY  - London
+PB  - Fake Academic Press
+SN  - 978-7-7987-4655-3
+PY  - 2021
+SP  - 115
+EP  - 169
+DO  - 10.9999/fake.2021.016
+ER  - 
+
+TY  - BOOK
+AU  - 郑雨桐
+AU  - 李文博
+TI  - 基于深度学习的边缘计算部署
+CY  - 武汉
+PB  - 虚构出版社
+SN  - 978-7-4836-0306-1
+PY  - 2025
+SP  - 250
+EP  - 206
+DO  - 10.9999/fake.2025.017
+ER  - 
+
+TY  - BOOK
+AU  - WILLIAMS E J
+AU  - WILSON J H
+AU  - MILLER K
+TI  - Knowledge Graphs for Recommender Systems
+CY  - New York
+PB  - Fake Academic Press
+SN  - 978-7-1621-1945-0
+PY  - 2022
+SP  - 101
+EP  - 142
+DO  - 10.9999/fake.2022.018
+ER  - 
+
+TY  - BOOK
+AU  - WILSON J C
+AU  - DAVIS H
+AU  - DAVIS J B
+TI  - Contrastive Learning for Recommender Systems
+CY  - London
+PB  - Imaginary Book House
+SN  - 978-7-3941-6476-1
+PY  - 2021
+SP  - 149
+EP  - 197
+DO  - 10.9999/fake.2021.019
+ER  - 
+
+TY  - BOOK
+AU  - 陈六
+AU  - 赵天宇
+TI  - 基于因果推断的低资源场景适配
+CY  - 南京
+PB  - 虚构出版社
+SN  - 978-7-7553-4720-3
+PY  - 2023
+SP  - 144
+EP  - 162
+DO  - 10.9999/fake.2023.020
+ER  - 
+
+TY  - BOOK
+AU  - 王天宇
+TI  - 基于强化学习的推荐系统优化
+CY  - None
+PB  - 虚构研究院
+NO  - RR-2019-233
+PY  - 2019
+DO  - 10.9999/fake.2019.021
+ER  - 
+
+TY  - RPRT
+AU  - 吴雅琴
+AU  - 杨七
+AU  - 韩七
+TI  - 基于多模态学习的缺陷检测改进
+CY  - 上海
+PB  - 幻想信息技术研究所
+NO  - RR-2021-052
+PY  - 2021
+DO  - 10.9999/fake.2021.022
+ER  - 
+
+TY  - RPRT
+AU  - ANDERSON D H
+TI  - Graph Neural Networks for Time-Series Forecasting
+CY  - New York
+PB  - Institute of Synthetic Studies
+NO  - RR-2022-901
+PY  - 2022
+DO  - 10.9999/fake.2022.023
+ER  - 
+
+TY  - RPRT
+AU  - 王天宇
+AU  - 冯博文
+AU  - 郑五
+AU  - 杨五
+TI  - 基于知识图谱的文本分类方法研究
+CY  - 上海
+PB  - 国家合成数据中心
+NO  - RR-2018-344
+PY  - 2018
+DO  - 10.9999/fake.2014.024
+ER  - 

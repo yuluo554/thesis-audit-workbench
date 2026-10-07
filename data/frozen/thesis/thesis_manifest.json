@@ -1,0 +1,12 @@
+{
+  "dataset": "thesis-synthetic-v1",
+  "files": [
+    "thesis_synthetic.docx",
+    "thesis_truth.json",
+    "thesis_manifest.json"
+  ],
+  "generator": "code/tools/gen_thesis_docx.py",
+  "requires": "python-docx（extras docx）",
+  "schema_version": 1,
+  "zip_entry_timestamp_fixed": "1980-01-01（python-docx writestr 写当前时间的确定性收口）"
+}

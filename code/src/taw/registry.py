@@ -7,7 +7,7 @@
 MODULES = [
     {"id": "REF-01", "line": "ref", "name": "噪声鲁棒解析", "milestone": "M2", "status": "planned"},
     {"id": "REF-02", "line": "ref", "name": "格式核查与自动修正", "milestone": "M3", "status": "planned"},
-    {"id": "REF-03", "line": "ref", "name": "versioned ruleset 四层", "milestone": "M1", "status": "planned"},
+    {"id": "REF-03", "line": "ref", "name": "versioned ruleset 四层", "milestone": "M1", "status": "done"},
     {"id": "REF-04", "line": "ref", "name": "正文引用对账", "milestone": "M3", "status": "planned"},
     {"id": "REF-05", "line": "ref", "name": "重复条目检测与合并", "milestone": "M3", "status": "planned"},
     {"id": "REF-06", "line": "ref", "name": "AI 幻觉文献风险画像", "milestone": "M3", "status": "planned"},

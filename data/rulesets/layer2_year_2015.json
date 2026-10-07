@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "layer": 2,
+  "name": "年份增量层（GB/T 7714-2015 基线）",
+  "overlay_semantics": "继承国标层全部规则，仅记录 2015 版特有约束的增量；条文核对后逐条翻转 status 并补 quote（plan/04 §二）",
+  "gates": {"standard_year": ["2015"], "profile": ["default", "journal-*", "school-*"]},
+  "rules": [
+    {
+      "rule_id": "GBT7714-2015-diff-01",
+      "scope": "reference.format",
+      "standard": "GB/T 7714-2015",
+      "clause": "2015 版基线（具体差异条目待 2025 版对照核查后增补）",
+      "quote": "",
+      "status": "pending",
+      "severity": "info",
+      "check_type": "consistency",
+      "detect": {"param": "baseline", "op": "inherits", "value": "layer1_national 全部规则"},
+      "fix": {"type": "suggest", "template": "无"},
+      "only_if_text": [],
+      "gates": {"standard_year": ["2015"], "profile": ["default", "journal-*", "school-*"]}
+    }
+  ]
+}

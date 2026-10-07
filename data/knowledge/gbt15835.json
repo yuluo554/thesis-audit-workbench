@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "standard_id": "GB/T 15835-2011",
+  "title_zh": "出版物上数字用法",
+  "identity": {
+    "kind": "推荐性国家标准",
+    "replace": "GB/T 15835-1995《出版物上数字用法的规定》",
+    "publish_date": "2011-07-29",
+    "implement_date": "2011-11-01",
+    "state": "现行",
+    "identity_status": "verified",
+    "identity_sources": [
+      {"channel": "std.samr.gov.cn（全国标准信息公共服务平台）", "url": "https://std.samr.gov.cn/gb/search/gbQueryPage?searchText=GB%2FT%2015835&sortOrder=asc&pageNumber=1&pageSize=10", "evidence": "GB/T 15835-2011 STATE=现行 ISSUE_DATE=2011-07-29 ACT_DATE=2011-11-01；1995 版 STATE=废止", "saved": "data/_private/sources/stdsamr_gbt015835.json", "date": "2026-10-07"}
+    ],
+    "note": "编号与现行版本核对完成 ✅（原 plan/00 待核对项）"
+  },
+  "clauses": [],
+  "clause_discipline": "条款原文待获取；无原文不落库（数字用法规则 term_consistency 的条款来源）",
+  "access_log": [
+    {"step": "std.samr 检索", "result": "身份/现行版本核实 ✅；全文未获取", "date": "2026-10-07"}
+  ]
+}

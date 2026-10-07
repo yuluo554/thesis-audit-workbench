@@ -1,0 +1,43 @@
+{
+  "dataset": "refs-synthetic-v1",
+  "file_expect": [
+    {
+      "check_type": "citation_style",
+      "detail": "含著者-出版年制条目混入顺序编码制文献表；文件级 finding 与条目级 expect 同源，不重复计",
+      "files": [
+        "refs_clean.txt",
+        "refs_light.txt",
+        "refs_heavy.txt",
+        "refs_clean.csv",
+        "refs_light.csv",
+        "refs_heavy.csv"
+      ],
+      "scope": "file"
+    }
+  ],
+  "files": [
+    "refs_clean.txt",
+    "refs_clean.csv",
+    "refs_clean.bib",
+    "refs_clean.ris",
+    "refs_light.txt",
+    "refs_light.csv",
+    "refs_light.bib",
+    "refs_light.ris",
+    "refs_heavy.txt",
+    "refs_heavy.csv",
+    "refs_heavy.bib",
+    "refs_heavy.ris",
+    "refs_truth.json",
+    "refs_manifest.json"
+  ],
+  "generator": "code/tools/gen_references.py",
+  "noise_definition": {
+    "clean": "无噪声，canonical 文本",
+    "heavy": "2-4 处伪影（CJK 内插空格/双空格/全角数字/任意断行/连字符断裂）",
+    "light": "单处伪影（双空格/全角括号/[ 标识 ]内空格）"
+  },
+  "rng": "taw.rng.SplitMix64",
+  "schema_version": 1,
+  "seed": 20261007
+}

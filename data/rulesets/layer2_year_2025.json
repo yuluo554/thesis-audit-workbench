@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "layer": 2,
+  "name": "年份增量层（GB/T 7714-2025，2026-07-01 实施替代 2015 版）",
+  "overlay_semantics": "2025 版实施信息已核对（见 data/knowledge/gbt7714_2025.json）；新旧差异条目须逐项挂原文后翻转 status，迁移清单是双标尺的展示面（plan/04 §二）",
+  "gates": {"standard_year": ["2025"], "profile": ["default", "journal-*", "school-*"]},
+  "rules": [
+    {
+      "rule_id": "GBT7714-2025-diff-01",
+      "scope": "reference.format",
+      "standard": "GB/T 7714-2025",
+      "clause": "2025 版对 2015 版的差异点（条目待原文核对后增补）",
+      "quote": "",
+      "status": "pending",
+      "severity": "info",
+      "check_type": "consistency",
+      "detect": {"param": "baseline", "op": "inherits", "value": "layer1_national 全部规则，另列 2025 差异增量"},
+      "fix": {"type": "suggest", "template": "差异清单随条文查证结果增补"},
+      "only_if_text": [],
+      "gates": {"standard_year": ["2025"], "profile": ["default", "journal-*", "school-*"]}
+    }
+  ]
+}

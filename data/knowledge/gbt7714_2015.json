@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "standard_id": "GB/T 7714-2015",
+  "title_zh": "信息与文献 参考文献著录规则",
+  "identity": {
+    "kind": "推荐性国家标准",
+    "replace": "GB/T 7714-2005",
+    "publish_date": "2015-05-15",
+    "implement_date": "2015-12-01",
+    "state": "废止（被 GB/T 7714-2025 替代，官方 metadata STATE=废止）",
+    "identity_status": "verified",
+    "identity_sources": [
+      {"channel": "std.samr.gov.cn（全国标准信息公共服务平台）", "url": "https://std.samr.gov.cn/gb/search/gbQueryPage?searchText=GB%2FT%207714&sortOrder=asc&pageNumber=1&pageSize=10", "evidence": "STATE=废止; ISSUE_DATE=2015-05-15; ACT_DATE=2015-12-01", "saved": "data/_private/sources/stdsamr_gb7714.json", "date": "2026-10-07"},
+      {"channel": "openstd.samr.gov.cn（国家标准全文公开系统）", "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=7FA63E9BBA56E60471AEDAEBDE44B14C", "evidence": "标准状态：废止；'废止标准不提供标准文本阅读服务'", "saved": "data/_private/sources/openstd_7714_2015_detail.html", "date": "2026-10-07"}
+    ],
+    "note": "仍保留 2015 标尺：存量论文（引用 2015 版时点规范）审计需要；对现行写作按 2025 版提示"
+  },
+  "clauses": [],
+  "clause_discipline": "全文获取两渠道官方不可得：openstd 明示'废止标准不提供标准文本阅读服务'；条款条目须拿到官方原文摘录后才入库并置 verified，当前一律 pending",
+  "access_log": [
+    {"step": "openstd 详情页", "result": "官方拒绝提供全文（废止）", "date": "2026-10-07"},
+    {"step": "openstd 在线阅读 showGb", "result": "未再尝试（详情页已官方声明不提供）", "date": "2026-10-07"}
+  ]
+}
