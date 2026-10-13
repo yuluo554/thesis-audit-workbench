@@ -17,6 +17,9 @@ jobs:
     defaults:
       run:
         working-directory: code
+    env:
+      # M6 GUI 离屏纪律：无显示器的 runner 上构造 Qt 窗口（不进事件循环）
+      QT_QPA_PLATFORM: offscreen
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -26,6 +29,9 @@ jobs:
         run: |
           python -m pip install -U pip
           python -m pip install -e ".[dev,docx,viz]"
+      - name: Install M6 gui extras (Windows only; PySide6 需要系统图形库，ubuntu 不装 → GUI 测试整模块 skip)
+        if: runner.os == 'Windows'
+        run: python -m pip install -e ".[gui]"
       - name: Run tests
         run: python -m pytest tests -v
       - name: CLI smoke
@@ -41,3 +47,30 @@ jobs:
           taw audit thesis ../data/frozen/thesis/thesis_synthetic.docx --profile school-demo --review-topology ../reports/rev.html
           taw audit bench --line full
           taw audit bench --line all --report ../reports/bench_all.json
+      - name: GUI smoke (offscreen; Windows 装 gui extras 后必绿)
+        if: runner.os == 'Windows'
+        run: taw gui --check
+
+  package:
+    name: "package - windows - py3.8 (PyInstaller onedir + 红线 + 中立目录五连)"
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: code
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.8"
+      - name: Install package with pkg extras (py3.8 锁 pyinstaller<6)
+        run: |
+          python -m pip install -U pip
+          python -m pip install -e ".[dev,docx,viz,pkg]"
+      - name: Build onedir dual-exe (taw.exe + taw-gui.exe)
+        run: python -m PyInstaller tools/taw.spec --noconfirm --clean --distpath ../dist --workpath ../build
+      - name: Build redline (禁区成分扫描 + 内嵌数据逐文件对账)
+        run: python tools/check_build_redline.py ../dist/taw
+      - name: Neutral-dir clean verification (仓库树外 + 剥离 PATH, 五连逐条取真实退出码)
+        run: python tools/verify_neutral_dir.py ../dist --data-src ../data

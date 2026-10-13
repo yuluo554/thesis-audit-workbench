@@ -1,6 +1,6 @@
 # 毕业论文全流程审计工作台（thesis-audit-workbench）
 
-> 🚧 **开发中（M5 基准全集已收口：两线 14 指标全达标固化、误报 0）** — 计划、里程碑与进度见 [plan/00-README总览.md](plan/00-README总览.md)
+> 🚧 **开发中（M6 桌面交付已收口：PySide6 GUI + Word/WPS COM 实机验证 + PyInstaller onedir 双 exe）** — 计划、里程碑与进度见 [plan/00-README总览.md](plan/00-README总览.md)
 
 覆盖毕业论文**开题（综述辅助）→ 写作（反向引用、术语一致性、图表编号）→ 完稿（幻觉画像、AIGC 自检、对账）→ 送审（学校格式、结构检查单、体检分、指纹存证）**全流程的确定性审计台。LLM 聊天给不了持久状态、可审计证据与全量批处理——本工具是 AI 时代的论文质量防线。
 
@@ -77,8 +77,49 @@ taw audit bench --line full    # 全文线 5 指标基准
 taw audit bench --line all     # 两线 14 指标一次跑全
 
 cd code
-python -m pytest tests -q   # 299 项（3.8 / 3.12 双解释器绿）
+python -m pytest tests -q   # 361 项（3.8: 360 通过/1 跳过；3.12: 356 通过/5 跳过）
 ```
+
+## 桌面应用（PySide6 GUI，M6）
+
+GUI **只消费引擎 API**（`taw.refaudit` / `taw.fullaudit` / 各模块函数），与 CLI 同一实现——不另起第二套判定逻辑（plan/03 §一）。
+
+```bash
+python -m pip install -e "./code[gui]"     # PySide6（py3.8 解析到 6.6.3.1）
+taw gui                                    # 启动桌面窗口
+taw gui --check                            # 离屏启动自检（CI/无显示器环境用，不进事件循环）
+```
+
+- 两个标签页：**文献审计线**（选文献表 + 正文 → 跑审计 → findings 表格三级判定 + 条款待核对标记 → 导出报告/拓扑/批注回写）与**全文审计线**（选 docx → 跑审计 → 导出报告/综述聚类）；
+- findings 表格每行给「规则 / 状态（通过·不符·待人工确认）/ 类型 / 位置 / 条款标记 / 说明建议」，选中行看**完整证据链**（条款 + 依据 + 位置）；
+- 条款 `pending` 的一律显示「**条款待核对**」，不冒充标准原文（NFR-04 落到界面）；
+- 所有 HTML 产物（引用拓扑 / 综述聚类）同样过 **0 外链硬断言**。
+
+## Word/WPS COM 联动（M6 实机验证）
+
+```bash
+python -m pip install -e "./code[com]"     # pywin32（仅 Windows）
+```
+
+- **外挂定位**：判定与产物生成的确定性通路是 `taw.docxutil` / `taw.reflib`（M3 已落地并有基准回归）；COM 层只做触发壳——打开、另存、读回；
+- **实机验收断言**：`reflib.write_comments` 注入的 Word 批注，被**真实 Word/WPS 读回条数一致**（M6 实测：6 findings → Word `Comments.Count = 6`）；
+- **WPS 兼容范围**：本机同时装 Word（16.0）与 WPS（KWPS.Application，12.1.0.28505），`inspect_document` 同一接口在两者上均可打开并计数；
+- CI 无 Office → 实机组自动 skip（`win32 + pywin32 + 注册表有 Office ProgID` 三条件缺一即跳过）。
+
+## 打包（PyInstaller onedir 双 exe，M6）
+
+```bash
+python -m pip install -e "./code[pkg]"     # py3.8 锁 pyinstaller>=5.13,<6
+cd code
+python -m PyInstaller tools/taw.spec --noconfirm --clean --distpath ../dist
+python tools/check_build_redline.py ../dist/taw      # 构建红线
+python tools/verify_neutral_dir.py ../dist           # 中立目录五连
+```
+
+- **双 exe 共用一个 onedir**：`dist/taw/taw.exe`（CLI，console=True）+ `dist/taw/taw-gui.exe`（GUI，console=False）；
+- **内嵌数据**：`data/README.md`（数据根标志）+ `frozen/`、`bench/`、`knowledge/`、`rulesets/` 随包；`taw/paths.py` 五分支已覆盖 PyInstaller 5/6 两种布局；
+- **构建红线**（`check_build_redline.py`）：dist 扫描无 `_private/`、无 `.db`/`.env`/`.key`、无真实实体关键词；内嵌数据与仓库 `data/` **逐文件对账**（缺文件/多文件/字节不符三类偏差全检出）；
+- **中立目录干净验证五连**（`verify_neutral_dir.py`）：把 dist 复制到**仓库树外**并**剥离 PATH**，逐条取真实退出码跑 `selfcheck` / `demo` / `parse` / `audit refs` / `audit bench --line all`（不接管道，防真实状态被吞）。
 
 ## 内置评测基准（两线 14 指标，零 API 依赖）
 
@@ -131,7 +172,7 @@ taw audit bench --line all --report reports/bench_all.json   # 两线 14 指标�
 ```
 plan/    计划文档与交接快照（00 总览 / 01 题目 / 02 需求 / 03 架构 / 04 详设 / 05 数据与里程碑）
 data/    数据根：samples / frozen 字节冻结产物 / knowledge 条款库 / rulesets 规则包 / bench 评测集
-code/    代码根：src/taw 包 + tests + tools（pyproject 在此）
+code/    代码根：src/taw 包 + tests + tools（pyproject 在此；tools 含打包 spec 与构建红线/中立验证脚本）
 docs/    技术报告等固化材料（规划中）
 ```
 

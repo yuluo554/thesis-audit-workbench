@@ -14,7 +14,7 @@
 | [01-题目详细定义.md](01-题目详细定义.md) | 项目题全文 v3（双审计线 16 模块/评分/锚点/边界） | ✅ v3 定稿 2026-10-07 |
 | [02-需求解读.md](02-需求解读.md) | 痛点→能力转译、FR 清单带优先级、NFR、边界守卫、验收口径 | ✅ M0 定稿 2026-10-07 |
 | [03-架构与技术选型.md](03-架构与技术选型.md) | 双审计线引擎 + 条款库 + 四层 ruleset + COM 外挂；目录布局与横切纪律 | ✅ M0 定稿 2026-10-07 |
-| [04-模块详设.md](04-模块详设.md) | 条目/论文参数卡 schema、规则表、标记体系解析、AIGC 特征表；§九=M2 实现级定稿，§十=M3 文献线引擎实现级定稿，§十一=M4 全文线引擎实现级定稿，**§十二=M5 基准全集固化** | ✅ M0 定稿+M2 §九+M3 §十+M4 §十一+M5 §十二 |
+| [04-模块详设.md](04-模块详设.md) | 条目/论文参数卡 schema、规则表、标记体系解析、AIGC 特征表；§九=M2 实现级定稿，§十=M3 文献线引擎实现级定稿，§十一=M4 全文线引擎实现级定稿，§十二=M5 基准全集固化，**§十三=M6 桌面交付实现级定稿** | ✅ M0 定稿+M2 §九+M3 §十+M4 §十一+M5 §十二+M6 §十三 |
 | [05-数据计划与里程碑.md](05-数据计划与里程碑.md) | 生成器双件套、确定性纪律、M0–M7 DoD 与收尾纪律 | ✅ M0 定稿（里程碑行随 M 回写） |
 | 06-决策记录.md | 重大决策表 | ✅ 初始化（见下） |
 | [HANDOFF-M1.md](HANDOFF-M1.md) | M1 数据先行交接快照（进度/待办/既定口径/环境坑/DoD/命令速查） | ✅ M0 收尾落盘 2026-10-07 |
@@ -23,6 +23,7 @@
 | [HANDOFF-M4.md](HANDOFF-M4.md) | M4 全文线引擎交接快照 | ✅ M3 收尾落盘 2026-10-13 |
 | [HANDOFF-M5.md](HANDOFF-M5.md) | M5 基准全集交接快照 | ✅ M4 收尾落盘 2026-10-13 |
 | [HANDOFF-M6.md](HANDOFF-M6.md) | M6 桌面交付交接快照 | ✅ M5 收尾落盘 2026-10-13 |
+| [HANDOFF-M7.md](HANDOFF-M7.md) | M7 脱敏发布交接快照 | ✅ M6 收尾落盘 2026-10-13 |
 
 ## 决策记录
 
@@ -62,6 +63,14 @@
 | 2026-10-13 | **M5 基准全集收口（14 指标固化）** | 两线 **14 指标一门跑全**（`taw audit bench --line all`）全达标（误报 0 优先）；README 指标表重写（含**复跑命令 + 环境**：离线/双解释器/报告无时间戳）；**指标 2 召回缺口 55/55 逐处归因**到 M3 既定判定纪律（UNKNOWN=0，新增 `test_bench_full.py` 钉死：14 指标齐全 + gate 全过 + 报告位级可重复 + 屏蔽 socket 全过）；M2 F1 + M3 9 + M4 5 三基线复跑留痕（`reports/m5_baseline_trace.txt`）；299 项双解释器绿；BENCH-01 翻转 done |
 | 2026-10-13 | **M5 指标 2 召回缺口裁定** | 格式检出 recall=0.6944（FN=55）不是缺陷而是**误报 0 优先**的确定性后果：缺口逐处归因——噪声门控 18（带断行/连字符/空格修复 flag 的缺项不判）+ ris 载体豁免 9（ris 不渲染"等/others"）+ 文件级编码制混用 12（引擎按文件级报，逐条归因不到）+ 三著者带"等"歧义 6（渲染串不可区分）+ DOI/year 被噪声污染不可观察 6 + 载体签名不唯一 2 + 载体语义 2。**不弱化 gate**（FP=0 优先）；归因由 `refbench._fn_reason` 产出、`test_bench_full` 断言 UNKNOWN=0，任何新未归因 FN 即回归（见 04 §十二 12.2） |
 | 2026-10-13 | **扩展项 P2 顺延（M7 清零决策）** | plan/05 依赖关系所列扩展项——arXiv 见刊提示 / 文献 CI watch / 自定义规则包导入导出 / 个人错误画像 / LLM 兜底 / 语义 rerank——**M5 前未收口**，按 P2 顺延至 M7 做清零决策（plan/01 §六 明确其为"三个显式开关扩展项"，非验收 P0/P1 必达项；P0/P1 = 两线 14 指标 + 两线功能闭环，均已达标）。M5 只固化**离线零 API 的 14 指标基准**，不引入联网通路（NFR-01/03 不受影响） |
+| 2026-10-13 | **M6 GUI 单一事实源裁定（结构性落地）** | "GUI 只消费引擎 API"从口号变成结构保证：`taw.gui` 拆两半——`service`（**纯 Python 不 import Qt**：调编排 / 摊平 findings / 调引擎写盘函数）+ `app`（PySide6 窗口）。故"GUI 结论 == CLI 结论"可被无 GUI 环境单测（`test_gui_service` 断言与直接调 `refaudit` **逐字段 JSON 一致**）；条款 `pending` 在界面恒渲染「条款待核对」（NFR-04 不被削弱）；GUI 导出的任何 HTML 同样过 0 外链硬断言。见 04 §十三 13.1 |
+| 2026-10-13 | **M6 离屏测试纪律裁定** | ①`tests/conftest.py` 在**收集前**置 `QT_QPA_PLATFORM=offscreen`（模块内 setdefault 管不了别处的导入顺序）；②GUI 测试模块用**模块级 try-import + `pytest.skip(allow_module_level=True)`** 声明式跳过——**不用 `pytest.importorskip`**（pytest 9.1 起其 ImportError 行为将升级为错误）；③CI 只在 Windows 装 `[gui]`（ubuntu 无系统图形库 → 整模块 skip，不伪装成通过） |
+| 2026-10-13 | **M6 COM 定位与实机验收裁定** | COM 层 = **外挂触发壳**，判定通路仍在 `docxutil`/`reflib`/`refrec`（M3 已落地并有基准回归），本层不新增任何判定或改写能力（伦理边界继续生效）。实机验收断言：`reflib.write_comments` 注入的 Word 批注被**真实 Word/WPS 读回条数一致**（本机实测 6 findings → `Comments.Count=6`）；WPS 兼容范围以同一 `inspect_document` 接口实测（Word 16.0 + WPS 12.1.0.28505 并存各自应答）。CI 无 Office → 三条件（win32 + pywin32 + 注册表有 Office ProgID）缺一即整组 skip。见 04 §十三 13.2 |
+| 2026-10-13 | **M6 WPS COM 收尾毛刺（实测坑）** | WPS 的 COM 服务在进程启停时偶发 RPC 异常 `0x800706be/0x800706ba`。两条处置：①**收集期只查注册表**（`registered_progid`），不 Dispatch——避免收集阶段启动/关闭 WPS 进程污染测试输出；②**会话释放顺序**定型：丢 Document 引用 + `gc.collect()` → `Quit()` → 丢 app 引用 → `CoFreeUnusedLibraries()` + `CoUninitialize()`（顺序错则 WPS 于收尾抛异常；Word 不在意，WPS 会）。见 04 §十三 13.2 |
+| 2026-10-13 | **M6 onedir 打包裁定（首版踩坑）** | "onedir 双 exe"必须 EXE `exclude_binaries=True` + 交给 `COLLECT`：否则 EXE 把整包嵌进本体，产出 **57MB 的伪 onefile**（运行时解到 `_MEIxxxx`），违背 onedir 与"中立目录验内嵌数据"的前提。正确形态引导壳仅 8-10MB、`dist/taw/data/` 就地可读（`来源: pyinstaller-embedded`）。另：**内嵌数据必须带 `data/README.md`**（`paths.py::_is_valid` 的数据根标志），漏了则打包后数据目录判定失效而整体降级。见 04 §十三 13.3 |
+| 2026-10-13 | **M6 构建红线与中立目录五连** | 两条构建收口脚本（`code/tools/`）：①`check_build_redline.py`——dist 禁区成分扫描（`_private/`、`.db`/`.env`/`.key`、真实实体关键词）+ 内嵌数据与仓库 `data/` **逐文件 SHA-256 对账**（missing/extra/mismatched 三类偏差全检出）；**合成数据里的虚构校名/人名不在黑名单**（防止红线误伤打包）。②`verify_neutral_dir.py`——dist 复制到**仓库树外** + **剥离 PATH**，五条命令逐条取**真实 returncode**（不接管道）。见 04 §十三 13.3 |
+| 2026-10-13 | **M6 补 CLI 编码纪律（历史坑）** | 非 UTF-8 stdout（Windows CI 管道 cp1252）会把中文输出打成 `UnicodeEncodeError` 并崩在打印上（M5 交接的"预期环境坑"实测复现）。`cli._ensure_utf8_stdout()` 在 `main` 入口先 reconfigure（能切 UTF-8 则切，不能则 `errors="replace"`；`PYTHONIOENCODING` 已指 Unicode 时不动），`test_cli_survives_non_utf8_stdout` 用子进程复现 cp1252 钉死 |
+| 2026-10-13 | **M6 桌面交付完成** | PySide6 GUI（`taw.gui.service` 纯 Python 服务层 + `app` 窗口；`taw gui` / `taw-gui` / `python -m taw.gui` 三入口 + `--check` 离屏自检）；COM 实机验证（Word/WPS 并存、批注读回条数一致、一键插入走 REF-07 内核）；PyInstaller onedir 双 exe + 构建红线 + 中立目录五连；**361 项双解释器绿**（3.8: 360 通过/1 跳过；3.12: 356 通过/5 跳过）；三基线复跑不回退（`reports/m6_delivery_trace.txt`）；registry 不变（16 项，M6 是交付层不改模块注册表）；**HANDOFF-M7 落盘** |
 
 ## 里程碑（M0–M7，详见 05）
 
@@ -71,5 +80,5 @@
 - **M3 文献线引擎 ✅ 2026-10-13**：判定引擎骨架（`taw.engine`：四层叠加 + activation/basis 与条款 status 正交）；REF-02 格式核查与自动修正（六类检测，**误报 0**、修正 79/79 闭合）；REF-04 引用对账（悬空/幽灵/乱序/断档/著者-年）；REF-05 去重（**误合并率 0**，冲突→manual_confirm）；REF-06 幻觉画像（HalluRef-Bench v1 检出 100/100、genuine 误报 0）；REF-07 库内 BM25 防幻觉推荐 + 编号重排内核（一致性 **79/79=100%**）；REF-08 论证链拓扑（**0 外链硬断言**）；REF-09 SQLite 文献库/指纹防篡改/Word 批注回写；HalluRef-Bench v1 全量 200 条入库；`taw audit refs`/`audit bench`；208 项双解释器绿；M2 F1 基线不回退
 - M4 全文线引擎 ✅ 2026-10-13：FULL-01 交叉引用审计与编号重排（悬空 2/2 + 幽灵 2/2，对象编号矩阵回归 **100%**，与 REF-07 同内核）；FULL-02 学校格式核查（样式检出 FP=0 + docx 节属性/页眉页脚/目录 + 学校 profile 导入）；FULL-03 术语与数字一致性（T1..T4 全检出 + GB/T 15835 千分位 + 变体热区）；FULL-04 AIGC 痕迹自检（A1/A2/A3 检出、干净段 FP=0、伦理边界硬编码 + 守卫断言）；FULL-05 综述辅助（TF-IDF 聚类纯度 **1.0** + 时间线 + 规则可判研究空白）；FULL-06 结构检查单（8 项）；全文线 **5 指标全过**；`taw audit thesis` + `bench --line refs\|full\|all`；292 项双解释器绿；M2 F1 + M3 9 指标不回退
 - **M5 基准全集 ✅ 2026-10-13**：两线 **14 指标一门跑全**（`taw audit bench --line all`）全达标（误报 0 优先：解析 F1 1.0/1.0/0.9874、格式 FP=0、修正 79/79、对账 1.0、去重误合并 0、幻觉 100/100 genuine 误报 0、双标尺 2/2、推荐 R@5 0.7778/MRR 0.7222、重排 100%；全文线 悬空幽灵 2/2+2/2、样式 TP=3 FP=0、术语 4/4、AIGC 3/3 FP=0、聚类纯度 1.0）；README 评测表（14 指标 + 复跑命令 + 环境）；**指标 2 召回缺口 55/55 全归因**（UNKNOWN=0，`test_bench_full.py` 钉死）；报告无时间戳可重复；299 项双解释器绿；三基线复跑不回退；扩展项 P2 顺延 M7 清零
-- M6 桌面交付：PySide6 + Word/WPS COM 实机验证（WPS 兼容性核对）+ PyInstaller
+- **M6 桌面交付 ✅ 2026-10-13**：PySide6 GUI（`taw.gui.service` 纯 Python 服务层不 import Qt + `app` 窗口**只消费引擎 API**——与 CLI 逐字段一致，判定零复刻；条款 pending 恒渲染「条款待核对」；导出 HTML 过 0 外链断言；`taw gui` / `taw-gui` / `python -m taw.gui` 三入口 + `--check` 离屏自检）；**COM 实机验证**（本机 Word 16.0 + WPS 12.1.0.28505 并存：注入批注被真实 Office 读回条数一致、WPS 同一接口可用、一键插入走 REF-07 内核 + 独立复核）；**PyInstaller onedir 双 exe**（`taw.exe` + `taw-gui.exe` 共用 COLLECT，`exclude_binaries=True` 修掉伪 onefile 坑）；**构建红线**（dist 禁区 0 命中 + 内嵌数据逐文件 SHA-256 一致）+ **中立目录五连**（仓库树外 + 剥离 PATH，五条真实退出码全 0）；补 CLI 编码纪律（cp1252 不再崩）；361 项双解释器绿；三基线复跑不回退
 - M7 脱敏发布 GitHub + Release（exe）+ 收尾固化（含扩展项 P2 清零决策）

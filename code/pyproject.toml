@@ -26,6 +26,7 @@ pkg = [
 
 [project.scripts]
 taw = "taw.cli:main"
+taw-gui = "taw.gui.__main__:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

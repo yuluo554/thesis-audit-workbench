@@ -38,6 +38,9 @@ def build_parser():
     sub = parser.add_subparsers(dest="command")
     sub.add_parser("selfcheck", help="环境自检：版本 / 数据目录 / 可选依赖")
     sub.add_parser("demo", help="打印 16 模块注册表（进度跟踪）")
+    gui_p = sub.add_parser("gui", help="启动 PySide6 桌面窗口（extras gui；只消费引擎 API）")
+    gui_p.add_argument("--check", action="store_true",
+                       help="只构造离屏窗口做启动自检（CI/无桌面环境用），不进事件循环")
     parse_p = sub.add_parser("parse", help="解析文献表 / 论文 docx（REF-01 与论文解析器）")
     parse_p.add_argument("paths", nargs="*", help="待解析文件（文献表 txt/csv/bib/ris，或论文 docx）")
     parse_p.add_argument("--format", choices=["auto", "txt", "csv", "bib", "ris"],
@@ -481,13 +484,68 @@ def cmd_demo(_args):
     return EXIT_OK
 
 
+def cmd_gui(args):
+    """taw gui：启动 PySide6 桌面窗口（extras gui）。
+
+    退出码：0=正常退出（含 --check 构造成功）；1=降级（PySide6 缺装）。
+    --check 只构造离屏窗口即返回（CI/无桌面环境冒烟），不进事件循环。
+    """
+    try:
+        from taw.gui import app as gui_app
+    except ImportError as exc:
+        print("GUI 需要 gui extras：python -m pip install -e './code[gui]'（{}）".format(exc))
+        return EXIT_DEGRADED
+    if getattr(args, "check", False):
+        import os
+        os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
+        _app, window = gui_app.build_app([])
+        print("GUI 启动自检通过：{}".format(window.windowTitle()))
+        return EXIT_OK
+    return gui_app.main([])
+
+
+def _ensure_utf8_stdout():
+    """非 UTF-8 stdout（Windows CI 管道的 cp1252 等）会把中文输出打成 UnicodeEncodeError。
+
+    处置：能 reconfigure 就切成 UTF-8；不能（被重定向的旧式流）则退化为
+    `errors="replace"`——宁可显示成替换字符，也不让整条命令崩在打印上。
+    `PYTHONIOENCODING` 已指定 Unicode 编码时不动（尊重调用方）。
+    """
+    import io
+    for name in ("stdout", "stderr"):
+        stream = getattr(sys, name, None)
+        if stream is None:
+            continue
+        enc = (getattr(stream, "encoding", None) or "").lower()
+        if enc.replace("-", "") in ("utf8", "utf16", "utf32"):
+            continue
+        reconfigure = getattr(stream, "reconfigure", None)
+        if reconfigure is not None:          # Py3.7+ TextIOWrapper
+            try:
+                reconfigure(encoding="utf-8", errors="replace")
+                continue
+            except (ValueError, OSError):
+                pass
+        # 兜底：包一层可替换错误的写流
+        try:
+            buffer = getattr(stream, "buffer", None)
+            if buffer is not None:
+                setattr(sys, name, io.TextIOWrapper(
+                    buffer, encoding="utf-8", errors="replace", line_buffering=True))
+        except (ValueError, OSError, AttributeError):
+            pass
+
+
 def main(argv=None):
+    _ensure_utf8_stdout()
     parser = build_parser()
     args = parser.parse_args(argv)
     if args.command == "selfcheck":
         return cmd_selfcheck(args)
     if args.command == "demo":
         return cmd_demo(args)
+    if args.command == "gui":
+        return cmd_gui(args)
     if args.command == "parse":
         return cmd_parse(args)
     if args.command == "audit":

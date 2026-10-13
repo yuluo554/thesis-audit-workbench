@@ -236,3 +236,44 @@ def test_audit_thesis_review_topology_zero_external(tmp_path, capsys):
     assert main(["audit", "thesis", str(docx_path), "--review-topology", str(out)]) == EXIT_OK
     assert out.is_file()
     assert reftopo.assert_no_external_refs(out.read_text(encoding="utf-8")) is True
+
+
+# ---- M6：GUI 子命令与输出编码纪律 ----
+
+
+def test_gui_check_degraded_or_ok(capsys):
+    """`taw gui --check`：装了 gui extras → 0（构造离屏窗口）；缺装 → 1（降级）。
+
+    两条都是合法结果，但绝不允许是别的码或抛异常——GUI 是显式 extras，
+    缺装必须**明确降级**而不是静默按 CLI 跑。
+    """
+    from taw.cli import EXIT_DEGRADED
+    code = main(["gui", "--check"])
+    assert code in (EXIT_OK, EXIT_DEGRADED)
+    out = capsys.readouterr().out
+    if code == EXIT_OK:
+        assert "启动自检通过" in out
+    else:
+        assert "gui extras" in out
+
+
+def test_cli_survives_non_utf8_stdout():
+    """非 UTF-8 stdout（Windows CI 管道 cp1252）不得把中文输出打成 UnicodeEncodeError。
+
+    入口的编码探针（`_ensure_utf8_stdout`）负责 reconfigure；这条测试用子进程
+    强制 `PYTHONIOENCODING=cp1252` 复现该环境。
+    """
+    import os
+    import subprocess
+    import sys
+
+    env = dict(os.environ)
+    env["PYTHONIOENCODING"] = "cp1252"
+    env["PYTHONDONTWRITEBYTECODE"] = "1"
+    for args in (["demo"], ["selfcheck"], ["audit", "bench"]):
+        proc = subprocess.run([sys.executable, "-m", "taw"] + args,
+                              capture_output=True, env=env, timeout=180)
+        err = (proc.stderr or b"").decode("utf-8", "replace")
+        assert proc.returncode == 0, "{} 在 cp1252 下退出码 {}：{}".format(
+            args, proc.returncode, err[-300:])
+        assert "UnicodeEncodeError" not in err, "{} 在 cp1252 下编码崩溃".format(args)
