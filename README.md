@@ -1,6 +1,8 @@
 # 毕业论文全流程审计工作台（thesis-audit-workbench）
 
-> 🚧 **开发中（M6 桌面交付已收口：PySide6 GUI + Word/WPS COM 实机验证 + PyInstaller onedir 双 exe）** — 计划、里程碑与进度见 [plan/00-README总览.md](plan/00-README总览.md)
+[![CI](https://github.com/yuluo554/thesis-audit-workbench/actions/workflows/ci.yml/badge.svg)](https://github.com/yuluo554/thesis-audit-workbench/actions/workflows/ci.yml)
+
+> ✅ **v0.1.0（M7 脱敏发布已收口：脱敏四步 + 产物扫描 + 干净环境验证 + CI 五 job 全绿 + 公开仓库）** — 计划、里程碑与进度见 [plan/00-README总览.md](plan/00-README总览.md)
 
 覆盖毕业论文**开题（综述辅助）→ 写作（反向引用、术语一致性、图表编号）→ 完稿（幻觉画像、AIGC 自检、对账）→ 送审（学校格式、结构检查单、体检分、指纹存证）**全流程的确定性审计台。LLM 聊天给不了持久状态、可审计证据与全量批处理——本工具是 AI 时代的论文质量防线。
 
@@ -125,6 +127,21 @@ python tools/verify_neutral_dir.py ../dist           # 中立目录五连
 - **内嵌数据**：`data/README.md`（数据根标志）+ `frozen/`、`bench/`、`knowledge/`、`rulesets/` 随包；`taw/paths.py` 五分支已覆盖 PyInstaller 5/6 两种布局；
 - **构建红线**（`check_build_redline.py`）：dist 扫描无 `_private/`、无 `.db`/`.env`/`.key`、无真实实体关键词；内嵌数据与仓库 `data/` **逐文件对账**（缺文件/多文件/字节不符三类偏差全检出）；
 - **中立目录干净验证五连**（`verify_neutral_dir.py`）：把 dist 复制到**仓库树外**并**剥离 PATH**，逐条取真实退出码跑 `selfcheck` / `demo` / `parse` / `audit refs` / `audit bench --line all`（不接管道，防真实状态被吞）。
+
+## 脱敏发布门（M7）
+
+发布前必过四步内容级审计 + 提交元数据盲区（`code/tools/desensitize_audit.py`）：
+
+```bash
+python tools/desensitize_audit.py --selftest        # 阳性 6 类 + 阴性（noreply/克隆 URL）对照
+python tools/desensitize_audit.py --mode all        # 跟踪树 + 全历史 blob + 提交元数据
+python tools/desensitize_audit.py --mode dist       # 构建产物本体（个人标记 + 禁区成分）
+```
+
+- **四步**：①源码 ②数据 ③文档 ④产物 + 提交元数据盲区；硬门类别：邮箱 / 个人目录路径 / 个人标记 / 手机号 / 身份证 / 密钥 / 敏感文件名 / 产物禁区成分；
+- **设计纪律**：模式一律**片段拼接**构造（源码里不出现完整敏感字面值，扫描器自己过自己的扫描）；输出**不回显敏感串原文**（报告可随仓留档）；
+- **提交元数据**：作者/提交者邮箱一律 **GitHub noreply**（内容级扫描覆盖不到的盲区，单独扫）；
+- **CI 接线**：`test` job 跑 `--mode all`（`fetch-depth: 0` 防浅克隆让历史扫描静默空跑），`package` job 跑 `--mode dist`。
 
 ## 内置评测基准（两线 14 指标，零 API 依赖）
 
