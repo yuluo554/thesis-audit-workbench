@@ -10,6 +10,7 @@
 | 交付面 | 实测结果 |
 |---|---|
 | 公开仓库 | **https://github.com/yuluo554/thesis-audit-workbench**（public，main 分支，`gh repo create` 建仓 + `git push`） |
+| GitHub Release | **v0.1.0 已发布**（经用户确认）：[releases/tag/v0.1.0](https://github.com/yuluo554/thesis-audit-workbench/releases/tag/v0.1.0)，附件 `thesis-audit-workbench-v0.1.0-win64.zip`（70,115,631 字节，dist onedir 双 exe） |
 | 脱敏四步 | `code/tools/desensitize_audit.py`：跟踪树 + **全历史 blob** + 提交元数据 + dist 产物 **四扫硬门 0 命中**（唯一复核项 = plan/00 系列表述，前作均已公开） |
 | 提交元数据 | 10 个提交 author/committer **已由个人邮箱改写为 GitHub noreply**（`filter-branch` + gc，`git log` 实证 0 残留） |
 | 发布门接线 | CI `test` job `--mode all`（`fetch-depth:0`）+ `package` job `--mode dist`；`test_repo_gate` 接线守门（**收集总数保持 362**） |
@@ -21,14 +22,13 @@
 | 三基线复跑 | M2 F1 all_pass + M3 9 指标 all_pass + M4 5 指标 all_pass，**无回退** |
 | 扩展项 P2 | **六项全「不做」清零决策**，理由入 plan/00 决策表 |
 
-- **Release/tag 尚未创建**：`plan/05` M7 DoD 明示「release+tag **经用户确认**」（对外发布不可逆）。
-  Release 产物已备好：`dist/` 双 exe 打成 onedir zip（约 67MB，见下方命令）。
+- **Release/tag 已完成**：`v0.1.0`（与 `pyproject.toml` version=0.1.0 一致）已打 tag + 建 Release，
+  附 dist onedir zip；**经用户确认后执行**（DoD 要求）。
 
-## 待办（仅剩 Release，需用户确认）
+## 待办（无阻塞项）
 
-1. **GitHub Release + tag**（**动作前须用户确认**）：产物 = dist onedir 打包 zip + 说明；
-   建议 tag `v0.1.0`（与 `pyproject.toml` version=0.1.0 一致，沿系列惯例）。
-2. 若要归档发布留痕：把脱敏审计报告落 `reports/m7_release_trace.txt`（运行产物，不入仓）。
+M7 全部达成。后续若继续：可考虑把 `reports/m7_release_trace.txt` 的脱敏留痕归档，
+或按需推进 plan/00 决策表里被清零的扩展项（当前结论：六项全不做）。
 
 ## 既定口径清单（动了会打挂测试/基准，先对照再动手）
 
@@ -79,7 +79,7 @@
 - [x] 362 项双解释器绿 + 三基线复跑不回退；
 - [x] 扩展项 P2 六项清零决策入 plan/00；
 - [x] plan/00/05 回写；**HANDOFF-M8 落盘**；registry 16 项不变；
-- [ ] **GitHub Release + tag**（产物已备，**待用户确认**）。
+- [x] **GitHub Release + tag**（`v0.1.0`，经用户确认后执行，附 dist zip）。
 
 ## 关键命令速查
 
