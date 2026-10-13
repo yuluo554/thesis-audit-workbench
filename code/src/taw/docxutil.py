@@ -36,6 +36,9 @@ def fix_zip_timestamps(path):
     with zipfile.ZipFile(str(path), "w", zipfile.ZIP_DEFLATED) as out:
         for name, data in entries:
             info = zipfile.ZipInfo(name, date_time=FIXED_DATE)
+            # create_system 随平台变（Windows=0 / Unix=3）并写进 zip "version made by"：
+            # 不钉死则同一份数据在 Linux 上落盘与 Windows 差一个字节（跨平台位级一致破功）。
+            info.create_system = 0
             info.compress_type = zipfile.ZIP_DEFLATED
             info.external_attr = 0o600 << 16
             out.writestr(info, data)
@@ -132,6 +135,7 @@ def finalize_comments(path):
     with zipfile.ZipFile(str(path), "w", zipfile.ZIP_DEFLATED) as out:
         for name, data in entries:
             info = zipfile.ZipInfo(name, date_time=FIXED_DATE)
+            info.create_system = 0            # 跨平台字节一致（见 fix_zip_timestamps）
             info.compress_type = zipfile.ZIP_DEFLATED
             info.external_attr = 0o600 << 16
             out.writestr(info, data)

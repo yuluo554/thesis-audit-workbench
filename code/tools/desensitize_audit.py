@@ -403,6 +403,9 @@ def selftest(stream):
 
 
 def main(argv=None):
+    from _console import ensure_utf8_stdout
+
+    ensure_utf8_stdout()      # 非 UTF-8 控制台（Windows CI cp1252）打印中文不再崩
     parser = argparse.ArgumentParser(description="脱敏审计（M7 发布门；四步 + 产物扫描）")
     parser.add_argument("--mode", choices=["tracked", "history", "messages", "dist", "all"],
                         default="tracked")

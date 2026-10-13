@@ -107,6 +107,9 @@ def verify(dist_dir, data_src, neutral_dir=None):
 
 
 def main(argv=None):
+    from _console import ensure_utf8_stdout
+
+    ensure_utf8_stdout()      # 非 UTF-8 控制台（Windows CI cp1252）打印中文不再崩
     parser = argparse.ArgumentParser(description="中立目录干净验证五连（M6 DoD）")
     parser.add_argument("dist_dir", help="PyInstaller dist 目录（含 taw/ 或即 taw/）")
     parser.add_argument("--data-src", default=None, help="仓库 data 目录（取测试夹具用）")

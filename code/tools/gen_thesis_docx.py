@@ -351,6 +351,10 @@ def _save_deterministic(doc, path):
     with zipfile.ZipFile(str(path), "w", zipfile.ZIP_DEFLATED) as out:
         for name, data in entries:
             info = zipfile.ZipInfo(name, date_time=(1980, 1, 1, 0, 0, 0))
+            # create_system 随平台变（Windows=0 / Unix=3），会写进 zip "version made by"
+            # → 跨平台字节不一致（实测：Linux CI 重生成与 Windows 冻结件差在 \x00 vs \x03）。
+            # 钉成 0，使冻结件在任何平台上重生成都逐字节一致。
+            info.create_system = 0
             info.compress_type = zipfile.ZIP_DEFLATED
             info.external_attr = 0o600 << 16
             out.writestr(info, data)

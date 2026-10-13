@@ -153,6 +153,9 @@ def main(argv=None):
     """
     import argparse
 
+    from _console import ensure_utf8_stdout
+
+    ensure_utf8_stdout()      # 非 UTF-8 控制台（Windows CI cp1252）打印中文不再崩
     parser = argparse.ArgumentParser(description="构建红线扫描与内嵌数据对账（M6 DoD）")
     parser.add_argument("dist_dir", help="PyInstaller dist 目录（含 taw/ onedir）")
     parser.add_argument("--data-dir", default=None, help="仓库数据目录（默认自动定位）")
