@@ -102,8 +102,9 @@ FORBIDDEN_CACHE_RE = re.compile(
 # 其他绝对路径（复核项，非硬门）
 ABS_PATH_RE = re.compile("(?<![A-Za-z0-9])[A-Za-z]:" + _BRE + _BRE + "[A-Za-z]")
 
-# 系列表述（复核项；前作均已公开时保留，结论记决策记录）
-SERIES_RE = re.compile("系列第")
+# 系列表述（复核项；前作均已公开时保留，结论记决策记录）。
+# 同样片段拼接：否则扫描器会命中自己源码里的这条字面值（自命中 = 复核噪声）。
+SERIES_RE = re.compile("系列" + "第")
 
 HARD = "hard"
 REVIEW = "review"
