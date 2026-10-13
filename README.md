@@ -77,7 +77,7 @@ taw audit bench --line full    # 全文线 5 指标基准
 taw audit bench --line all     # 两线 14 指标一次跑全
 
 cd code
-python -m pytest tests -q   # 361 项（3.8: 360 通过/1 跳过；3.12: 356 通过/5 跳过）
+python -m pytest tests -q   # 362 项（3.8: 361 通过/1 跳过；3.12: 357 通过/5 跳过）
 ```
 
 ## 桌面应用（PySide6 GUI，M6）

@@ -16,7 +16,8 @@
 | PyInstaller onedir | `dist/taw/taw.exe`（8.2MB，console=True）+ `dist/taw/taw-gui.exe`（10.1MB，console=False）共用 COLLECT |
 | 构建红线 | dist 禁区成分 **0 命中**（`_private/`、`.db`/`.env`/`.key`、真实实体关键词）；内嵌数据与仓库 `data/` **逐文件 SHA-256 一致** |
 | 中立目录五连 | 仓库树外 + `PATH=""`；`selfcheck`/`demo`/`parse`/`audit refs`/`audit bench --line all` **五条退出码全 0**，数据来源 `pyinstaller-embedded` |
-| 测试规模 | **361 项收集**；3.8: 360 通过/1 跳过；3.12: 356 通过/5 跳过 |
+| 演示 GIF | `code/tools/make_demo_gif.py` 驱动真实窗口（非离屏）逐帧抓图合成 5 帧动画（会话演示用；产物是运行产物，不入仓） |
+| 测试规模 | **362 项收集**；3.8: 361 通过/1 跳过；3.12: 357 通过/5 跳过 |
 | 三基线复跑 | M2 F1 all_pass + M3 9 指标 all_pass + M4 5 指标 all_pass，**无回退**（`reports/m6_delivery_trace.txt`） |
 | CLI 编码纪律 | cp1252 stdout 不再 `UnicodeEncodeError`（`_ensure_utf8_stdout` + 子进程测试钉死） |
 
@@ -36,7 +37,7 @@ DoD：终验三扫全 0；干净 clone 按 README 逐条跑通（**收集数对�
 2. **构建产物本体扫描**：`python code/tools/check_build_redline.py <dist>/taw`（已就位）——发布前在**最终构建**上再跑一次。
 3. **干净环境验证**：新目录 `git clone`（或 `git archive` 导出的干净树）+ 按 README 逐条跑：
    - `python -m pip install -e "./code[dev,docx,viz]"` → `python -m pytest tests -q`
-   - **收集数对账**：干净环境收集数必须 = 361（防"双绿但悄悄少跑"；本机 skip 数因 extras 而变，收集数不变）
+   - **收集数对账**：干净环境收集数必须 = 362（防"双绿但悄悄少跑"；本机 skip 数因 extras 而变，收集数不变）
    - CLI 速查命令逐条跑通（本文件末尾）
 4. **CI 绿**：`.github/workflows/ci.yml` 现有 **test 四矩阵**（ubuntu/windows × 3.8/3.12）+ **package job**（windows py3.8：onedir 构建 + 红线 + 中立目录五连）——首次 push 后盯四矩阵 + package 全绿。
 5. **GitHub Release + tag**：产物 = dist 双 exe（onedir 打包为 zip）+ 说明；**tag/release 动作必须经用户确认**（对外发布不可逆）。
@@ -81,15 +82,15 @@ DoD：终验三扫全 0；干净 clone 按 README 逐条跑通（**收集数对�
 - [x] PyInstaller onedir **双 exe**（CLI console=True + GUI console=False，共用 COLLECT）；
 - [x] 构建红线断言（dist 禁区 0 命中 + 内嵌数据逐文件对账）；
 - [x] 中立目录干净验证**五连**（仓库树外 + 剥离 PATH，逐条真实退出码）；
-- [x] 全量 pytest 双解释器绿（**361 项收集**）+ 三基线复跑不回退；
+- [x] 全量 pytest 双解释器绿（**362 项收集**）+ 三基线复跑不回退；
 - [x] plan/00/04/05 回写；**HANDOFF-M7 落盘**；registry 16 项不变。
 
 ## 关键命令速查
 
 ```bash
 cd <repo>/code
-PYTHONDONTWRITEBYTECODE=1 py -m pytest tests -q          # 全量（3.8，360 通过 / 1 跳过）
-PYTHONDONTWRITEBYTECODE=1 py -3.12 -m pytest tests -q    # 全量（3.12，356 通过 / 5 跳过）
+PYTHONDONTWRITEBYTECODE=1 py -m pytest tests -q          # 全量（3.8，361 通过 / 1 跳过）
+PYTHONDONTWRITEBYTECODE=1 py -3.12 -m pytest tests -q    # 全量（3.12，357 通过 / 5 跳过）
 PYTHONDONTWRITEBYTECODE=1 py -X utf8 -m taw selfcheck
 PYTHONDONTWRITEBYTECODE=1 py -X utf8 -m taw demo
 PYTHONDONTWRITEBYTECODE=1 py -X utf8 -m taw audit bench --line all --report ../reports/bench_all.json

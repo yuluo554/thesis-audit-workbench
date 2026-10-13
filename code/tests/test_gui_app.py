@@ -10,6 +10,7 @@
 
 import json
 import os
+import sys
 from pathlib import Path
 
 import pytest
@@ -145,3 +146,29 @@ def test_window_exports_report_and_topology(window, tmp_path):
 def test_cli_gui_check_exits_zero(capsys):
     assert main(["gui", "--check"]) == EXIT_OK
     assert "启动自检通过" in capsys.readouterr().out
+
+
+# ---- 演示 GIF 工具（plan/05 M6 可演示物：exe + 演示 GIF）----
+
+
+def test_demo_gif_builder_assembles_frames(tmp_path):
+    """演示 GIF 合成器：多帧 PNG → 单文件动画（M6 可演示物的产物路径）。
+
+    Pillow 未装时跳过（演示脚本按需运行，不进 CI 依赖面）。
+    """
+    PIL = pytest.importorskip("PIL.Image", reason="演示 GIF 合成需要 Pillow（按需运行）")
+    sys.path.insert(0, str(REPO_ROOT / "code" / "tools"))
+    import make_demo_gif
+
+    frames = []
+    for i, color in enumerate([(255, 0, 0), (0, 255, 0), (0, 0, 255)]):
+        img = PIL.new("RGB", (200, 120), color)
+        p = tmp_path / "f{}.png".format(i)
+        img.save(str(p))
+        frames.append((p, "frame{}".format(i)))
+
+    out = make_demo_gif.build_gif(frames, tmp_path / "demo.gif", duration_ms=100)
+    assert out.is_file()
+    gif = PIL.open(str(out))
+    assert gif.n_frames == 3
+    assert gif.size[0] <= 1180
