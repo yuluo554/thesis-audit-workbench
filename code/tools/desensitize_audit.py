@@ -23,6 +23,7 @@
 """
 
 import argparse
+import os
 import re
 import subprocess
 import sys
@@ -192,12 +193,25 @@ _WALK_SKIP_DIRS = {".git", "__pycache__", ".pytest_cache", "build", "dist",
                    ".venv", "venv", "reports", "_private"}
 
 
+def _walk_skip(entry_name, dir_path):
+    """遍历时是否剪掉该目录。
+
+    除固定名单外，**凡含 `pyvenv.cfg` 的目录一律剪掉**——干净环境验证常在导出树里
+    就地建 venv（`.venv`/`.venv312` 等任意名），其 site-packages 满是第三方包的
+    邮箱/许可证文本，若被当成"跟踪树"扫描会整片误报（实测：`.venv312` 命中数百项）。
+    虚拟环境从来不是发布内容，按特征识别比按名字猜可靠。
+    """
+    if entry_name in _WALK_SKIP_DIRS:
+        return True
+    return (Path(dir_path) / "pyvenv.cfg").is_file()
+
+
 def _tracked_files():
     """跟踪文件清单：优先 `git ls-files`；无 git（干净导出树）时退回文件系统遍历。
 
     干净环境验证允许用 `git archive` 导出的树（内容恰为跟踪树，且天然不含
-    `_private/`），此时没有 `.git`，`git ls-files` 不可用——退回遍历并排除
-    常见忽略目录，使同一套守门在"开发仓"与"发布导出树"上都成立。
+    `_private/`），此时没有 `.git`，`git ls-files` 不可用——退回**剪枝遍历**
+    （跳过忽略目录与虚拟环境），使同一套守门在"开发仓"与"发布导出树"上都成立。
     """
     if (REPO_ROOT / ".git").exists():
         out = _git("ls-files", "-z").stdout
@@ -205,14 +219,12 @@ def _tracked_files():
         if files:
             return files
     walk = []
-    for path in sorted(REPO_ROOT.rglob("*")):
-        if not path.is_file():
-            continue
-        rel = path.relative_to(REPO_ROOT)
-        if any(part in _WALK_SKIP_DIRS for part in rel.parts):
-            continue
-        walk.append(rel.as_posix())
-    return walk
+    for dirpath, dirnames, filenames in os.walk(str(REPO_ROOT)):
+        dirnames[:] = [d for d in dirnames if not _walk_skip(d, os.path.join(dirpath, d))]
+        for name in filenames:
+            rel = Path(dirpath, name).relative_to(REPO_ROOT)
+            walk.append(rel.as_posix())
+    return sorted(walk)
 
 
 def _is_binary(path):

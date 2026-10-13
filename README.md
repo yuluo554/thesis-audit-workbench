@@ -58,7 +58,7 @@ cd thesis-audit-workbench
 python -m venv .venv
 # Windows: .venv\Scripts\activate    POSIX: source .venv/bin/activate
 python -m pip install -U pip
-python -m pip install -e "./code[dev,docx,viz]"
+python -m pip install -e "./code[dev,docx,viz,gui]"   # 含 gui：收集数对账须到 362（缺 gui 则 GUI 模块整模块 skip，只剩 353）
 
 taw --version
 taw selfcheck        # 环境自检：版本 / 数据目录 / 可选依赖
@@ -77,8 +77,13 @@ taw audit bench --line full    # 全文线 5 指标基准
 taw audit bench --line all     # 两线 14 指标一次跑全
 
 cd code
-python -m pytest tests -q   # 362 项（3.8: 361 通过/1 跳过；3.12: 357 通过/5 跳过）
+python -m pytest tests -q   # 收集 362 项（干净环境 356 通过/6 跳过；本机装 com extras 后 361/1）
 ```
+
+> **收集数对账**：干净环境收集数必须 = **362**（`[gui]` 缺装会让 GUI 模块整模块 skip、
+> 只剩 353——这正是"双绿但悄悄少跑"的形态，故快速开始装 `[dev,docx,viz,gui]`）。
+> 跳过项随 extras 变（`[com]` 未装 → 5 项 Word/WPS 实机组 skip；无 Pillow → 演示 GIF 合成 1 项 skip），
+> **收集数不变**。
 
 ## 桌面应用（PySide6 GUI，M6）
 
