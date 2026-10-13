@@ -25,7 +25,20 @@ def test_gitignore_covers_env_and_private():
     assert "*_private/" in text
 
 
-def test_workflows_parse_and_have_jobs():
+def test_ci_workflow_and_publish_gate():
+    """CI workflow 合法性 + M7 发布门接线与审计器自检（合并为一测，收集总数不变）。
+
+    - workflow 非法 YAML 在 GitHub 端表现为"jobs=0 静默不建 job"，本地解析是唯一便宜真验；
+    - 发布纪律（plan/03 §五第 10 条）：CI 必须真跑脱敏审计，否则脱敏退化成
+      "本机人工跑过一次"；另须 `fetch-depth: 0`（浅克隆会让历史扫描静默空跑 = 假绿）；
+    - 审计器本体（`code/tools/desensitize_audit.py`）**自检 + 跟踪树硬门**：
+      `--selftest` 用程序化合成夹具做阳性/阴性对照（不读仓库、不落真实敏感值）；
+      `run_tracked()` 对本跟踪树跑一遍硬门——测试自身也在被扫范围内，
+      即扫描器不会误伤正常源码。全历史/提交元数据/dist 三面由 CI `--mode all|dist` 真跑。
+    """
+    import importlib.util
+    import io
+
     wf_dir = REPO_ROOT / ".github" / "workflows"
     files = sorted(wf_dir.glob("*.yml")) + sorted(wf_dir.glob("*.yaml"))
     assert files, "CI workflow 缺失"
@@ -37,6 +50,26 @@ def test_workflows_parse_and_have_jobs():
         for job_name, job in jobs.items():
             assert job.get("runs-on"), "{}#{} 缺 runs-on".format(wf.name, job_name)
             assert job.get("steps"), "{}#{} 缺 steps".format(wf.name, job_name)
+
+    workflow = (REPO_ROOT / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
+    assert "desensitize_audit.py --mode all" in workflow, \
+        "CI 未跑 --mode all（跟踪树/全历史/提交元数据）"
+    assert "desensitize_audit.py --mode dist" in workflow, \
+        "CI 未跑 --mode dist（构建产物本体）"
+    assert re.search(r"fetch-depth:\s*0\b", workflow), \
+        "actions/checkout 未配 fetch-depth: 0（历史脱敏扫描会静默空跑）"
+
+    spec = importlib.util.spec_from_file_location(
+        "desensitize_audit", REPO_ROOT / "code" / "tools" / "desensitize_audit.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+
+    stream = io.StringIO()
+    assert module.selftest(stream) == 0, stream.getvalue()
+    assert "selftest][OK]" in stream.getvalue()
+
+    fatal = module.hard_hits([("tracked", hit) for hit in module.run_tracked()])
+    assert not fatal, "跟踪树存在硬门命中：%s" % [str(h) for _, h in fatal]
 
 
 def test_pyproject_contract():

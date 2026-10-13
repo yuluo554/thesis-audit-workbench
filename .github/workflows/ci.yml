@@ -22,6 +22,9 @@ jobs:
       QT_QPA_PLATFORM: offscreen
     steps:
       - uses: actions/checkout@v4
+        with:
+          # M7 脱敏审计的历史扫描依赖完整 git 历史；默认浅克隆会让它静默退化为空跑。
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
@@ -34,6 +37,10 @@ jobs:
         run: python -m pip install -e ".[gui]"
       - name: Run tests
         run: python -m pytest tests -v
+      - name: Desensitize audit self-test (阳性/阴性对照, 不读仓库)
+        run: python tools/desensitize_audit.py --selftest
+      - name: Desensitize audit (发布门：跟踪树 + 全历史 + 提交元数据 零硬门命中)
+        run: python tools/desensitize_audit.py --mode all
       - name: CLI smoke
         run: |
           taw --version
@@ -72,5 +79,7 @@ jobs:
         run: python -m PyInstaller tools/taw.spec --noconfirm --clean --distpath ../dist --workpath ../build
       - name: Build redline (禁区成分扫描 + 内嵌数据逐文件对账)
         run: python tools/check_build_redline.py ../dist/taw
+      - name: Desensitize audit on dist tree (产物本体：个人标记 + 禁区成分 零命中)
+        run: python tools/desensitize_audit.py --mode dist
       - name: Neutral-dir clean verification (仓库树外 + 剥离 PATH, 五连逐条取真实退出码)
         run: python tools/verify_neutral_dir.py ../dist --data-src ../data
