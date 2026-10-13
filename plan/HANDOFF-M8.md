@@ -111,10 +111,10 @@ print('M2 F1:', r1['gate']); print('M3 9指标:', r2['gate']['all_pass']); print
 ```
 
 ```bash
-# Release 产物打包（待用户确认后执行；仓库根）
+# Release 产物打包 + 发布（M7 已执行，此处留档复现；仓库根）
 cd dist
 py -c "import shutil; shutil.make_archive(r'<输出目录>/thesis-audit-workbench-v0.1.0-win64', 'zip', '.', 'taw')"
-# 建 tag + Release（示例；tag 名与 pyproject version 一致）
+# 建 tag + Release（tag 名与 pyproject version 一致）
 git tag -a v0.1.0 -m "v0.1.0 毕业论文全流程审计工作台（CLI + PySide6 桌面 + 免安装 exe）"
 git push origin v0.1.0
 gh release create v0.1.0 <zip路径> -R yuluo554/thesis-audit-workbench \
