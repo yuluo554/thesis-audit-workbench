@@ -187,9 +187,32 @@ def _git(*args):
     )
 
 
+# 无 git 时的目录级排除（`git archive` 导出的干净树没有 .git，但内容 == 跟踪树）
+_WALK_SKIP_DIRS = {".git", "__pycache__", ".pytest_cache", "build", "dist",
+                   ".venv", "venv", "reports", "_private"}
+
+
 def _tracked_files():
-    out = _git("ls-files", "-z").stdout
-    return [name for name in out.split("\0") if name]
+    """跟踪文件清单：优先 `git ls-files`；无 git（干净导出树）时退回文件系统遍历。
+
+    干净环境验证允许用 `git archive` 导出的树（内容恰为跟踪树，且天然不含
+    `_private/`），此时没有 `.git`，`git ls-files` 不可用——退回遍历并排除
+    常见忽略目录，使同一套守门在"开发仓"与"发布导出树"上都成立。
+    """
+    if (REPO_ROOT / ".git").exists():
+        out = _git("ls-files", "-z").stdout
+        files = [name for name in out.split("\0") if name]
+        if files:
+            return files
+    walk = []
+    for path in sorted(REPO_ROOT.rglob("*")):
+        if not path.is_file():
+            continue
+        rel = path.relative_to(REPO_ROOT)
+        if any(part in _WALK_SKIP_DIRS for part in rel.parts):
+            continue
+        walk.append(rel.as_posix())
+    return walk
 
 
 def _is_binary(path):
