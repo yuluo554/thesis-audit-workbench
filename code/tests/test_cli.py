@@ -45,6 +45,36 @@ def test_demo_lists_all_lines(capsys):
         assert module_id in out
 
 
+def test_parse_without_path_is_usage_error(capsys):
+    assert main(["parse"]) == 2
+    assert "用法错误" in capsys.readouterr().out
+
+
+def test_parse_refs_file_ok(capsys):
+    refs = REPO_ROOT / "data" / "frozen" / "refs" / "refs_clean.bib"
+    assert main(["parse", str(refs)]) == EXIT_OK
+    out = capsys.readouterr().out
+    assert "条目 24" in out
+
+
+def test_parse_missing_file_is_usage_error(capsys):
+    assert main(["parse", str(REPO_ROOT / "data" / "no-such-file.txt")]) == 2
+    assert "失败" in capsys.readouterr().out
+
+
+def test_parse_thesis_docx_ok(capsys):
+    docx_path = REPO_ROOT / "data" / "frozen" / "thesis" / "thesis_synthetic.docx"
+    if not docx_path.is_file():
+        pytest.skip("docx fixture 缺失")
+    try:
+        import docx  # noqa: F401
+    except ImportError:
+        pytest.fail("parse docx 测试需要 docx extras（CI/README 已装；缺装=环境配置错误）")
+    assert main(["parse", str(docx_path)]) == EXIT_OK
+    out = capsys.readouterr().out
+    assert "段 62" in out and "对象 9" in out
+
+
 def test_both_entry_points_run():
     """console_script `taw` 与 `python -m taw` 双入口契约（要求 editable 安装）。
 
@@ -61,3 +91,148 @@ def test_both_entry_points_run():
         proc = subprocess.run(cmd, capture_output=True, text=True)
         assert proc.returncode == 0, "入口失败: {} -> {}".format(cmd, proc.stderr)
         assert __version__ in proc.stdout
+
+
+# ---- M3：audit 子命令 ----
+
+
+def test_audit_without_target_is_usage_error(capsys):
+    assert main(["audit"]) == 2
+    assert "用法错误" in capsys.readouterr().out
+
+
+def test_audit_refs_ok_and_exit_zero(capsys):
+    table = REPO_ROOT / "data" / "frozen" / "audit" / "refs_table.txt"
+    body = REPO_ROOT / "data" / "frozen" / "audit" / "body.txt"
+    assert main(["audit", "refs", str(table), "--body", str(body)]) == EXIT_OK
+    out = capsys.readouterr().out
+    assert "文献线审计" in out and "REF-04-citation" in out
+
+
+def test_audit_refs_missing_file_is_usage_error(capsys):
+    assert main(["audit", "refs", str(REPO_ROOT / "data" / "no-such.txt")]) == 2
+    assert "失败" in capsys.readouterr().out
+
+
+def test_audit_refs_json_and_report(tmp_path, capsys):
+    import json
+    table = REPO_ROOT / "data" / "frozen" / "audit" / "refs_table.txt"
+    body = REPO_ROOT / "data" / "frozen" / "audit" / "body.txt"
+    report = tmp_path / "r.json"
+    assert main(["audit", "refs", str(table), "--body", str(body),
+                 "--json", "--report", str(report)]) == EXIT_OK
+    data = json.loads(capsys.readouterr().out)
+    assert data["table"]["entries"] == 9
+    assert report.is_file()
+
+
+def test_audit_refs_topology_requires_body(capsys):
+    table = REPO_ROOT / "data" / "frozen" / "audit" / "refs_table.txt"
+    assert main(["audit", "refs", str(table), "--topology", "x.html"]) == 2
+    assert "需要同时给 --body" in capsys.readouterr().out
+
+
+def test_audit_refs_topology_zero_external(tmp_path, capsys):
+    from taw import reftopo
+    table = REPO_ROOT / "data" / "frozen" / "audit" / "refs_table.txt"
+    body = REPO_ROOT / "data" / "frozen" / "audit" / "body.txt"
+    out = tmp_path / "topo.html"
+    assert main(["audit", "refs", str(table), "--body", str(body),
+                 "--topology", str(out)]) == EXIT_OK
+    assert reftopo.assert_no_external_refs(out.read_text(encoding="utf-8")) is True
+
+
+def test_audit_refs_library_write(tmp_path, capsys):
+    table = REPO_ROOT / "data" / "frozen" / "audit" / "refs_table.txt"
+    db = tmp_path / "lib.db"
+    assert main(["audit", "refs", str(table), "--library", str(db)]) == EXIT_OK
+    assert db.is_file()
+    assert "文献库入库完成" in capsys.readouterr().out
+
+
+def test_audit_bench_ok(capsys):
+    assert main(["audit", "bench"]) == EXIT_OK
+    out = capsys.readouterr().out
+    assert "9 指标" in out or "9 指标" in out
+    assert "守门: 全过" in out
+
+
+def test_audit_bench_json(capsys):
+    import json
+    assert main(["audit", "bench", "--json"]) == EXIT_OK
+    data = json.loads(capsys.readouterr().out)
+    assert data["gate"]["all_pass"] is True
+
+
+def test_audit_bench_report(tmp_path, capsys):
+    rep = tmp_path / "bench.json"
+    assert main(["audit", "bench", "--report", str(rep)]) == EXIT_OK
+    assert rep.is_file()
+
+
+# ---- M4：audit thesis 与 bench --line ----
+
+
+def _require_docx_cli():
+    try:
+        import docx  # noqa: F401
+    except ImportError:
+        pytest.fail("audit thesis 测试需要 docx extras（CI/README 已装；缺装=环境配置错误）")
+
+
+def test_audit_thesis_ok_and_exit_zero(capsys):
+    _require_docx_cli()
+    docx_path = REPO_ROOT / "data" / "frozen" / "thesis" / "thesis_synthetic.docx"
+    assert main(["audit", "thesis", str(docx_path)]) == EXIT_OK
+    out = capsys.readouterr().out
+    assert "全文线审计" in out and "FULL-01-xref" in out
+    assert "AIGC 伦理边界" in out
+
+
+def test_audit_thesis_missing_file_is_usage_error(capsys):
+    assert main(["audit", "thesis", str(REPO_ROOT / "data" / "no-such.docx")]) == 2
+    assert "失败" in capsys.readouterr().out
+
+
+def test_audit_thesis_json_and_report(tmp_path, capsys):
+    _require_docx_cli()
+    import json
+    docx_path = REPO_ROOT / "data" / "frozen" / "thesis" / "thesis_synthetic.docx"
+    report = tmp_path / "full.json"
+    assert main(["audit", "thesis", str(docx_path), "--json", "--report", str(report)]) == EXIT_OK
+    data = json.loads(capsys.readouterr().out)
+    assert data["doc"]["paragraphs"] == 62
+    assert report.is_file()
+
+
+def test_audit_thesis_school_profile(capsys):
+    _require_docx_cli()
+    docx_path = REPO_ROOT / "data" / "frozen" / "thesis" / "thesis_synthetic.docx"
+    assert main(["audit", "thesis", str(docx_path), "--profile", "school-demo"]) == EXIT_OK
+    out = capsys.readouterr().out
+    assert "全文线审计" in out
+
+
+def test_audit_bench_full_line_ok(capsys):
+    assert main(["audit", "bench", "--line", "full"]) == EXIT_OK
+    out = capsys.readouterr().out
+    assert "全文线 5 指标" in out and "守门: 全过" in out
+
+
+def test_audit_bench_all_json(capsys):
+    import json
+    assert main(["audit", "bench", "--line", "all", "--json"]) == EXIT_OK
+    data = json.loads(capsys.readouterr().out)
+    assert data["refs"]["gate"]["all_pass"] is True
+    assert data["full"]["gate"]["all_pass"] is True
+
+
+def test_audit_thesis_review_topology_zero_external(tmp_path, capsys):
+    """综述聚类 HTML（FULL-05 可视化）落盘且 0 外链。"""
+    _require_docx_cli()
+    from taw import reftopo
+    docx_path = REPO_ROOT / "data" / "frozen" / "thesis" / "thesis_synthetic.docx"
+    out = tmp_path / "rev.html"
+    assert main(["audit", "thesis", str(docx_path), "--review-topology", str(out)]) == EXIT_OK
+    assert out.is_file()
+    assert reftopo.assert_no_external_refs(out.read_text(encoding="utf-8")) is True

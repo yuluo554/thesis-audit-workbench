@@ -2,6 +2,7 @@
   "schema_version": 1,
   "bench_id": "halluref-bench",
   "version": "v0.1-format-freeze",
+  "status": "v1 全量已于 M3（2026-10-13）生成入库：见 halluref_v1.jsonl + halluref_v1_manifest.json（本文件保留为格式冻结与示例契约存档）",
   "format": {
     "spec": "FORMAT.md",
     "serialization": "jsonl（UTF-8 无 BOM，每行一个 JSON 对象）",
@@ -15,14 +16,19 @@
     "target_v1": 200,
     "split": {"genuine": 100, "hallucinated": 100},
     "hallucinated_composition": "6 单类 × 16 + 复合 4",
-    "generation": "随 M3（REF-06）以 taw.rng 固定 seed 一次性生成入库"
+    "generation": "✅ 已于 M3（2026-10-13）由 code/tools/gen_halluref_bench.py（taw.rng seed=20261013）生成入库；位级一致 + CR 守门见 test_data_gate"
   },
   "classes_v1": ["doi_prefix_unknown", "isbn_checksum_invalid", "year_out_of_range", "page_range_inverted", "impossible_field_combo", "self_referential_title"],
   "files": {
     "spec": "FORMAT.md",
-    "examples": "halluref_v1_examples.jsonl（12 条：genuine 6 + hallucinated 6）"
+    "examples": "halluref_v1_examples.jsonl（12 条：genuine 6 + hallucinated 6）",
+    "full_v1": "halluref_v1.jsonl（200 条）+ halluref_v1_manifest.json",
+    "generator": "code/tools/gen_halluref_bench.py"
   },
-  "counts": {"examples_total": 12, "examples_genuine": 6, "examples_hallucinated": 6},
-  "determinism": "示例为静态冻结文件；全量库生成时遵守无时间戳/两次运行位级一致/CR 守门纪律",
+  "counts": {
+    "examples_total": 12, "examples_genuine": 6, "examples_hallucinated": 6,
+    "v1_total": 200, "v1_genuine": 100, "v1_hallucinated": 100
+  },
+  "determinism": "示例与全量库均为固定 seed 产物；无时间戳/两次运行位级一致/CR 守门纪律（test_data_gate 锁定）",
   "note": "公开范围：随仓发布（plan/05 §一）；伦理口径：本基准只测幻觉文献的检测能力，不提供任何生成幻觉文献的通路"
 }

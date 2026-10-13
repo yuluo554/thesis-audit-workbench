@@ -4,7 +4,7 @@
 **两条审计线**：①文献审计线（GB/T 7714 双标尺·对账·去重·AI 幻觉画像·反向引用+一键插入·论证链拓扑·本地文献库）②全文审计线（图表/公式/交叉引用审计重排·学校格式核查·术语与数字用法·AIGC 痕迹自检·综述辅助·结构检查单）
 **方法论**：ai-tool-project-sprint（条款库+四层 versioned ruleset+合成真值基准+证据链+离线交付）
 **项目系列**：①建造（已发布）②电力 ③医疗 ④招投标 ⑤食品 ⑥发票 ⑦简历 ⑧结构加固 ⑨钢结构 ⑩脚手架 → ⑪本项目 → ⑫个税计算器
-**命名约定**：本地目录 `10-7-thesis-audit-workbench`（`10-7`=2026-10-07 日期标签，用户指定；v3 时由 `10-7-gbt7714-reference-checker` 改名）；GitHub 仓库名发布时用纯净名，待发布时确认。
+**命名约定**：本地目录 `10-7-thesis-audit-workbench`（`10-7`=2026-10-07 日期标签，用户指定；v3 时由 `10-7-gbt7714-reference-checker` 改名）；**GitHub 仓库名 = `thesis-audit-workbench`（纯净名，去日期前缀）**，沿用系列惯例 `yuluo554/<kebab-name>`；署名 `yuluo554`（LICENSE/pyproject 一致）。
 **定位宣言（v3）**：覆盖开题→写作→完稿→送审全流程的确定性论文审计台——LLM 聊天给不了持久状态、可审计证据与全量批处理，本工具是 AI 时代的论文质量防线。
 
 ## 文档索引
@@ -14,11 +14,15 @@
 | [01-题目详细定义.md](01-题目详细定义.md) | 项目题全文 v3（双审计线 16 模块/评分/锚点/边界） | ✅ v3 定稿 2026-10-07 |
 | [02-需求解读.md](02-需求解读.md) | 痛点→能力转译、FR 清单带优先级、NFR、边界守卫、验收口径 | ✅ M0 定稿 2026-10-07 |
 | [03-架构与技术选型.md](03-架构与技术选型.md) | 双审计线引擎 + 条款库 + 四层 ruleset + COM 外挂；目录布局与横切纪律 | ✅ M0 定稿 2026-10-07 |
-| [04-模块详设.md](04-模块详设.md) | 条目/论文参数卡 schema、规则表、标记体系解析、AIGC 特征表 | ✅ M0 定稿 2026-10-07 |
-| [05-数据计划与里程碑.md](05-数据计划与里程碑.md) | 生成器双件套、确定性纪律、M0–M7 DoD 与收尾纪律 | ✅ M0 定稿 2026-10-07 |
+| [04-模块详设.md](04-模块详设.md) | 条目/论文参数卡 schema、规则表、标记体系解析、AIGC 特征表；§九=M2 实现级定稿，§十=M3 文献线引擎实现级定稿，§十一=M4 全文线引擎实现级定稿，**§十二=M5 基准全集固化** | ✅ M0 定稿+M2 §九+M3 §十+M4 §十一+M5 §十二 |
+| [05-数据计划与里程碑.md](05-数据计划与里程碑.md) | 生成器双件套、确定性纪律、M0–M7 DoD 与收尾纪律 | ✅ M0 定稿（里程碑行随 M 回写） |
 | 06-决策记录.md | 重大决策表 | ✅ 初始化（见下） |
 | [HANDOFF-M1.md](HANDOFF-M1.md) | M1 数据先行交接快照（进度/待办/既定口径/环境坑/DoD/命令速查） | ✅ M0 收尾落盘 2026-10-07 |
 | [HANDOFF-M2.md](HANDOFF-M2.md) | M2 解析层交接快照（进度/待办/既定口径/环境坑/DoD/命令速查） | ✅ M1 收尾落盘 2026-10-07 |
+| [HANDOFF-M3.md](HANDOFF-M3.md) | M3 文献线引擎交接快照 | ✅ M2 收尾落盘 2026-10-07 |
+| [HANDOFF-M4.md](HANDOFF-M4.md) | M4 全文线引擎交接快照 | ✅ M3 收尾落盘 2026-10-13 |
+| [HANDOFF-M5.md](HANDOFF-M5.md) | M5 基准全集交接快照 | ✅ M4 收尾落盘 2026-10-13 |
+| [HANDOFF-M6.md](HANDOFF-M6.md) | M6 桌面交付交接快照 | ✅ M5 收尾落盘 2026-10-13 |
 
 ## 决策记录
 
@@ -37,19 +41,35 @@
 | 2026-10-07 | 依赖分层 | extras：dev/docx/viz/gui/com/pkg；M0 core 零依赖；dev=pytest+pyyaml（测试期 import 覆盖守门） |
 | 2026-10-07 | 换行纪律 | 本机 core.autocrlf=true 实测 → `.gitattributes * text=auto eol=lf` 入仓 + test_repo_gate 守门（字节冻结 fixtures 的前置） |
 | 2026-10-07 | M0 交付范围 | 本会话=计划（plan/02-05）+骨架+本地提交；**远端建仓/push 待用户确认**（连同 D-1 仓库名、D-2 署名拍板） |
+| 2026-10-07 | **D-1/D-2 拍板（用户确认）** | 仓库名 = `thesis-audit-workbench`（去日期前缀的纯净名，沿用系列惯例 `yuluo554/<kebab-name>`）；署名 = `yuluo554`（与既有项目一致，LICENSE/pyproject 无需改）。**远端建仓与 push 仍按计划留待 M7 脱敏发布**（M0 行"待确认"至此解除） |
 | 2026-10-07 | **M1 数据先行完成** | 双生成器（gen_references seed=20261007 五类×噪声×错误注入 / gen_thesis_docx 声明式四类植入）+ 字节冻结 fixtures 入仓 + 位级一致/CR/真值守门；45 测试双解释器绿；REF-03 翻转 done |
 | 2026-10-07 | **查证发现：GB/T 7713.1 已换版** | 现行版本 = **GB/T 7713.1-2025《信息与文献 编写规则 第1部分：学位论文》**（2025-08-01 发布 / 2026-02-01 实施，std.samr.gov.cn 在案）；2006 版《学位论文编写规则》废止；学校格式核查条款按 2025 版核对 |
 | 2026-10-07 | **条文查证渠道收口（M1）** | 身份核实 ✅：std.samr.gov.cn（JSON API）+ openstd.samr.gov.cn；GB/T 7714 两版**全文官方不可得**（2015 废止不提供 / 2025 采标版权不提供——openstd 官方声明原文在案）→ 条款按纪律 pending，不空转；ISO 26324 pending（iso.org 403、代理 127.0.0.1:7897 实测失效）；doi.org handle API + api.crossref.org 官方行为实测 ✅；抓取原始件存 data/_private/sources/（不入仓） |
 | 2026-10-07 | **D-4 HalluRef-Bench 规模拍板** | v1 = 200 条（genuine 100 + hallucinated 100 = 6 单类×16 + 复合 4）；格式冻结 v0.1（FORMAT.md + 12 条示例）；全量随 M3 以固定 seed 生成入库 |
 | 2026-10-07 | docx 确定性收口（M1 实测） | python-docx writestr 会把**当前时间**写进 zip 条目（同秒两次才一致）→ 保存后重写 zip 固定 1980-01-01；重写后 1.1.2(3.8)/1.2.0(3.12) 产出字节一致；守门测试缺 docx **大声失败不静默跳过**，CI/README 增装 docx extras |
+| 2026-10-07 | **M2 解析层完成** | RefCard/DocObjectCard/证据链 schema 落地（04 §九）；REF-01 四格式解析器 clean/light F1=1.0、heavy≥0.98；论文解析器 style_tree 62 段逐段一致+域/对象/悬空/幽灵全对账；`taw parse` 命令；89 测试双解释器绿；REF-01 翻转 done |
+| 2026-10-07 | **M2 口径裁定（04 §九）** | ①文献解析 body 段语义**按结构推断不信类型标识**（标识错误是 M3 finding）；②噪声 flag 只记真跨行的条目（防 clean 文件 confidence 被系统性压低）；③F1 载体语义豁免（ris 无 edition、txt/csv 不渲染 edition==1）；④entry_type 不进解析 F1；⑤f1bench 对账 canonical 侧用入仓 `refs_logic.json`（零 tools 依赖，打包可用） |
+| 2026-10-07 | **M2 发现 M1 合成论文真值矛盾三处** | 正文含真值未记录的提及（段22 图3-1、段41 式(4-1)）、声明的幽灵对象被正文提及（段49 图4-2）→ 改生成器措辞 + **整目录重生成**（冻结纪律）；新增生成器措辞纪律注释：幽灵对象正文零编号提及 |
+| 2026-10-13 | **M3 规则激活裁定（关键）** | 四层 ruleset 规则 status 全 pending（GB/T 7714 全文官方不可得）→ 拆分为**正交双字段**：`status`=条款核对状态（决定能否引标准原文，保持 pending）、`activation`（active/gated）=检测生效开关（M3 文献线规则置 active 并挂 basis）。缺 activation 时回退 `status=="verified"`（M1 口径兼容）；findings 一律带 `clause_status`+`basis`，报告标注「条款待核对」，**NFR-04 不被削弱**（见 04 §十 10.1） |
+| 2026-10-13 | **M3 判定纪律（误报 0 优先）** | 只判确定性可判项；证据不充分→manual_confirm 不硬判。三处实测裁定：①缺项判定须过「载体可表达性」（字段须在同文件同批次出现过，豁免 ris 无 edition 类差异）+「噪声门控」（带断行/连字符/空格修复 flag 时不判，year 抗噪豁免）；②著者「恰 3 位带等」不可区分（3 位误加 vs >3 正确截断，渲染串相同）→ 默认静默；③标点损伤被 M2 清洗归一，须在残留 flag/原文上判（见 04 §十 10.2） |
+| 2026-10-13 | **M3 实测坑：pyvis in_line 仍带 CDN** | pyvis `cdn_resources="in_line"` 生成的 HTML 仍含 bootstrap CDN 的 `<link>/<script>`（plan/03 §五.3 预警的坑）→ 新增 `reftopo.sanitize_external` 剥离外部资源标签并过 `assert_no_external_refs` 硬断言；pyvis 缺装时走零依赖内置渲染器 |
+| 2026-10-13 | **M3 合成数据白名单扩展** | M1 生成器所造 ISBN 校验位非真实（合成纪律产物，非幻觉信号）→ 登记 15 个虚构出版者段白名单，与 DOI `10.9999` 同一口径；HalluRef hallucinated 侧的 `10.7777` **刻意保持未登记**（须作可检信号，FORMAT.md 冻结口径） |
+| 2026-10-13 | **M3 文献线引擎完成** | REF-02..09 全部实现；判定引擎骨架（activation/basis 与 status 正交）；taw.refcheck/refcite/refdedup/reffake/refrec/renumber/reftopo/reflib/docxutil/refbench/refaudit 落地；HalluRef-Bench v1 全量 200 条固定 seed 入库；`taw audit refs`/`audit bench` 命令；9 指标全过（误报 0 / 误合并 0 / 幻觉 genuine 误报 0 / 重排 100% / 双标尺全检出）；208 项双解释器绿；M2 F1 基线不回退 |
+| 2026-10-13 | **M4 全文线规则翻转（gated→active）** | 五条全文线国标规则（TAW-xref-dangling/ghost、GBT15835-num、GBT7713-struct、TAW-aigc-signal）由 `gated` 翻转 `active`（各挂 basis，条款仍 pending）；M4 新增 4 条：TAW-style-01（样式）/TAW-term-01（术语）/TAW-xref-order-01（编号断档）/TAW-struct-checklist-01（结构检查单）；见 04 §十一 11.1 |
+| 2026-10-13 | **M4 判定口径裁定（误报 0 优先）** | ①编号断档只在**同章同类**内比较（章间各自起编）；②AIGC 段落级 finding **仅由词汇型特征（aigc-02/03/04）越阈产出**，句长 CV（aigc-01）只进全文风险分布（中文段落 CV 天然偏低，单用会大面积误报）；③术语只报变体字面出现处，空白型变体（归一后同形）双向判（伪空格 T2 + 缺空格 T4）；④数字只在同值两形态并存时报，跳过参考文献与标题段；⑤学校格式核查只判结构性可判项（章标题层级/题注样式/正文误用标题）；见 04 §十一 11.2 |
+| 2026-10-13 | **M4 AIGC 伦理边界硬编码** | FULL-04 输出恒为 `manual_confirm`（风险提示≠判定）；`ETHICS_STATEMENT` 强制声明段 + `assert_no_rewrite_surface()` 运行时守卫 + 守卫测试断言仓库不提供任何改写/降重通路（NFR/边界守卫 §四.4） |
+| 2026-10-13 | **M4 全文线引擎完成** | FULL-01..06 全部实现；taw.figref/schoolfmt/termnum/aigccheck/reviewcl/structcheck/fullbench/fullaudit 落地；`frozen/review/`（综述语料 20 条）与 `knowledge/terminology.json`、`rulesets/layer4_school_demo.json` 新增；全文线 **5 指标全过**（悬空/幽灵 2/2+2/2、样式 FP=0、术语 4/4、AIGC 3/3 且 FP=0、聚类纯度 1.0）；`taw audit thesis` 全链 + `bench --line refs\|full\|all`；292 项双解释器绿；**M2 F1 + M3 9 指标复跑不回退** |
+| 2026-10-13 | **M5 基准全集收口（14 指标固化）** | 两线 **14 指标一门跑全**（`taw audit bench --line all`）全达标（误报 0 优先）；README 指标表重写（含**复跑命令 + 环境**：离线/双解释器/报告无时间戳）；**指标 2 召回缺口 55/55 逐处归因**到 M3 既定判定纪律（UNKNOWN=0，新增 `test_bench_full.py` 钉死：14 指标齐全 + gate 全过 + 报告位级可重复 + 屏蔽 socket 全过）；M2 F1 + M3 9 + M4 5 三基线复跑留痕（`reports/m5_baseline_trace.txt`）；299 项双解释器绿；BENCH-01 翻转 done |
+| 2026-10-13 | **M5 指标 2 召回缺口裁定** | 格式检出 recall=0.6944（FN=55）不是缺陷而是**误报 0 优先**的确定性后果：缺口逐处归因——噪声门控 18（带断行/连字符/空格修复 flag 的缺项不判）+ ris 载体豁免 9（ris 不渲染"等/others"）+ 文件级编码制混用 12（引擎按文件级报，逐条归因不到）+ 三著者带"等"歧义 6（渲染串不可区分）+ DOI/year 被噪声污染不可观察 6 + 载体签名不唯一 2 + 载体语义 2。**不弱化 gate**（FP=0 优先）；归因由 `refbench._fn_reason` 产出、`test_bench_full` 断言 UNKNOWN=0，任何新未归因 FN 即回归（见 04 §十二 12.2） |
+| 2026-10-13 | **扩展项 P2 顺延（M7 清零决策）** | plan/05 依赖关系所列扩展项——arXiv 见刊提示 / 文献 CI watch / 自定义规则包导入导出 / 个人错误画像 / LLM 兜底 / 语义 rerank——**M5 前未收口**，按 P2 顺延至 M7 做清零决策（plan/01 §六 明确其为"三个显式开关扩展项"，非验收 P0/P1 必达项；P0/P1 = 两线 14 指标 + 两线功能闭环，均已达标）。M5 只固化**离线零 API 的 14 指标基准**，不引入联网通路（NFR-01/03 不受影响） |
 
 ## 里程碑（M0–M7，详见 05）
 
 - **M0 计划定稿+可运行骨架 ✅ 2026-10-07**：plan/02–05 定稿；taw 包（cli/registry/paths）+ 25 测试绿（3.8/3.12 双验证）+ CLI 冒烟 + CI 四矩阵 + 仓库卫生守门
 - **M1 数据先行 ✅ 2026-10-07**：taw.rng splitmix64（金标跨解释器一致）；双生成器+真值入 `data/frozen/`（位级一致/CR 守门）；四层 ruleset 骨架+条款库（身份 verified/条款 pending 纪律）；HalluRef-Bench 格式冻结（D-4）；条文查证双渠道收口（7713.1-2025 换版发现）；45 测试双解释器绿
-- M2 解析层：文献条目噪声解析 + docx 样式树/域代码/标记体系（文/图/表/公式/章）解析
-- M3 文献线引擎：核查修正/双标尺/对账/归一/画像/反向引用+编号重排（Word 批注回写实现方式核对）
-- M4 全文线引擎：图表公式审计重排/学校格式核查/术语数字一致性/AIGC 启发式/综述聚类/结构检查单
-- M5 基准全集：文献线 9 指标 + 全文线 5 指标达标（误报 0 优先）
+- **M2 解析层 ✅ 2026-10-07**：RefCard/DocObjectCard/证据链 schema 落地（04 §九）；REF-01 四格式解析器（txt/csv/bib/ris × clean/light/heavy，clean·light F1=1.0 / heavy ≥0.98）；论文解析器（style_tree 62 段逐段一致 + REF 域 2 + 对象 9 + 悬空 2 + 幽灵全对账）；`taw parse` 命令；89 测试双解释器绿；发现并修 M1 真值矛盾三处
+- **M3 文献线引擎 ✅ 2026-10-13**：判定引擎骨架（`taw.engine`：四层叠加 + activation/basis 与条款 status 正交）；REF-02 格式核查与自动修正（六类检测，**误报 0**、修正 79/79 闭合）；REF-04 引用对账（悬空/幽灵/乱序/断档/著者-年）；REF-05 去重（**误合并率 0**，冲突→manual_confirm）；REF-06 幻觉画像（HalluRef-Bench v1 检出 100/100、genuine 误报 0）；REF-07 库内 BM25 防幻觉推荐 + 编号重排内核（一致性 **79/79=100%**）；REF-08 论证链拓扑（**0 外链硬断言**）；REF-09 SQLite 文献库/指纹防篡改/Word 批注回写；HalluRef-Bench v1 全量 200 条入库；`taw audit refs`/`audit bench`；208 项双解释器绿；M2 F1 基线不回退
+- M4 全文线引擎 ✅ 2026-10-13：FULL-01 交叉引用审计与编号重排（悬空 2/2 + 幽灵 2/2，对象编号矩阵回归 **100%**，与 REF-07 同内核）；FULL-02 学校格式核查（样式检出 FP=0 + docx 节属性/页眉页脚/目录 + 学校 profile 导入）；FULL-03 术语与数字一致性（T1..T4 全检出 + GB/T 15835 千分位 + 变体热区）；FULL-04 AIGC 痕迹自检（A1/A2/A3 检出、干净段 FP=0、伦理边界硬编码 + 守卫断言）；FULL-05 综述辅助（TF-IDF 聚类纯度 **1.0** + 时间线 + 规则可判研究空白）；FULL-06 结构检查单（8 项）；全文线 **5 指标全过**；`taw audit thesis` + `bench --line refs\|full\|all`；292 项双解释器绿；M2 F1 + M3 9 指标不回退
+- **M5 基准全集 ✅ 2026-10-13**：两线 **14 指标一门跑全**（`taw audit bench --line all`）全达标（误报 0 优先：解析 F1 1.0/1.0/0.9874、格式 FP=0、修正 79/79、对账 1.0、去重误合并 0、幻觉 100/100 genuine 误报 0、双标尺 2/2、推荐 R@5 0.7778/MRR 0.7222、重排 100%；全文线 悬空幽灵 2/2+2/2、样式 TP=3 FP=0、术语 4/4、AIGC 3/3 FP=0、聚类纯度 1.0）；README 评测表（14 指标 + 复跑命令 + 环境）；**指标 2 召回缺口 55/55 全归因**（UNKNOWN=0，`test_bench_full.py` 钉死）；报告无时间戳可重复；299 项双解释器绿；三基线复跑不回退；扩展项 P2 顺延 M7 清零
 - M6 桌面交付：PySide6 + Word/WPS COM 实机验证（WPS 兼容性核对）+ PyInstaller
-- M7 脱敏发布 GitHub + Release（exe）+ 收尾固化
+- M7 脱敏发布 GitHub + Release（exe）+ 收尾固化（含扩展项 P2 清零决策）

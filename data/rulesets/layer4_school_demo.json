@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "layer": 4,
+  "name": "学校模板 profile 示例：虚构理工大学（demo，题注/页边距/纸张规则）",
+  "overlay_semantics": "学校模板是四层最高层：在国标/年份/期刊之上做增量覆盖，覆盖动作留审计痕迹。本文件为**示例 profile**（profile=school-demo），演示 FULL-02 模板核查；用户按 layer4_school_template.json 的说明导入本校细则",
+  "source_note": "条目来源=合成示例（虚构理工大学，非真实学校），仅为演示格式核查通路；真实学校细则须挂'用户提供+日期'",
+  "gates": {
+    "standard_year": ["2015", "2025"],
+    "profile": ["school-demo"]
+  },
+  "rules": [
+    {
+      "rule_id": "SCHOOL-DEMO-paper-01",
+      "scope": "thesis.format",
+      "standard": "虚构理工大学学位论文格式细则（合成示例，用户提供 2026-10-13）",
+      "clause": "页面设置：A4 纸（210mm × 297mm）",
+      "quote": "（示例细则原文：学位论文一律使用 A4 纸双面打印）",
+      "status": "pending",
+      "activation": "active",
+      "basis": "示例 profile（合成数据，非真实学校）；演示 read_doc_format 的纸张/页边距求值通路",
+      "severity": "error",
+      "check_type": "format",
+      "detect": {"param": "page_width_mm", "op": "eq", "value": 210.0, "tolerance": 3.0},
+      "fix": {"type": "suggest", "template": "把页面宽度设为 A4 规格"},
+      "only_if_text": [],
+      "gates": {"standard_year": ["2015", "2025"], "profile": ["school-demo"]}
+    },
+    {
+      "rule_id": "SCHOOL-DEMO-paper-02",
+      "scope": "thesis.format",
+      "standard": "虚构理工大学学位论文格式细则（合成示例，用户提供 2026-10-13）",
+      "clause": "页面设置：A4 纸高度 297mm",
+      "quote": "（示例细则原文：学位论文一律使用 A4 纸双面打印）",
+      "status": "pending",
+      "activation": "active",
+      "basis": "示例 profile（合成数据，非真实学校）；演示纸张高度求值通路",
+      "severity": "error",
+      "check_type": "format",
+      "detect": {"param": "page_height_mm", "op": "eq", "value": 297.0, "tolerance": 3.0},
+      "fix": {"type": "suggest", "template": "把页面高度设为 A4 规格"},
+      "only_if_text": [],
+      "gates": {"standard_year": ["2015", "2025"], "profile": ["school-demo"]}
+    },
+    {
+      "rule_id": "SCHOOL-DEMO-margin-01",
+      "scope": "thesis.format",
+      "standard": "虚构理工大学学位论文格式细则（合成示例，用户提供 2026-10-13）",
+      "clause": "页边距：左右各 30mm（可容差 ±2mm）",
+      "quote": "（示例细则原文：页边距上 25mm、下 25mm、左 30mm、右 30mm）",
+      "status": "pending",
+      "activation": "active",
+      "basis": "示例 profile（合成数据，非真实学校）；演示页边距容差求值通路",
+      "severity": "warn",
+      "check_type": "format",
+      "detect": {"param": "margin_left_mm", "op": "eq", "value": 30.0, "tolerance": 2.0},
+      "fix": {"type": "suggest", "template": "按学校细则调整页边距"},
+      "only_if_text": [],
+      "gates": {"standard_year": ["2015", "2025"], "profile": ["school-demo"]}
+    },
+    {
+      "rule_id": "SCHOOL-DEMO-toc-01",
+      "scope": "thesis.format",
+      "standard": "虚构理工大学学位论文格式细则（合成示例，用户提供 2026-10-13）",
+      "clause": "目录：正文前须有目录页",
+      "quote": "（示例细则原文：学位论文应包含目录）",
+      "status": "pending",
+      "activation": "active",
+      "basis": "示例 profile（合成数据，非真实学校）；演示 present 算子求值通路",
+      "severity": "error",
+      "check_type": "format",
+      "detect": {"param": "has_toc", "op": "present", "value": true},
+      "fix": {"type": "suggest", "template": "插入自动目录（域）"},
+      "only_if_text": [],
+      "gates": {"standard_year": ["2015", "2025"], "profile": ["school-demo"]}
+    },
+    {
+      "rule_id": "SCHOOL-DEMO-toppage-01",
+      "scope": "thesis.format",
+      "standard": "虚构理工大学学位论文格式细则（合成示例，用户提供 2026-10-13）",
+      "clause": "封面：须含学校名",
+      "quote": "（示例细则原文：封面应包含学校名称、作者、指导教师）",
+      "status": "pending",
+      "activation": "active",
+      "basis": "示例 profile（合成数据，非真实学校）；演示封面要素 present 求值通路",
+      "severity": "warn",
+      "check_type": "format",
+      "detect": {"param": "has_school", "op": "present", "value": true},
+      "fix": {"type": "suggest", "template": "封面补入学校名称"},
+      "only_if_text": [],
+      "gates": {"standard_year": ["2015", "2025"], "profile": ["school-demo"]}
+    }
+  ]
+}

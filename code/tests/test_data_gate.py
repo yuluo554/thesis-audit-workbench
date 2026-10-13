@@ -19,12 +19,18 @@ DATA = REPO_ROOT / "data"
 FROZEN = DATA / "frozen"
 REFS = FROZEN / "refs"
 THESIS = FROZEN / "thesis"
+AUDIT = FROZEN / "audit"
+REVIEW = FROZEN / "review"
+BENCH = DATA / "bench" / "halluref"
 
 sys.path.insert(0, str(REPO_ROOT / "code" / "src"))
 sys.path.insert(0, str(REPO_ROOT / "code" / "tools"))
 
 import gen_references  # noqa: E402
 import gen_thesis_docx  # noqa: E402
+import gen_audit_fixtures  # noqa: E402
+import gen_halluref_bench  # noqa: E402
+import gen_review_corpus  # noqa: E402
 
 
 def _require_docx():
@@ -45,7 +51,9 @@ def _generate_to_tmp(module, tmp_path):
 
 
 def test_frozen_files_have_no_cr():
+    """冻结纪律：data/ 下全部文本件无 CR（含 M3 新增 audit/ 与 halluref 全量库）。"""
     frozen_files = sorted(p for p in FROZEN.rglob("*") if p.is_file())
+    frozen_files += sorted(p for p in BENCH.rglob("*") if p.is_file())
     assert frozen_files, "data/frozen/ 为空：生成器未运行？"
     offenders = []
     for p in frozen_files:
@@ -74,6 +82,33 @@ def test_thesis_regeneration_bit_identical(tmp_path):
     out = _generate_to_tmp(gen_thesis_docx, tmp_path)
     for name in ("thesis_synthetic.docx", "thesis_truth.json", "thesis_manifest.json"):
         assert (THESIS / name).read_bytes() == (out / name).read_bytes(), "thesis/{} 与重新生成不一致".format(name)
+
+
+def test_audit_fixtures_regeneration_bit_identical(tmp_path):
+    """M3 新增：正文引用对账夹具（REF-04/05/07 数据面）位级一致守门。"""
+    out = tmp_path / "audit"
+    gen_audit_fixtures.generate(out)
+    for name in ("refs_table.txt", "refs_table.bib", "body.txt", "audit_truth.json"):
+        assert (AUDIT / name).read_bytes() == (out / name).read_bytes(), \
+            "audit/{} 与重新生成不一致（生成器被改动或产物被手改）".format(name)
+
+
+def test_halluref_bench_regeneration_bit_identical(tmp_path):
+    """M3 新增：HalluRef-Bench v1 全量 200 条位级一致守门（D-4 冻结）。"""
+    out = tmp_path / "halluref"
+    gen_halluref_bench.generate(out)
+    for name in ("halluref_v1.jsonl", "halluref_v1_manifest.json"):
+        assert (BENCH / name).read_bytes() == (out / name).read_bytes(), \
+            "bench/halluref/{} 与重新生成不一致".format(name)
+
+
+def test_review_corpus_regeneration_bit_identical(tmp_path):
+    """M4 新增：综述辅助语料（FULL-05 数据面）位级一致守门。"""
+    out = tmp_path / "review"
+    gen_review_corpus.generate(out)
+    for name in ("review_corpus.json", "review_truth.json"):
+        assert (REVIEW / name).read_bytes() == (out / name).read_bytes(), \
+            "review/{} 与重新生成不一致（生成器被改动或产物被手改）".format(name)
 
 
 # ---- refs 真值纪律 ----
@@ -190,6 +225,79 @@ def test_rulesets_discipline():
     assert len(all_ids) == len(set(all_ids)), "rule_id 跨文件重复"
 
 
+def test_ruleset_activation_discipline():
+    """M3 裁定（plan/04 §十）：activation 与 status 正交；active 规则必须挂 basis。"""
+    for f in RULESET_FILES:
+        data = json.loads(f.read_text(encoding="utf-8"))
+        for rule in data["rules"]:
+            act = rule.get("activation")
+            assert act in (None, "active", "gated"), "{}#{}".format(f.name, rule["rule_id"])
+            if act == "active":
+                assert rule.get("basis"), "{}#{} active 却无 basis（依据）".format(f.name, rule["rule_id"])
+
+
+def test_standard_replacements_grounded():
+    """双标尺替代关系：每条须 verified + 挂官方来源。"""
+    path = DATA / "knowledge" / "standard_replacements.json"
+    data = json.loads(path.read_text(encoding="utf-8"))
+    assert data["replacements"], "替代关系表为空"
+    for r in data["replacements"]:
+        assert r["identity_status"] == "verified"
+        assert r["source"]["evidence"] and r["source"]["url"]
+
+
+def test_audit_truth_self_consistent():
+    truth = json.loads((AUDIT / "audit_truth.json").read_text(encoding="utf-8"))
+    table = (AUDIT / "refs_table.txt").read_text(encoding="utf-8")
+    for n in truth["expect"]["ghost_reference"]:
+        assert "[{}]".format(n) in table, "幽灵条目不在文献表: {}".format(n)
+    for n in truth["expect"]["dangling_citation"]:
+        assert "[{}]".format(n) not in table, "悬空引用不应在文献表: {}".format(n)
+    assert truth["table_entries"] == len([l for l in table.splitlines() if l.strip()])
+
+
+def test_halluref_full_library_frozen():
+    """HalluRef-Bench v1 全量（D-4：200 = genuine 100 + hallucinated 100）。"""
+    manifest = json.loads((BENCH / "halluref_v1_manifest.json").read_text(encoding="utf-8"))
+    lines = [ln for ln in (BENCH / "halluref_v1.jsonl").read_text(encoding="utf-8").splitlines()
+             if ln.strip()]
+    entries = [json.loads(ln) for ln in lines]
+    assert len(entries) == 200 == manifest["scale"]["total"]
+    genuine = [e for e in entries if e["label"] == "genuine"]
+    hallucinated = [e for e in entries if e["label"] == "hallucinated"]
+    assert len(genuine) == 100 and len(hallucinated) == 100
+    # 6 单类 × 16 + 复合 4：单类计数（class_counts_single）各恰 16；
+    # 复合条目会把其类别计入 class_counts_all，故两者不同。
+    from collections import Counter
+    per_class = Counter(c for e in hallucinated for c in e["classes"])
+    singles = Counter(e["classes"][0] for e in hallucinated if len(e["classes"]) == 1)
+    assert set(per_class) == set(manifest["classes_v1"])
+    assert manifest["class_counts_single"] == dict(singles)
+    for cls in manifest["classes_v1"]:
+        assert singles[cls] == 16, "单类样本数不符: {}={}".format(cls, singles[cls])
+    composites = [e for e in hallucinated if len(e["classes"]) > 1]
+    assert len(composites) == 4, "复合条目应 4 条"
+    assert manifest["scale"]["singles_total"] == 96
+    assert manifest["scale"]["composite_total"] == 4
+    assert sum(per_class.values()) == 100 + sum(len(c["classes"]) for c in composites) - len(composites)
+    # 唯一性 + genuine 零缺陷
+    assert len({e["entry_id"] for e in entries}) == 200
+    for e in genuine:
+        assert e["classes"] == [] and e["signals"] == []
+        assert e["fields"]["doi"].startswith("10.9999")
+    for e in hallucinated:
+        assert e["classes"] and e["signals"]
+
+
+def test_halluref_full_library_no_timestamp():
+    """冻结纪律：产物无时间戳字段（可重复生成）。"""
+    for ln in (BENCH / "halluref_v1.jsonl").read_text(encoding="utf-8").splitlines():
+        if not ln.strip():
+            continue
+        obj = json.loads(ln)
+        assert not any(k in obj for k in ("timestamp", "generated_at", "date"))
+
+
 def test_knowledge_discipline():
     for f in KNOWLEDGE_FILES:
         data = json.loads(f.read_text(encoding="utf-8"))
@@ -235,3 +343,90 @@ def test_halluref_examples_match_manifest():
         assert e["classes"], "hallucinated 无类目: {}".format(e["entry_id"])
         assert e["signals"], "hallucinated 无可检信号: {}".format(e["entry_id"])
         assert all(c in manifest["classes_v1"] for c in e["classes"]), "未冻结类目: {}".format(e["classes"])
+
+
+# ---- M4：综述语料与全文线知识库纪律 ----
+
+
+def test_review_truth_self_consistent():
+    """综述真值自洽：分组与语料一致、年份分布吻合、空白按规则可判。"""
+    corpus = json.loads((REVIEW / "review_corpus.json").read_text(encoding="utf-8"))
+    truth = json.loads((REVIEW / "review_truth.json").read_text(encoding="utf-8"))
+    entries = corpus["entries"]
+    assert len(entries) == truth["counts"]["entries"] == 20
+    assert corpus["now_year"] == truth["now_year"] == 2026
+    # 分组覆盖语料全部条目
+    grouped = [e for ids in truth["groups"].values() for e in ids]
+    assert sorted(grouped) == sorted(e["entry_id"] for e in entries)
+    # 年份分布与分组一致
+    by_group = {}
+    for e in entries:
+        by_group.setdefault(e["group"], []).append(e["year"])
+    for g, years in truth["years_by_group"].items():
+        assert sorted(by_group[g]) == years
+    # 空白真值 = 该组最近年份 < now_year-2（规则可判）
+    for gap in truth["research_gaps"]:
+        assert gap["latest_year"] < truth["now_year"] - 2
+        assert max(by_group[gap["group"]]) == gap["latest_year"]
+
+
+def test_review_corpus_content_fictional():
+    """综述语料全部虚构、DOI 用登记假前缀。"""
+    corpus = json.loads((REVIEW / "review_corpus.json").read_text(encoding="utf-8"))
+    for e in corpus["entries"]:
+        assert e["doi"].startswith("10.9999/")
+        assert e["title"] and e["year"] and e["authors"]
+
+
+def test_aigc_feature_library_grounded_m4():
+    """AIGC 特征库 M4 复核：4 特征 basis 齐备、detector 名在已实现集合内。"""
+    data = json.loads((DATA / "knowledge" / "aigc_features.json").read_text(encoding="utf-8"))
+    implemented = {"sentence_length_cv", "template_connectors", "summary_cliches",
+                   "parallel_structure"}
+    assert len(data["features"]) == 4
+    for f in data["features"]:
+        assert f["basis"], "特征 {} 缺依据".format(f["feature_id"])
+        assert f["detector"] in implemented, "特征 detector 无实现：{}".format(f["detector"])
+    assert data["ethics_boundary"], "AIGC 库须硬编码伦理边界说明"
+
+
+def test_terminology_library_grounded():
+    """术语表纪律：canonical 唯一、每条挂 basis 与 status。"""
+    data = json.loads((DATA / "knowledge" / "terminology.json").read_text(encoding="utf-8"))
+    canonical = [t["canonical"] for t in data["terms"]]
+    assert canonical and len(canonical) == len(set(canonical))
+    for t in data["terms"]:
+        assert t["canonical"] and t["variants"] and t["basis"]
+        assert t["status"] in ("verified", "pending")
+    assert data["number_usage"]["basis"], "数字用法判据须挂依据"
+
+
+def test_school_profile_discipline():
+    """学校 profile（模板 + 示例）：layer=4、profile 门控为 school-*、active 挂 basis。"""
+    import fnmatch
+    for name in ("layer4_school_template.json", "layer4_school_demo.json"):
+        data = json.loads((DATA / "rulesets" / name).read_text(encoding="utf-8"))
+        assert data["layer"] == 4
+        gates = data["gates"]["profile"]
+        # 模板声明通配 school-*；示例 profile 声明 school-demo（同属 school-* 门控域）
+        assert all(fnmatch.fnmatch(g, "school-*") for g in gates), gates
+        for rule in data["rules"]:
+            assert rule.get("activation") in (None, "active", "gated")
+            if rule.get("activation") == "active":
+                assert rule.get("basis"), "{}#{} active 却无 basis".format(name, rule["rule_id"])
+
+
+def test_full_line_rules_active_after_m4():
+    """M4 收尾：全文线五条国标规则由 gated 翻转为 active（并挂 basis）。"""
+    data = json.loads((DATA / "rulesets" / "layer1_national.json").read_text(encoding="utf-8"))
+    by_id = {r["rule_id"]: r for r in data["rules"]}
+    for rid in ("GBT7713-struct-01", "GBT15835-num-01", "TAW-xref-dangling-01",
+                "TAW-xref-ghost-01", "TAW-aigc-signal-01"):
+        assert by_id[rid]["activation"] == "active", "{} 未翻转 active".format(rid)
+        assert by_id[rid]["basis"]
+        assert by_id[rid]["status"] == "pending", "条款状态应保持 pending（原文不可得）"
+    # M4 新增规则
+    for rid in ("TAW-style-01", "TAW-term-01", "TAW-xref-order-01",
+                "TAW-struct-checklist-01"):
+        assert rid in by_id, "M4 新增规则缺失：{}".format(rid)
+        assert by_id[rid]["activation"] == "active" and by_id[rid]["basis"]

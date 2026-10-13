@@ -22,10 +22,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install package with dev extras (docx required by M1 data gate)
+      - name: Install package with dev extras (docx+viz required by M1/M2 data gate, M2 论文解析器, M3 拓扑)
         run: |
           python -m pip install -U pip
-          python -m pip install -e ".[dev,docx]"
+          python -m pip install -e ".[dev,docx,viz]"
       - name: Run tests
         run: python -m pytest tests -v
       - name: CLI smoke
@@ -33,3 +33,11 @@ jobs:
           taw --version
           taw selfcheck
           taw demo
+          taw parse ../data/frozen/refs/refs_clean.bib
+          taw parse ../data/frozen/thesis/thesis_synthetic.docx
+          taw audit bench
+          taw audit refs ../data/frozen/audit/refs_table.txt --body ../data/frozen/audit/body.txt --topology ../reports/topo.html
+          taw audit thesis ../data/frozen/thesis/thesis_synthetic.docx --report ../reports/full.json
+          taw audit thesis ../data/frozen/thesis/thesis_synthetic.docx --profile school-demo --review-topology ../reports/rev.html
+          taw audit bench --line full
+          taw audit bench --line all --report ../reports/bench_all.json

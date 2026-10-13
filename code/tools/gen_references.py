@@ -589,6 +589,45 @@ def build_truth(entries):
     }
 
 
+def build_logic_records(entries):
+    """post-injection 逻辑记录（全字段）→ refs_logic.json：F1 对账的 canonical 侧。
+
+    存在的理由：refs_truth.json 只记注入期望，不含全字段；而 M2 解析器的 F1 需要
+    逐字段比对。把逻辑记录作为**数据**落盘（而非让 f1bench 在运行期 import 生成器），
+    打包后的 exe（无 code/tools/）也能对账。字段与 RefCard 平行。
+    """
+    records = []
+    for rec in entries:
+        records.append({
+            "entry_id": rec["entry_id"],
+            "layer": rec["layer"],
+            "entry_type": rec["entry_type"],
+            "lang": rec["lang"],
+            "authors": list(rec["authors"]),
+            "title": rec["title"],
+            "year": rec.get("year"),
+            "container": rec.get("container"),
+            "volume": rec.get("volume"),
+            "issue": rec.get("issue"),
+            "pages": rec.get("pages"),
+            "publisher": rec.get("publisher"),
+            "city": rec.get("city"),
+            "edition": rec.get("edition"),
+            "report_no": rec.get("report_no"),
+            "doi": rec.get("doi"),
+            "isbn": rec.get("isbn"),
+        })
+    return {
+        "schema_version": SCHEMA_VERSION,
+        "dataset": DATASET_ID,
+        "generator": "code/tools/gen_references.py",
+        "seed": SEED,
+        "semantics": "post-injection 逻辑记录（注入已作用于字段值；F1 对账 canonical 侧）",
+        "counts": {"total": len(records)},
+        "records": records,
+    }
+
+
 def build_manifest(entries):
     files = ["refs_{}.{}".format(layer, fmt) for layer in LAYERS for fmt in FORMATS]
     enc_layers = [l for l in LAYERS if any(e.get("_encoding_mix") for e in entries if e["layer"] == l)]
@@ -598,7 +637,7 @@ def build_manifest(entries):
         "generator": "code/tools/gen_references.py",
         "rng": "taw.rng.SplitMix64",
         "seed": SEED,
-        "files": files + ["refs_truth.json", "refs_manifest.json"],
+        "files": files + ["refs_truth.json", "refs_logic.json", "refs_manifest.json"],
         "file_expect": [{
             "scope": "file",
             "files": ["refs_{}.txt".format(l) for l in enc_layers] + ["refs_{}.csv".format(l) for l in enc_layers],
@@ -632,8 +671,9 @@ def generate(out_dir):
             path.write_bytes(text.encode("utf-8"))
             written.append(path.name)
     (out_dir / "refs_truth.json").write_bytes(_dump_json(build_truth(entries)))
+    (out_dir / "refs_logic.json").write_bytes(_dump_json(build_logic_records(entries)))
     (out_dir / "refs_manifest.json").write_bytes(_dump_json(build_manifest(entries)))
-    written += ["refs_truth.json", "refs_manifest.json"]
+    written += ["refs_truth.json", "refs_logic.json", "refs_manifest.json"]
     return sorted(written)
 
 

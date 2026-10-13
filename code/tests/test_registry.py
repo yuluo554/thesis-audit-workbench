@@ -33,3 +33,15 @@ def test_counts_string_has_all_lines():
     text = registry.counts()
     for line_name in registry.LINE_NAMES.values():
         assert line_name in text
+
+
+def test_m5_all_modules_done():
+    """M5 收尾：REF-01..09、FULL-01..06、BENCH-01 全部 done（基准全集收口）。"""
+    by_id = {m["id"]: m for m in registry.MODULES}
+    for i in range(1, 10):
+        assert by_id["REF-{:02d}".format(i)]["status"] == "done", \
+            "REF-{:02d} 未翻转 done".format(i)
+    for i in range(1, 7):
+        assert by_id["FULL-{:02d}".format(i)]["status"] == "done", \
+            "FULL-{:02d} 未翻转 done".format(i)
+    assert by_id["BENCH-01"]["status"] == "done", "BENCH-01 未翻转 done（M5 基准全集收口）"

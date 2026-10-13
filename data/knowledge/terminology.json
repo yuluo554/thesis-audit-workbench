@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "list_id": "terminology",
+  "name": "术语表（标准写法 ↔ 变体清单，FULL-03）",
+  "discipline": "每条术语挂 canonical（标准写法）与 variants（变体写法）；无依据不落库。数字用法规则与 GB/T 15835-2011 互补（见 ruleset GBT15835-num-01 / TAW-term-01）",
+  "term_discipline": "canonical 与 variant 在空白归一后是否相同决定判据：相同=伪空格/分隔符变体（T2/T4 型）；不同=同概念异名（T1 型）。判定只报 variant 字面出现处，不报 canonical 处（误报 0 优先）",
+  "terms": [
+    {
+      "term_id": "term-0001",
+      "canonical": "机器学习",
+      "variants": ["机器 学习"],
+      "kind": "stray_space_in_term",
+      "basis": "合成真值契约：gen_thesis_docx 植入 T2（伪空格变体）；数据面=thesis_truth implants T2（para 13）",
+      "status": "pending"
+    },
+    {
+      "term_id": "term-0002",
+      "canonical": "深度神经网络",
+      "variants": ["深层神经网络"],
+      "kind": "term_inconsistency",
+      "basis": "合成真值契约：gen_thesis_docx 植入 T1（同概念两种叫法）；数据面=thesis_truth implants T1（paras 31/45）",
+      "status": "pending"
+    },
+    {
+      "term_id": "term-0003",
+      "canonical": "GB/T 7714",
+      "variants": ["GB/T7714"],
+      "kind": "standard_number_spacing",
+      "basis": "合成真值契约：gen_thesis_docx 植入 T4（标准号空格不一致）；数据面=thesis_truth implants T4（para 22）",
+      "status": "pending"
+    },
+    {
+      "term_id": "term-0004",
+      "canonical": "深度学习",
+      "variants": ["深层学习"],
+      "kind": "term_inconsistency",
+      "basis": "工程规则（工具口径）：领域常见中英混排术语，标准写法唯一；数据面无变体植入（应为零命中，作误报守卫样本）",
+      "status": "pending"
+    },
+    {
+      "term_id": "term-0005",
+      "canonical": "生成对抗网络",
+      "variants": ["生成式对抗网络"],
+      "kind": "term_inconsistency",
+      "basis": "工程规则（工具口径）：GAN 中文译名常见两种（'生成对抗网络'/'生成式对抗网络'），标准写法唯一；数据面无变体植入（零命中，作误报守卫样本）",
+      "status": "pending"
+    }
+  ],
+  "number_usage": {
+    "rule": "同一整数在全篇应采用一致写法（千分位分隔符一致）；本判据只报**同一数值同时以带分隔符与不带分隔符两种形态出现**的情形（误报 0 优先）",
+    "thousands_separators": [",", "\uFF0C"],
+    "exempt_contexts": ["参考文献表", "章节编号"],
+    "basis": "合成真值契约：gen_thesis_docx 植入 T3（3,500 vs 3500）；数据面=thesis_truth implants T3（paras 37/45）",
+    "status": "pending"
+  }
+}

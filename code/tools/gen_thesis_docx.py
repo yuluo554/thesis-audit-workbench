@@ -190,7 +190,9 @@ def build_document(ledger):
     heading("2.2 文献综述方法", 2)
     # T4 第一处：标准号无空格（1.1 节为 GB/T 7714）
     # D3：悬空 REF 域（指向不存在书签）
-    p, idx = para("本章文献的引用与著录依据 GB/T7714 的顺序编码制执行，如图3-1的域引用示例：")
+    # 措辞纪律：本段正文不得出现任何对象标记（图/表/式 + 编号）——"如图3-1"式
+    # 泛提会把图3-1 变成真人提及，与对象真值 mentioned_paras 打架（M2 对账实测）。
+    p, idx = para("本章文献的引用与著录依据 GB/T7714 的顺序编码制执行，交叉引用域示例如下：")
     add_ref_field(p, BOOKMARK_DANGLING, "图9-9")
     ledger.fields.append({"para_index": idx, "instr": " REF {} \\h ".format(BOOKMARK_DANGLING),
                           "display": "图9-9", "target_bookmark": BOOKMARK_DANGLING, "bookmark_exists": False})
@@ -271,7 +273,8 @@ def build_document(ledger):
     for r, row_vals in enumerate((("基线方法", "82.1", "80.5"), ("本文方法", "85.6", "84.0")), 1):
         for j, v in enumerate(row_vals):
             table.rows[r].cells[j].text = v
-    p, idx = para("表4-1给出各方法的指标对比，式(4-1)定义了评价指标的计算方式。")
+    # 措辞纪律：只提表4-1（式(4-1) 的提及由公式段自身承担）——多提会改写对象真值
+    p, idx = para("表4-1给出各方法的指标对比，评价指标的定义如下：")
     table41["mentioned_paras"].append(idx)
     table41["referenced"] = True
     p, idx = para("F1 = 2*P*R/(P+R)    （4-1）")
@@ -304,7 +307,8 @@ def build_document(ledger):
     for j, v in enumerate(("学习率", "0.001", "固定值")):
         table.rows[1].cells[j].text = v
     heading("4.3 消融实验", 2)
-    para("消融实验结果见图4-2，逐一移除各模块后指标均有下降。")
+    # 措辞纪律：不得提及 图4-2/表4-2（G1/G2 声明的幽灵对象必须全文零提及）
+    para("消融实验逐一移除各模块后指标均有下降，说明各模块对最终性能均有贡献。")
 
     # 第5章（A3 套话 + S3 正文误用标题样式）
     heading("第5章 总结与展望")

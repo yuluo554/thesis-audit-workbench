@@ -29,6 +29,7 @@
     "refs_heavy.bib",
     "refs_heavy.ris",
     "refs_truth.json",
+    "refs_logic.json",
     "refs_manifest.json"
   ],
   "generator": "code/tools/gen_references.py",

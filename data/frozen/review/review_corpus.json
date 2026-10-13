@@ -1,0 +1,328 @@
+{
+  "dataset": "review-corpus-v1",
+  "entries": [
+    {
+      "authors": [
+        "虚构作者1"
+      ],
+      "doi": "10.9999/review.2021.001",
+      "entry_id": "rev-001",
+      "group": "synthetic_data",
+      "keywords": [
+        "合成数据",
+        "生成模型",
+        "数据增强"
+      ],
+      "title": "基于生成对抗网络的合成数据构建方法",
+      "venue": "合成科学进展",
+      "year": 2021
+    },
+    {
+      "authors": [
+        "虚构作者2"
+      ],
+      "doi": "10.9999/review.2022.002",
+      "entry_id": "rev-002",
+      "group": "synthetic_data",
+      "keywords": [
+        "合成数据",
+        "生成模型",
+        "数据增强"
+      ],
+      "title": "面向表格数据的可控合成数据生成",
+      "venue": "虚拟信息科学",
+      "year": 2022
+    },
+    {
+      "authors": [
+        "虚构作者3"
+      ],
+      "doi": "10.9999/review.2023.003",
+      "entry_id": "rev-003",
+      "group": "synthetic_data",
+      "keywords": [
+        "合成数据",
+        "生成模型",
+        "数据增强"
+      ],
+      "title": "合成数据质量评估指标体系研究",
+      "venue": "幻想计算学报",
+      "year": 2023
+    },
+    {
+      "authors": [
+        "虚构作者4"
+      ],
+      "doi": "10.9999/review.2024.004",
+      "entry_id": "rev-004",
+      "group": "synthetic_data",
+      "keywords": [
+        "合成数据",
+        "生成模型",
+        "数据增强"
+      ],
+      "title": "扩散模型驱动的合成数据增强",
+      "venue": "虚构学报",
+      "year": 2024
+    },
+    {
+      "authors": [
+        "虚构作者5"
+      ],
+      "doi": "10.9999/review.2025.005",
+      "entry_id": "rev-005",
+      "group": "synthetic_data",
+      "keywords": [
+        "合成数据",
+        "生成模型",
+        "数据增强"
+      ],
+      "title": "面向小样本场景的合成数据生成框架",
+      "venue": "合成科学进展",
+      "year": 2025
+    },
+    {
+      "authors": [
+        "虚构作者6"
+      ],
+      "doi": "10.9999/review.2020.006",
+      "entry_id": "rev-006",
+      "group": "graph_learning",
+      "keywords": [
+        "图神经网络",
+        "消息传递",
+        "节点表示"
+      ],
+      "title": "图神经网络的消息传递机制综述",
+      "venue": "虚拟信息科学",
+      "year": 2020
+    },
+    {
+      "authors": [
+        "虚构作者7"
+      ],
+      "doi": "10.9999/review.2022.007",
+      "entry_id": "rev-007",
+      "group": "graph_learning",
+      "keywords": [
+        "图神经网络",
+        "消息传递",
+        "节点表示"
+      ],
+      "title": "面向异质图的节点表示学习方法",
+      "venue": "幻想计算学报",
+      "year": 2022
+    },
+    {
+      "authors": [
+        "虚构作者8"
+      ],
+      "doi": "10.9999/review.2023.008",
+      "entry_id": "rev-008",
+      "group": "graph_learning",
+      "keywords": [
+        "图神经网络",
+        "消息传递",
+        "节点表示"
+      ],
+      "title": "图神经网络在推荐系统中的应用",
+      "venue": "虚构学报",
+      "year": 2023
+    },
+    {
+      "authors": [
+        "虚构作者9"
+      ],
+      "doi": "10.9999/review.2024.009",
+      "entry_id": "rev-009",
+      "group": "graph_learning",
+      "keywords": [
+        "图神经网络",
+        "消息传递",
+        "节点表示"
+      ],
+      "title": "大规模图上的可扩展图神经网络训练",
+      "venue": "合成科学进展",
+      "year": 2024
+    },
+    {
+      "authors": [
+        "虚构作者10"
+      ],
+      "doi": "10.9999/review.2025.010",
+      "entry_id": "rev-010",
+      "group": "graph_learning",
+      "keywords": [
+        "图神经网络",
+        "消息传递",
+        "节点表示"
+      ],
+      "title": "图神经网络的特征学习与过平滑缓解",
+      "venue": "虚拟信息科学",
+      "year": 2025
+    },
+    {
+      "authors": [
+        "虚构作者11"
+      ],
+      "doi": "10.9999/review.2021.011",
+      "entry_id": "rev-011",
+      "group": "federated",
+      "keywords": [
+        "联邦学习",
+        "隐私保护",
+        "分布式训练"
+      ],
+      "title": "联邦学习的隐私保护机制研究",
+      "venue": "幻想计算学报",
+      "year": 2021
+    },
+    {
+      "authors": [
+        "虚构作者12"
+      ],
+      "doi": "10.9999/review.2022.012",
+      "entry_id": "rev-012",
+      "group": "federated",
+      "keywords": [
+        "联邦学习",
+        "隐私保护",
+        "分布式训练"
+      ],
+      "title": "非独立同分布数据下的联邦学习优化",
+      "venue": "虚构学报",
+      "year": 2022
+    },
+    {
+      "authors": [
+        "虚构作者13"
+      ],
+      "doi": "10.9999/review.2023.013",
+      "entry_id": "rev-013",
+      "group": "federated",
+      "keywords": [
+        "联邦学习",
+        "隐私保护",
+        "分布式训练"
+      ],
+      "title": "联邦学习中的通信效率优化方法",
+      "venue": "合成科学进展",
+      "year": 2023
+    },
+    {
+      "authors": [
+        "虚构作者14"
+      ],
+      "doi": "10.9999/review.2024.014",
+      "entry_id": "rev-014",
+      "group": "federated",
+      "keywords": [
+        "联邦学习",
+        "隐私保护",
+        "分布式训练"
+      ],
+      "title": "面向边缘设备的联邦学习部署",
+      "venue": "虚拟信息科学",
+      "year": 2024
+    },
+    {
+      "authors": [
+        "虚构作者15"
+      ],
+      "doi": "10.9999/review.2025.015",
+      "entry_id": "rev-015",
+      "group": "federated",
+      "keywords": [
+        "联邦学习",
+        "隐私保护",
+        "分布式训练"
+      ],
+      "title": "联邦学习与合成数据结合的隐私增强",
+      "venue": "幻想计算学报",
+      "year": 2025
+    },
+    {
+      "authors": [
+        "虚构作者16"
+      ],
+      "doi": "10.9999/review.2020.016",
+      "entry_id": "rev-016",
+      "group": "interpretability",
+      "keywords": [
+        "可解释性",
+        "注意力可视化",
+        "归因分析"
+      ],
+      "title": "深度模型的可解释性归因分析方法",
+      "venue": "虚构学报",
+      "year": 2020
+    },
+    {
+      "authors": [
+        "虚构作者17"
+      ],
+      "doi": "10.9999/review.2021.017",
+      "entry_id": "rev-017",
+      "group": "interpretability",
+      "keywords": [
+        "可解释性",
+        "注意力可视化",
+        "归因分析"
+      ],
+      "title": "注意力机制可视化与解释",
+      "venue": "合成科学进展",
+      "year": 2021
+    },
+    {
+      "authors": [
+        "虚构作者18"
+      ],
+      "doi": "10.9999/review.2021.018",
+      "entry_id": "rev-018",
+      "group": "interpretability",
+      "keywords": [
+        "可解释性",
+        "注意力可视化",
+        "归因分析"
+      ],
+      "title": "基于代理模型的可解释性评估",
+      "venue": "虚拟信息科学",
+      "year": 2021
+    },
+    {
+      "authors": [
+        "虚构作者19"
+      ],
+      "doi": "10.9999/review.2022.019",
+      "entry_id": "rev-019",
+      "group": "interpretability",
+      "keywords": [
+        "可解释性",
+        "注意力可视化",
+        "归因分析"
+      ],
+      "title": "神经网络决策过程的解释性综述",
+      "venue": "幻想计算学报",
+      "year": 2022
+    },
+    {
+      "authors": [
+        "虚构作者20"
+      ],
+      "doi": "10.9999/review.2022.020",
+      "entry_id": "rev-020",
+      "group": "interpretability",
+      "keywords": [
+        "可解释性",
+        "注意力可视化",
+        "归因分析"
+      ],
+      "title": "可解释性方法在医疗诊断中的应用",
+      "venue": "虚构学报",
+      "year": 2022
+    }
+  ],
+  "generator": "code/tools/gen_review_corpus.py",
+  "now_year": 2026,
+  "schema_version": 1
+}

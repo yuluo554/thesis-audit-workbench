@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "list_id": "standard-replacements",
+  "purpose": "双标尺（GB/T 7714-2015 vs 2025）迁移清单的**依据**：现行版本替代关系逐条挂查证来源。REF-02 的 standard_currency 检测据此判定「引用了已被替代的旧版标准」",
+  "discipline": "每条必须有 identity_status=verified 与来源；替代关系以全国标准信息公共服务平台（std.samr.gov.cn）官方元数据为准；无出处不入库",
+  "replacements": [
+    {
+      "old": "GB/T 7714-2015",
+      "new": "GB/T 7714-2025",
+      "old_state": "废止",
+      "new_state": "现行",
+      "new_implement_date": "2026-07-01",
+      "identity_status": "verified",
+      "source": {
+        "channel": "std.samr.gov.cn（全国标准信息公共服务平台）",
+        "url": "https://std.samr.gov.cn/gb/search/gbQueryPage?searchText=GB%2FT%207714&sortOrder=asc&pageNumber=1&pageSize=10",
+        "evidence": "GB/T 7714-2015 STATE=废止；GB/T 7714-2025 STATE=现行 ACT_DATE=2026-07-01",
+        "date": "2026-10-07"
+      }
+    },
+    {
+      "old": "GB/T 7713.1-2006",
+      "new": "GB/T 7713.1-2025",
+      "old_state": "废止",
+      "new_state": "现行",
+      "new_implement_date": "2026-02-01",
+      "identity_status": "verified",
+      "source": {
+        "channel": "std.samr.gov.cn（全国标准信息公共服务平台）",
+        "url": "https://std.samr.gov.cn/gb/search/gbQueryPage?searchText=GB%2FT%207713.1&sortOrder=asc&pageNumber=1&pageSize=10",
+        "evidence": "GB/T 7713.1-2006 STATE=废止；GB/T 7713.1-2025 STATE=现行 ACT_DATE=2026-02-01",
+        "date": "2026-10-07"
+      }
+    }
+  ]
+}

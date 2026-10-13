@@ -1,0 +1,87 @@
+{
+  "counts": {
+    "entries": 20,
+    "gaps": 1,
+    "groups": 4
+  },
+  "dataset": "review-corpus-v1",
+  "gap_rule": "主题内最近年份 ≤ now_year-3 即判'近 3 年无新增'（规则可判口径）",
+  "generator": "code/tools/gen_review_corpus.py",
+  "group_labels": {
+    "federated": "联邦学习",
+    "graph_learning": "图神经网络",
+    "interpretability": "模型可解释性",
+    "synthetic_data": "合成数据生成"
+  },
+  "groups": {
+    "federated": [
+      "rev-011",
+      "rev-012",
+      "rev-013",
+      "rev-014",
+      "rev-015"
+    ],
+    "graph_learning": [
+      "rev-006",
+      "rev-007",
+      "rev-008",
+      "rev-009",
+      "rev-010"
+    ],
+    "interpretability": [
+      "rev-016",
+      "rev-017",
+      "rev-018",
+      "rev-019",
+      "rev-020"
+    ],
+    "synthetic_data": [
+      "rev-001",
+      "rev-002",
+      "rev-003",
+      "rev-004",
+      "rev-005"
+    ]
+  },
+  "now_year": 2026,
+  "research_gaps": [
+    {
+      "group": "interpretability",
+      "label": "模型可解释性",
+      "latest_year": 2022,
+      "reason": "主题'模型可解释性'库内最近年份 2022，近 3 年（2024 起）无新增"
+    }
+  ],
+  "rng": "declarative（声明式内容模型，无随机抽取）",
+  "schema_version": 1,
+  "years_by_group": {
+    "federated": [
+      2021,
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "graph_learning": [
+      2020,
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "interpretability": [
+      2020,
+      2021,
+      2021,
+      2022,
+      2022
+    ],
+    "synthetic_data": [
+      2021,
+      2022,
+      2023,
+      2024,
+      2025
+    ]
+  }
+}

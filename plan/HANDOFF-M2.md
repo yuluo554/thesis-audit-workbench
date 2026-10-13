@@ -52,16 +52,21 @@
 - 全程 `PYTHONDONTWRITEBYTECODE=1`（含 pip install）；Git Bash `/tmp` 与 Windows Python 互通以 Python `tempfile` 为准；**测试 45 项仍可整批跑，M2 起若 >120 项分批**；
 - 生成器可直接跑（tools 脚本自带 `sys.path` 引导，无需 editable 安装）。
 
-## M2 DoD（收尾逐项打勾，回写 plan/00/05）
+## M2 DoD（收尾逐项打勾，回写 plan/00/05）— ✅ 全部达成 2026-10-07
 
-- [ ] RefCard/DocObjectCard schema 定稿并记入 plan/04 追加小节；
-- [ ] REF-01 四格式解析器实现；clean 层 F1 ≥0.99、强噪层 ≥0.95（对 refs_truth 对账报告落盘）；
-- [ ] 论文解析器：style_tree 逐段一致（含 fldSimple 域口径）；对象/标记/悬空/幽灵全对账 thesis_truth；
-- [ ] 证据链 schema 落地（三级判定 + location + quote）；
-- [ ] `taw parse` 命令可用且退出码契约不变；
-- [ ] 每解析器配生成样例回归（frozen fixtures 即回归输入，跑两次位级一致仍在）；
-- [ ] registry REF-01 翻转 done；台账登记新增数据；plan/00/05 回写；HANDOFF-M3 落盘；
-- [ ] 全量 pytest 绿（3.8 + 3.12，测试数对账防静默少跑）。
+- [x] RefCard/DocObjectCard schema 定稿并记入 plan/04 追加小节（§九）；
+- [x] REF-01 四格式解析器实现；clean 层 F1 ≥0.99、强噪层 ≥0.95（对账报告落盘）——
+  实测：clean/light 四格式 F1=1.0、heavy ≥0.98（门槛 0.99/0.97/0.95 全过）；
+- [x] 论文解析器：style_tree 逐段一致（含 fldSimple 域口径）；对象/标记/悬空/幽灵全对账 thesis_truth——
+  实测：62 段逐段一致、域 2/2、对象 9/9、悬空 2/2、幽灵 G1/G2 命中；
+- [x] 证据链 schema 落地（三级判定 + location + quote）；
+- [x] `taw parse` 命令可用且退出码契约不变（0=成功 / 1=降级 / 2=用法错误）；
+- [x] 每解析器配生成样例回归（frozen fixtures 即回归输入，位级一致守门仍在）；
+- [x] registry REF-01 翻转 done；台账登记新增数据；plan/00/05 回写；HANDOFF-M3 落盘；
+- [x] 全量 pytest 绿（3.8 + 3.12，89 项，双解释器对账一致）。
+
+> M2 实测发现 M1 合成论文真值矛盾三处（正文提及与真值/幽灵声明冲突），
+> 已改生成器措辞并整目录重生成——详见 plan/04 §九 9.5 与 HANDOFF-M3。
 
 ## 关键命令速查
 

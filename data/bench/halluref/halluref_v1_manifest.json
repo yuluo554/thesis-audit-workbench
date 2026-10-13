@@ -1,0 +1,55 @@
+{
+  "bench_id": "halluref-bench",
+  "class_counts_all": {
+    "doi_prefix_unknown": 17,
+    "impossible_field_combo": 17,
+    "isbn_checksum_invalid": 17,
+    "page_range_inverted": 18,
+    "self_referential_title": 17,
+    "year_out_of_range": 18
+  },
+  "class_counts_note": "class_counts_single = 每类仅该类别的条目数（各 16）；class_counts_all 另计复合条目带入的类别出现次数",
+  "class_counts_single": {
+    "doi_prefix_unknown": 16,
+    "impossible_field_combo": 16,
+    "isbn_checksum_invalid": 16,
+    "page_range_inverted": 16,
+    "self_referential_title": 16,
+    "year_out_of_range": 16
+  },
+  "classes_v1": [
+    "doi_prefix_unknown",
+    "isbn_checksum_invalid",
+    "year_out_of_range",
+    "page_range_inverted",
+    "impossible_field_combo",
+    "self_referential_title"
+  ],
+  "dataset": "halluref-bench-v1",
+  "determinism": "无时间戳；两次运行位级一致；CR 守门（test_data_gate）",
+  "files": [
+    "halluref_v1.jsonl",
+    "halluref_v1_manifest.json"
+  ],
+  "format": {
+    "doi_genuine_prefix": "10.9999",
+    "doi_hallucinated_prefix": "10.7777",
+    "entry_id_pattern": "hr-[0-9]{4}",
+    "serialization": "jsonl（UTF-8 无 BOM，每行一个 JSON 对象）",
+    "spec": "FORMAT.md"
+  },
+  "generator": "code/tools/gen_halluref_bench.py",
+  "note": "公开基准：只测幻觉文献检测能力，不提供任何生成幻觉文献的通路；全部条目为程序化虚构，作者/刊名/DOI 均不指向真实出版物。",
+  "rng": "taw.rng.SplitMix64",
+  "scale": {
+    "composite_total": 4,
+    "genuine": 100,
+    "hallucinated": 100,
+    "hallucinated_composition": "6 单类 × 16 + 复合 4",
+    "singles_total": 96,
+    "total": 200
+  },
+  "schema_version": 1,
+  "seed": 20261013,
+  "version": "v1"
+}

@@ -1,0 +1,67 @@
+{
+  "body_paragraphs": 7,
+  "cited_numbers": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    8,
+    9,
+    99
+  ],
+  "dataset": "refs-audit-v1",
+  "expect": {
+    "author_year_mismatch": [
+      {
+        "author": "王杜撰",
+        "cited_year": "2020",
+        "table_year": "2023"
+      }
+    ],
+    "author_year_ok": [
+      {
+        "author": "SMITH",
+        "year": "2022"
+      }
+    ],
+    "dangling_citation": [
+      99
+    ],
+    "duplicate_clusters": [
+      [
+        3,
+        4
+      ]
+    ],
+    "ghost_reference": [
+      7
+    ],
+    "manual_confirm_pairs": [
+      [
+        8,
+        9
+      ]
+    ],
+    "number_gap": [],
+    "order_gap": true,
+    "unique_entries": [
+      1,
+      2,
+      3,
+      5,
+      6,
+      7,
+      8,
+      9
+    ]
+  },
+  "generator": "code/tools/gen_audit_fixtures.py",
+  "note": "[7] 幽灵（正文零引用）；[3]/[4] 可自动合并（DOI 相同）；[8]/[9] DOI 冲突 → manual_confirm（误合并 0 纪律）。",
+  "rng": "taw.rng.SplitMix64",
+  "schema_version": 1,
+  "seed": 20261013,
+  "table_entries": 9,
+  "truth_semantics": "逐项植入真值：main=主期望（引擎必须产出）；clean 项任何非 pass 计误报。REF-04 对账按「首次引用集合 / 文献表标签集合 / 著者-年份标记」三口径。"
+}
