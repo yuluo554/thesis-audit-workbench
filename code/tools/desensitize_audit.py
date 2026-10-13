@@ -83,20 +83,22 @@ SECRET_RES = (
 
 # 跟踪文件名禁区（第 1 步）
 SENSITIVE_FILENAME_RE = re.compile("(?i)(\\.env$|\\.key$|secret|token)")
-# 构建产物树禁区成分（第 3 步）——仅用于 dist 树：源码/缓存/测试/计划文档不得进产物。
-# 分两类（实测教训：把 `tests` 当任意层级成分会把**第三方依赖自带的内部测试夹具**
-# 误判成泄露——本包实测命中 `IPython/core/tests/*.jpg`、`IPython/extensions/tests/*.py`）：
-#   ① 仓库树成分：只匹配 **dist 顶层**条目（我们的 plan/tests/code/docs/_private 混入才是泄露，
-#      依赖包内部的同名子目录不是）；
-#   ② 构建缓存成分：任意层级（`.pyc`/`__pycache__`/`.egg-info` 在 PyInstaller onedir 里
-#      没有任何正当理由出现——纯 Python 走 PYZ，不进磁盘）。
+# 构建产物树禁区成分（第 3 步）——仅用于 dist 树，且**只匹配 dist 顶层条目**。
+#
+# 为什么只扫顶层（两次实测教训）：依赖包会自带同名子目录与缓存——
+# `IPython/core/tests/*.jpg`、`IPython/extensions/__pycache__/*.pyc`（pyvis 拉进 IPython）
+# 都是依赖的正当内容，按任意层级匹配会成片误报。真正要拦的是**我们自己的仓库树
+# 或缓存混进了 dist**：`plan/`、`tests/`、`code/`、`_private/`、`.git/`、以及
+# 顶层 `__pycache__/`、`*.egg-info/`、`*.pyc`（我们的源码走 PYZ 进 base_library，
+# 不该在磁盘留自己的缓存）。
+#
+# 注意：任意 `.pyc` 里**内嵌的本地绝对路径**由字节级个人标记扫描兜住（run_dist 对
+# 每个文件读字节），不依赖本规则。
 FORBIDDEN_TOP_LEVEL_RE = re.compile(
     "(?i)^(plan|tests|code|docs|reports|_private|\\.git)(/|$)"
-)
-# 注意用单反斜杠转义点号（`\\.pyc` 在普通字符串里即正则 `\.pyc`）；早先 `_BRE + "\\."`
-# 会二次转义成 `\\.pyc`（正则里=「字面反斜杠+任意字符」），实测漏检 `lib/foo.pyc`。
-FORBIDDEN_CACHE_RE = re.compile(
-    "(?i)(^|/)(__pycache__)(/|$)|\\.py[co]$|\\.egg-info(/|$)"
+    "|^(__pycache__)(/|$)"
+    "|^[^/]*\\.egg-info(/|$)"
+    "|^[^/]*\\.py[co]$"
 )
 
 # 其他绝对路径（复核项，非硬门）
@@ -314,12 +316,9 @@ def run_dist():
         if path.is_dir():
             continue
         rel = path.relative_to(REPO_ROOT).as_posix()
-        # ① 仓库树成分：只看 dist 顶层条目（<dist>/<name>/... 或 <dist>/<name>）
+        # 只看 dist 顶层条目（依赖包内部同名子目录/缓存不算泄露；见规则处注释）
         top_rel = path.relative_to(dist_root).as_posix()
         if FORBIDDEN_TOP_LEVEL_RE.search(top_rel):
-            hits.append(Hit(rel, "forbidden-component"))
-        # ② 构建缓存成分：任意层级
-        elif FORBIDDEN_CACHE_RE.search(top_rel):
             hits.append(Hit(rel, "forbidden-component"))
         try:
             blob = path.read_bytes()
