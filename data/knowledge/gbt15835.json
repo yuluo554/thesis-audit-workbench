@@ -9,6 +9,7 @@
     "implement_date": "2011-11-01",
     "state": "现行",
     "identity_status": "verified",
+    "next_review": "2027-01-31",
     "identity_sources": [
       {"channel": "std.samr.gov.cn（全国标准信息公共服务平台）", "url": "https://std.samr.gov.cn/gb/search/gbQueryPage?searchText=GB%2FT%2015835&sortOrder=asc&pageNumber=1&pageSize=10", "evidence": "GB/T 15835-2011 STATE=现行 ISSUE_DATE=2011-07-29 ACT_DATE=2011-11-01；1995 版 STATE=废止", "saved": "data/_private/sources/stdsamr_gbt015835.json", "date": "2026-10-07"}
     ],

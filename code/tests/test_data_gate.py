@@ -9,6 +9,7 @@
 """
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -304,6 +305,9 @@ def test_knowledge_discipline():
         identity = data.get("identity")
         if identity is not None:
             assert identity["identity_status"] in ("verified", "pending"), f.name
+            assert identity.get("next_review"), "{} 缺 next_review（标准身份复核日期）".format(f.name)
+            assert re.match(r"^\d{4}-\d{2}-\d{2}$", identity["next_review"]), \
+                "{} next_review 非 YYYY-MM-DD: {}".format(f.name, identity["next_review"])
             if identity["identity_status"] == "verified":
                 assert identity["identity_sources"], "{} verified 却无出处渠道".format(f.name)
         for clause in data.get("clauses", []):

@@ -12,6 +12,7 @@ pyvis 拓扑 HTML（`cdn_resources="in_line"`，断网可开）。
 import html
 import json
 import re
+import sys
 
 # 外链检测：src/href 指向 http(s):// 或协议相对 // 的标签
 _EXT_SRC = re.compile(r"""<(?:script|link|img|iframe|source|audio|video)\b[^>]*?"""
@@ -87,7 +88,10 @@ def render_nodes(nodes, title="引用论证链拓扑"):
     """
     try:
         raw = _render_pyvis(nodes, title)
-    except ImportError:
+    except (ImportError, OSError):
+        # 冻结 exe：pyvis 模块可 import 但 templates/ 未随包时，Jinja2 抛
+        # TemplateNotFound（OSError 子类），不是 ImportError——两都要降级。
+        print("pyvis 不可用，改用内置渲染器", file=sys.stderr)
         raw = _render_builtin(nodes, title)
     return sanitize_external(raw)
 

@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
 """构建红线扫描与内嵌数据对账（M6 DoD：dist 无禁区成分 + 内嵌数据对账）。
 
-三个独立检查，任何一个失败都以**非零退出码**收场（构建收尾必跑）：
+四个独立检查，任何一个失败都以**非零退出码**收场（构建收尾必跑）：
 
 1. `scan_dist_forbidden`：扫描 dist 目录**文件名**，命中禁区成分即失败——
    含 `_private/`、`.db`/`.sqlite`、`.env`/`.key` 与真实学校/人名关键词；
-2. `reconcile_embedded_data`：exe 内嵌数据与仓库 `data/` **逐文件对账**
+2. `scan_dist_heavy_deps`：产物内出现 `jedi`/`IPython`/`parso`/`prompt_toolkit`/
+   `PIL`/`numpy`/`matplotlib`/`pandas`/`scipy`/`Pythonwin` 目录即失败——
+   spec 的 excludes 对 hook 拉入的包不总是生效，必须按产物再断言一次；
+3. `reconcile_embedded_data`：exe 内嵌数据与仓库 `data/` **逐文件对账**
    （相对路径集合一致 + 逐字节一致）——防"打进去了但打的是旧版/漏文件"；
-3. `assert_redline`：两者合并的收口断言，返回结构化结果供测试与 CLI 复用。
+4. `assert_redline`：三者合并的收口断言，返回结构化结果供测试与 CLI 复用。
 
 红线口径来自 plan/03 §五第 9 条与 plan/00 D-1/D-2：发布产物不得含私有材料、
 数据库、密钥与真实机构/人员信息（合成数据一律标"虚构"）。
@@ -29,6 +32,12 @@ REAL_NAME_BLOCKLIST = ("yuluo554", "asus")
 
 # 内嵌数据必须覆盖的目录（与 spec 的 DATA_DIRS 一致）
 EMBEDDED_DIRS = ("frozen", "bench", "knowledge", "rulesets")
+
+# 重依赖目录：产物里出现即失败（按目录名精确匹配，大小写不敏感）。
+# `Pythonwin` 属 D-3 A：保留 COM 运行期（pywin32/win32com），去掉 IDE 壳。
+HEAVY_DIRS = ("jedi", "IPython", "parso", "prompt_toolkit", "PIL",
+              "pyvis", "numpy", "matplotlib", "pandas", "scipy", "Pythonwin")
+_HEAVY_DIRS_LOWER = {name.lower() for name in HEAVY_DIRS}
 
 # 不进对账的目录（运行产物 / 私有件）
 SKIP_DIRS = {"_private", "__pycache__"}
@@ -82,6 +91,22 @@ def scan_dist_forbidden(dist_dir):
     return {"ok": not offenders, "offenders": offenders}
 
 
+def scan_dist_heavy_deps(dist_dir):
+    """扫描 dist 目录名 → {ok, heavy_offenders}（重依赖不进产物）。"""
+    dist_dir = Path(dist_dir)
+    if not dist_dir.is_dir():
+        return {"ok": False,
+                "heavy_offenders": [{"path": str(dist_dir), "reason": "dist 目录不存在"}]}
+    offenders = []
+    for p in sorted(dist_dir.rglob("*")):
+        if not p.is_dir():
+            continue
+        if p.name.lower() in _HEAVY_DIRS_LOWER:
+            rel = p.relative_to(dist_dir).as_posix()
+            offenders.append({"path": rel, "reason": "重依赖目录：{}".format(p.name)})
+    return {"ok": not offenders, "heavy_offenders": offenders}
+
+
 def find_embedded_data_root(dist_dir):
     """在 dist 里定位内嵌数据根（PyInstaller 6: `_internal/data`；5: `<exe>/data`）。
 
@@ -129,11 +154,13 @@ def reconcile_embedded_data(dist_dir, repo_data_dir):
 
 
 def assert_redline(dist_dir, repo_data_dir, out_json=None):
-    """构建红线总收口：禁区扫描 + 内嵌数据对账 → {ok, forbidden, data}。"""
+    """构建红线总收口：禁区扫描 + 重依赖扫描 + 内嵌数据对账。"""
     forbidden = scan_dist_forbidden(dist_dir)
+    heavy = scan_dist_heavy_deps(dist_dir)
     data = reconcile_embedded_data(dist_dir, repo_data_dir)
-    result = {"ok": bool(forbidden["ok"] and data["ok"]),
-              "forbidden": forbidden, "data": data}
+    result = {"ok": bool(forbidden["ok"] and heavy["ok"] and data["ok"]),
+              "forbidden": forbidden, "heavy": heavy,
+              "heavy_offenders": heavy["heavy_offenders"], "data": data}
     if out_json:
         p = Path(out_json)
         p.parent.mkdir(parents=True, exist_ok=True)
@@ -170,6 +197,13 @@ def main(argv=None):
     else:
         print("[FAIL] 禁区成分扫描：{} 命中".format(len(result["forbidden"]["offenders"])))
         for off in result["forbidden"]["offenders"][:20]:
+            print("   - {}: {}".format(off["path"], off["reason"]))
+
+    if result["heavy"]["ok"]:
+        print("[OK] 重依赖扫描：0 命中")
+    else:
+        print("[FAIL] 重依赖扫描：{} 命中".format(len(result["heavy_offenders"])))
+        for off in result["heavy_offenders"][:20]:
             print("   - {}: {}".format(off["path"], off["reason"]))
 
     data = result["data"]

@@ -2,11 +2,13 @@
 
 [![CI](https://github.com/yuluo554/thesis-audit-workbench/actions/workflows/ci.yml/badge.svg)](https://github.com/yuluo554/thesis-audit-workbench/actions/workflows/ci.yml)
 
-> ✅ **v0.1.0（M7 脱敏发布已收口：脱敏四步 + 产物扫描 + 干净环境验证 + CI 五 job 全绿 + 公开仓库）** — 计划、里程碑与进度见 [plan/00-README总览.md](plan/00-README总览.md)
+![演示：taw 离线审计全流程（CLI）](docs/demo.gif)
+
+> ✅ **v0.1.1（修复发布 exe 的拓扑/综述可视化 + 打包瘦身与重依赖红线 + Python 下限现代化到 3.12）** — 计划、里程碑与进度见 [plan/00-README总览.md](plan/00-README总览.md)
 
 覆盖毕业论文**开题（综述辅助）→ 写作（反向引用、术语一致性、图表编号）→ 完稿（幻觉画像、AIGC 自检、对账）→ 送审（学校格式、结构检查单、体检分、指纹存证）**全流程的确定性审计台。LLM 聊天给不了持久状态、可审计证据与全量批处理——本工具是 AI 时代的论文质量防线。
 
-- **全本地离线运行，零上传**（联网仅 DOI 核验等三个显式开关扩展项）；
+- **全本地离线运行，零上传**（本版不含联网扩展项；DOI 在线核验 / 语义 rerank / arXiv 见刊提示均未实现——plan/01 §六、plan/00 M7 清零决策）；
 - **每条结论挂条款溯源**（编号 + 条号 + 原文摘录 + status），三级判定：通过 / 不符 / 待人工确认；
 - **内置零 API 评测基准**，指标可复现、误报 0 优先。
 
@@ -23,7 +25,7 @@
 | 重复条目检测合并 | DOI 精确 + 标题归一模糊 + 辅助证据；误合并率 0 |
 | **AI 幻觉文献风险画像** | DOI 校验位、时间逻辑矛盾、"格式完美但字段组合不可能"统计特征 |
 | 反向引用推荐与一键插入 | 库内 BM25 检索防幻觉闭环；一键插入触发顺序编码制全文编号重排 |
-| 论证链拓扑 | 引用语境 → 论点支撑矩阵 → pyvis 拓扑 HTML（0 外链，结论点击联动） |
+| 论证链拓扑 | 引用语境 → 论点支撑矩阵 → 拓扑 HTML（**0 外链**）；源码态走 pyvis 交互图，发布 exe 走内置降级渲染器 |
 | 本地文献库 | SQLite 跨论文库、HalluRef-Bench 公开基准、Word 批注回写、文献表指纹、体检分 |
 
 **全文审计线**（毕业论文热门需求 A–F）
@@ -60,7 +62,7 @@ cd thesis-audit-workbench
 python -m venv .venv
 # Windows: .venv\Scripts\activate    POSIX: source .venv/bin/activate
 python -m pip install -U pip
-python -m pip install -e "./code[dev,docx,viz,gui]"   # 含 gui：收集数对账须到 362（缺 gui 则 GUI 模块整模块 skip，只剩 353）
+python -m pip install -e "./code[dev,docx,viz,gui]"   # Python 3.12+；含 gui：收集数对账须到 368（缺 gui 则 GUI 模块整模块 skip，只剩 359）
 
 taw --version
 taw selfcheck        # 环境自检：版本 / 数据目录 / 可选依赖
@@ -79,20 +81,50 @@ taw audit bench --line full    # 全文线 5 指标基准
 taw audit bench --line all     # 两线 14 指标一次跑全
 
 cd code
-python -m pytest tests -q   # 收集 362 项（干净环境 356 通过/6 跳过；本机装 com extras 后 361/1）
+python -m pytest tests -q   # 收集 368 项（本机 py3.12 + com：366 通过/2 跳过）
 ```
 
-> **收集数对账**：干净环境收集数必须 = **362**（`[gui]` 缺装会让 GUI 模块整模块 skip、
-> 只剩 353——这正是"双绿但悄悄少跑"的形态，故快速开始装 `[dev,docx,viz,gui]`）。
-> 跳过项随 extras 变（`[com]` 未装 → 5 项 Word/WPS 实机组 skip；无 Pillow → 演示 GIF 合成 1 项 skip），
-> **收集数不变**。
+> **收集数对账**：干净环境收集数必须 = **368**（`[gui]` 缺装会让 GUI 模块整模块 skip、
+> 只剩 359——这正是"双绿但悄悄少跑"的形态，故快速开始装 `[dev,docx,viz,gui]`）。
+> 跳过项随 extras 变（`[com]` 未装 → Word/WPS 实机组 skip；无 Pillow → 演示 GIF 合成 skip），
+> **收集数不变**。CI 的每个 test job 都显式断言该数（362 → 368 随测试增加而更新）。
+
+## 下载即用（Windows exe）
+
+不想装 Python？直接下载已构建的 Windows 产物（onedir 双 exe，免安装）：
+
+| 文件 | 说明 |
+|---|---|
+| `thesis-audit-workbench-v0.1.1-win64.zip` | 从 [Release v0.1.1](https://github.com/yuluo554/thesis-audit-workbench/releases/tag/v0.1.1) 下载 |
+| `taw.exe` | 命令行入口（console）——解压后位于 `taw/` 目录内 |
+| `taw-gui.exe` | 桌面应用入口（双击运行） |
+
+```bash
+# 1) 解压后先校验 sha256（与下表留档或 Release 附带的 .sha256 比对）
+certutil -hashfile thesis-audit-workbench-v0.1.1-win64.zip SHA256
+
+# 2) 冒烟：自检 + 两线基准 + 综述可视化产物（PyInstaller 6 布局：数据在 _internal\data）
+taw\taw.exe selfcheck
+taw\taw.exe audit bench --line all
+taw\taw.exe audit thesis taw\_internal\data\frozen\thesis\thesis_synthetic.docx --review-topology rev.html
+
+# 3) 桌面应用（GUI 自检；正常窗口直接双击 taw-gui.exe）
+taw\taw.exe gui --check
+```
+
+- 发布 exe 的拓扑/综述可视化走**内置降级渲染器**（不打包 pyvis；产物同样过 **0 外链硬断言**，含 `taw-topology` 标记）；
+- exe 内已含 `_internal/data/`（frozen / bench / knowledge / rulesets），零联网、零额外下载；
+- 构建口径与 CI `package` job 一致：Python 3.12 + PyInstaller 6.22 + `gui`/`com` extras。
+
+**留档（本地构建产物）**：`thesis-audit-workbench-v0.1.1-win64.zip`，**60,387,366 B**，
+sha256 `1a153bcb91366fe3cb67622b5c5d75f0f47c83dc981fa44f44b7898e74ba77a5`（发布时以 Release 附件为准）。
 
 ## 桌面应用（PySide6 GUI，M6）
 
 GUI **只消费引擎 API**（`taw.refaudit` / `taw.fullaudit` / 各模块函数），与 CLI 同一实现——不另起第二套判定逻辑（plan/03 §一）。
 
 ```bash
-python -m pip install -e "./code[gui]"     # PySide6（py3.8 解析到 6.6.3.1）
+python -m pip install -e "./code[gui]"     # PySide6 >= 6.12（Python 3.12+）
 taw gui                                    # 启动桌面窗口
 taw gui --check                            # 离屏启动自检（CI/无显示器环境用，不进事件循环）
 ```
@@ -116,17 +148,17 @@ python -m pip install -e "./code[com]"     # pywin32（仅 Windows）
 ## 打包（PyInstaller onedir 双 exe，M6）
 
 ```bash
-python -m pip install -e "./code[pkg]"     # py3.8 锁 pyinstaller>=5.13,<6
+python -m pip install -e "./code[pkg]"     # pyinstaller>=6.22,<7（Python 3.12+）
 cd code
 python -m PyInstaller tools/taw.spec --noconfirm --clean --distpath ../dist
-python tools/check_build_redline.py ../dist/taw      # 构建红线
-python tools/verify_neutral_dir.py ../dist           # 中立目录五连
+python tools/check_build_redline.py ../dist/taw      # 构建红线（含重依赖断言）
+python tools/verify_neutral_dir.py ../dist           # 中立目录扩展清单（9 条）
 ```
 
 - **双 exe 共用一个 onedir**：`dist/taw/taw.exe`（CLI，console=True）+ `dist/taw/taw-gui.exe`（GUI，console=False）；
-- **内嵌数据**：`data/README.md`（数据根标志）+ `frozen/`、`bench/`、`knowledge/`、`rulesets/` 随包；`taw/paths.py` 五分支已覆盖 PyInstaller 5/6 两种布局；
-- **构建红线**（`check_build_redline.py`）：dist 扫描无 `_private/`、无 `.db`/`.env`/`.key`、无真实实体关键词；内嵌数据与仓库 `data/` **逐文件对账**（缺文件/多文件/字节不符三类偏差全检出）；
-- **中立目录干净验证五连**（`verify_neutral_dir.py`）：把 dist 复制到**仓库树外**并**剥离 PATH**，逐条取真实退出码跑 `selfcheck` / `demo` / `parse` / `audit refs` / `audit bench --line all`（不接管道，防真实状态被吞）。
+- **内嵌数据**：`data/README.md`（数据根标志）+ `frozen/`、`bench/`、`knowledge/`、`rulesets/` 随包；`taw/paths.py` 五分支已覆盖 PyInstaller 6 的 `_internal/` 布局（并兼容旧 5 扁平布局）；
+- **构建红线**（`check_build_redline.py`）：dist 扫描无 `_private/`、无 `.db`/`.env`/`.key`、无真实实体关键词；**产物目录无重依赖**（`jedi`/`IPython`/`parso`/`prompt_toolkit`/`PIL`/`pyvis`/`numpy`/`matplotlib`/`Pythonwin` 命中即非 0 退出）；内嵌数据与仓库 `data/` **逐文件对账**（缺文件/多文件/字节不符三类偏差全检出）；
+- **中立目录干净验证**（`verify_neutral_dir.py`）：把 dist 复制到**仓库树外**并**剥离 PATH**，逐条取真实退出码跑 `selfcheck` / `demo` / `parse` / `audit refs` / `audit refs --topology` / `audit thesis --report` / `audit thesis --review-topology` / `audit bench --line all` / `gui --check`（不接管道，防真实状态被吞）。
 
 ## 脱敏发布门（M7）
 
@@ -153,7 +185,7 @@ taw audit bench --line all --report reports/bench_all.json   # 两线 14 指标�
 ```
 
 - **环境**：全程离线（屏蔽 socket 亦全过，`test_bench_full.py` 断言）；数据面读 `data/frozen/` +
-  `data/bench/`，不触网；Python 3.8 与 3.12 双解释器复跑一致；报告键序固定（`sort_keys`）、无时间戳。
+  `data/bench/`，不触网；CI 的 ubuntu / windows 3.12 两个 job 复跑一致；报告键序固定（`sort_keys`）、无时间戳。
 - **复跑纪律**：任一里程碑收尾（含改历史等不动工作树的操作）后复跑三基线防回退——
   M2 解析 F1 + M3 文献线 9 指标 + M4 全文线 5 指标（见 [plan/HANDOFF-M6.md](plan/HANDOFF-M6.md) 命令速查）。
 - **判定口径**：**误报 0 优先**——只判确定性可判项，证据不充分一律 `manual_confirm` 不硬判。
@@ -193,9 +225,9 @@ taw audit bench --line all --report reports/bench_all.json   # 两线 14 指标�
 
 ```
 plan/    计划文档与交接快照（00 总览 / 01 题目 / 02 需求 / 03 架构 / 04 详设 / 05 数据与里程碑）
-data/    数据根：samples / frozen 字节冻结产物 / knowledge 条款库 / rulesets 规则包 / bench 评测集
+data/    数据根：frozen 字节冻结产物 / knowledge 条款库 / rulesets 规则包 / bench 评测集
 code/    代码根：src/taw 包 + tests + tools（pyproject 在此；tools 含打包 spec 与构建红线/中立验证脚本）
-docs/    技术报告等固化材料（规划中）
+docs/    演示资产等固化材料（demo.gif：taw 离线审计全流程）
 ```
 
 数据面：`frozen/refs`（合成文献表 72 条 × 4 格式）、`frozen/thesis`（合成论文 docx + 真值）、
@@ -206,7 +238,7 @@ docs/    技术报告等固化材料（规划中）
 
 - 审计与提示结果**供参考**：格式以学校/期刊要求为准，文献真伪与学术诚信以原文及官方核查为准；
 - AI 幻觉画像与 AIGC 自检均为**风险提示，不构成判定**，报告中强制声明；本工具不提供查重、降重、润色与改写功能；
-- 条款库逐条挂出处与核对状态，未核对条目以"待核对"展示、不参与判定。
+- 条款核对状态（`status`）与检测生效开关（`activation`）**正交**：`pending` 条款不冒充标准原文，但确定性检测仍可生效；相关 findings 强制标注「**条款待核对**」并附 `basis`（依据），不硬判。
 
 ## License
 

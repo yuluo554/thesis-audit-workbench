@@ -74,7 +74,7 @@ def test_ci_workflow_and_publish_gate():
 
 def test_pyproject_contract():
     text = (REPO_ROOT / "code" / "pyproject.toml").read_text(encoding="utf-8")
-    assert 'requires-python = ">=3.8"' in text
+    assert 'requires-python = ">=3.12"' in text
     dev = re.search(r"^dev\s*=\s*\[(.*?)\]", text, re.S | re.M)
     assert dev, "dev extras 缺失"
     for pkg in ("pytest", "pyyaml"):

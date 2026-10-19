@@ -9,6 +9,7 @@
     "implement_date": "",
     "state": "",
     "identity_status": "pending",
+    "next_review": "2027-01-31",
     "identity_sources": [],
     "note": "iso.org 官方页两渠道不可达（直连 403 反爬、系统代理 127.0.0.1:7897 实测不可用/000），现行版本与年份待核对 ⬜；DOI 解析服务行为已官方实测（见 access_log）"
   },

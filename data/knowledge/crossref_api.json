@@ -9,6 +9,7 @@
     "implement_date": "",
     "state": "",
     "identity_status": "pending",
+    "next_review": "2027-01-31",
     "identity_sources": [],
     "note": "官方 API 行为已实测核验（api.crossref.org 直连 200，真实记录字段形状在案）；完整对接文档（raw.githubusercontent.com 000 不可达、www.crossref.org 文档页 404）待补 ⬜；本项目仅作联网扩展项，核心功能零 API（plan/00 边界）"
   },

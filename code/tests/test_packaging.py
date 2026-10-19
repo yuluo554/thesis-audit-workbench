@@ -8,8 +8,10 @@
 - 红线扫描：`_private` / `.db` / `.env` / 真实实体名命中即失败（假 dist 夹具）；
 - 内嵌数据对账：缺文件 / 多文件 / 内容不符三种偏差全都能检出来；
 - spec 纪律：onedir（EXE `exclude_binaries=True`）、双 exe（CLI console=True +
-  GUI console=False）、**必须带 `data/README.md`**（paths.py 数据根标志）；
-- 中立验证工具：命令清单恰为五连、退出码按真实 `returncode` 判定（不接管道）。
+  GUI console=False）、**必须带 `data/README.md`**（paths.py 数据根标志）、
+  重依赖（pyvis 链/IPython/jedi/parso/PIL/Pythonwin）不得进包；
+- 中立验证工具：命令清单恰为扩展清单（含 topology/review-topology/gui --check）、
+  退出码按真实 `returncode` 判定（不接管道）。
 """
 
 import sys
@@ -242,6 +244,36 @@ def test_spec_excludes_heavy_optional_and_never_private():
     assert "tkinter" in code
 
 
+def test_spec_excludes_heavy_dependency_chain():
+    """D-2 A：pyvis 进 excludes（不是 hiddenimports）；IPython/jedi/parso/PIL 等同样排除。"""
+    code = _spec_code()
+    assert '"pyvis"' in code, "D-2 A 要求 spec 显式 excludes pyvis"
+    assert '["docx", "pyvis"]' not in code, "pyvis 不得留在 hiddenimports"
+    for name in ("IPython", "jedi", "parso", "prompt_toolkit", "PIL", "Pythonwin",
+                 "pythonwin", "win32ui"):
+        assert '"{}"'.format(name) in code, "spec excludes 缺重依赖: {}".format(name)
+
+
+@pytest.mark.parametrize("heavy", ["jedi", "IPython", "parso", "PIL"])
+def test_redline_rejects_heavy_dependency_dirs(tmp_path, heavy):
+    """产物里出现重依赖目录 → 红线必须判 fail（excludes 不总生效的第二道保险）。"""
+    dist, _data = _make_fake_dist(tmp_path, extra={heavy + "/__init__.py": ""})
+    result = redline.scan_dist_heavy_deps(dist)
+    assert result["ok"] is False
+    assert any(off["path"].split("/")[-1].lower() == heavy.lower()
+               for off in result["heavy_offenders"])
+
+
+def test_assert_redline_fails_on_heavy_dependency(tmp_path):
+    """assert_redline 合并判定：内嵌数据全对，但产物带 jedi 也必须 fail。"""
+    dist, _data = _make_fake_dist(tmp_path, extra={"jedi/__init__.py": ""})
+    repo = _make_repo_data(tmp_path)
+    result = redline.assert_redline(dist, repo)
+    assert result["ok"] is False
+    assert result["heavy_offenders"]
+    assert result["data"]["ok"] is True
+
+
 def test_spec_data_dirs_never_include_private():
     """DATA_DIRS 是随包数据的白名单——`_private` 不在其中。"""
     code = _spec_code()
@@ -261,8 +293,13 @@ def test_neutral_env_strips_path():
     assert "TAW_DATA_DIR" not in env
 
 
-def test_neutral_cases_are_exactly_the_five_commanded(tmp_path, monkeypatch):
-    """五连的**命令清单**钉死（DoD 逐条对账，改清单 = 改验收口径）。"""
+def test_neutral_cases_are_exactly_the_commanded(tmp_path, monkeypatch):
+    """中立清单的**命令序列**钉死（DoD 逐条对账，改清单 = 改验收口径）。
+
+    规格变更（v0.1.1）：原五连扩为九条，新增 `audit refs --topology`、
+    `audit thesis --report`、`audit thesis --review-topology`、`gui --check`——
+    冻结 exe 的拓扑/综述/GUI 三条命令此前从未在产物上被验证过。
+    """
     recorded = []
 
     def fake_run_case(label, argv, **kwargs):
@@ -275,10 +312,17 @@ def test_neutral_cases_are_exactly_the_five_commanded(tmp_path, monkeypatch):
     repo = _make_repo_data(tmp_path)
     result = neutral.verify(dist, repo, neutral_dir=tmp_path / "neutral")
     labels = [c[0] for c in recorded]
-    assert labels == ["selfcheck", "demo", "parse", "audit refs", "audit bench --line all"]
+    assert labels == [
+        "selfcheck", "demo", "parse", "audit refs", "audit refs --topology",
+        "audit thesis --report", "audit thesis --review-topology",
+        "audit bench --line all", "gui --check",
+    ]
     assert result["ok"] is True
     # 命令本身仍走真实子命令名（防只在 label 上做文章）
-    assert [c[1][1] for c in recorded] == ["selfcheck", "demo", "parse", "audit", "audit"]
+    assert [c[1][1] for c in recorded] == [
+        "selfcheck", "demo", "parse", "audit", "audit", "audit", "audit",
+        "audit", "gui",
+    ]
 
 
 def test_neutral_run_case_uses_real_returncode(tmp_path):

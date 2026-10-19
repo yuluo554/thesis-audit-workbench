@@ -9,6 +9,7 @@
     "implement_date": "2015-12-01",
     "state": "废止（被 GB/T 7714-2025 替代，官方 metadata STATE=废止）",
     "identity_status": "verified",
+    "next_review": "2027-01-31",
     "identity_sources": [
       {"channel": "std.samr.gov.cn（全国标准信息公共服务平台）", "url": "https://std.samr.gov.cn/gb/search/gbQueryPage?searchText=GB%2FT%207714&sortOrder=asc&pageNumber=1&pageSize=10", "evidence": "STATE=废止; ISSUE_DATE=2015-05-15; ACT_DATE=2015-12-01", "saved": "data/_private/sources/stdsamr_gb7714.json", "date": "2026-10-07"},
       {"channel": "openstd.samr.gov.cn（国家标准全文公开系统）", "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=7FA63E9BBA56E60471AEDAEBDE44B14C", "evidence": "标准状态：废止；'废止标准不提供标准文本阅读服务'", "saved": "data/_private/sources/openstd_7714_2015_detail.html", "date": "2026-10-07"}

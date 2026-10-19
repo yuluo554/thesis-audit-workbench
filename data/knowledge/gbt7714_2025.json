@@ -12,6 +12,7 @@
     "ccs": "A14",
     "ics": "01.140.20",
     "identity_status": "verified",
+    "next_review": "2027-01-31",
     "identity_sources": [
       {"channel": "std.samr.gov.cn（全国标准信息公共服务平台）", "url": "https://std.samr.gov.cn/gb/search/gbQueryPage?searchText=GB%2FT%207714&sortOrder=asc&pageNumber=1&pageSize=10", "evidence": "STATE=现行; ISSUE_DATE=2025-12-02; ACT_DATE=2026-07-01", "saved": "data/_private/sources/stdsamr_gb7714.json", "date": "2026-10-07"},
       {"channel": "openstd.samr.gov.cn（国家标准全文公开系统）", "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=C6CE52E55AC09B9C79A20AEA77CEDD14", "evidence": "标准状态：现行；'该标准采用了ISO、IEC等国际国外组织的标准，由于涉及版权保护问题，本系统暂不提供在线阅读服务'", "saved": "data/_private/sources/openstd_7714_2025_detail.html", "date": "2026-10-07"}

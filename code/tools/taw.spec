@@ -5,8 +5,8 @@
     dist/taw/taw-gui.exe    （GUI，console=False）
     dist/taw/_internal/     （依赖 + 内嵌 data/；PyInstaller 5 为扁平布局）
 
-版本纪律（plan/03 §三）：py3.8 锁 `pyinstaller>=5.13,<6`（6.x 在 3.8 上
-modulegraph 随机崩，系列实录）；py3.9+ 用 `>=6`。
+版本纪律（plan/03 §三）：py3.12 起统一 `pyinstaller>=6.22,<7`（3.8 的
+modulegraph 崩溃分支已随运行时下限抬升删除）。
 
 onedir 要点（首版踩坑实录）：EXE 必须 `exclude_binaries=True`，把 binaries/datas
 交给 COLLECT——否则 EXE 会把整包嵌进 exe 本体（产出 57MB 的伪 onefile，
@@ -53,11 +53,23 @@ def _data_files():
     return out
 
 
-# taw 包内按需导入的子模块（GUI/COM 惰性导入）显式收集，防静态分析漏接
+# taw 包内按需导入的子模块（GUI/COM 惰性导入）显式收集，防静态分析漏接。
+# 注意：**不收集 pyvis**（D-2 A）——冻结 exe 走 reftopo 内置降级渲染器；
+# pyvis 依赖链会拖入 IPython→jedi/parso 等 2,000+ 无关文件。
 hidden = []
 hidden += collect_submodules("taw")
 hidden += ["taw.gui", "taw.gui.app", "taw.gui.__main__", "taw.gui.service"]
-hidden += ["docx", "pyvis"]
+hidden += ["docx"]
+
+# 重依赖排除（红线 check_build_redline.py 会再按产物目录断言一次，
+# 因为 PyInstaller 的 excludes 对 hook 拉入的包不总是生效）。
+HEAVY_EXCLUDES = [
+    "tkinter", "matplotlib", "numpy", "PIL",
+    "pyvis",              # D-2 A：冻结 exe 走 reftopo 内置降级渲染器
+    "IPython", "jedi", "parso", "prompt_toolkit",
+    "Pythonwin", "pythonwin", "pywin", "pywin.dialogs", "pywin.mfc", "win32ui",
+    # ↑ D-3 A：保留 pywin32/win32com，去掉 Pythonwin IDE 壳（pywin32 实际模块名小写）
+]
 
 block_cipher = None
 
@@ -70,7 +82,7 @@ a_cli = Analysis(
     hiddenimports=hidden,
     hookspath=[],
     runtime_hooks=[],
-    excludes=["tkinter", "matplotlib", "numpy", "PIL"],
+    excludes=list(HEAVY_EXCLUDES),
     cipher=block_cipher,
     noarchive=False,
 )
@@ -96,7 +108,7 @@ a_gui = Analysis(
     hiddenimports=hidden,
     hookspath=[],
     runtime_hooks=[],
-    excludes=["tkinter", "matplotlib", "numpy"],
+    excludes=list(HEAVY_EXCLUDES),
     cipher=block_cipher,
     noarchive=False,
 )
